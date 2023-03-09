@@ -1,0 +1,199 @@
+@import '../../styles//reset.scss';
+@import '../../styles/variable.scss';
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  padding: 80px 0 0 0;
+  background-color: $primary;
+  color: $fprimary;
+
+  .banner {
+    height: 700px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+
+    .banner-content {
+      width: 75%;
+      height: 80%;
+      display: flex;
+
+      .banner-content-left {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 60%;
+
+        .tmp-logo {
+          font-size: 200px;
+          font-family: serif;
+          font-style: italic;
+          z-index: 1;
+
+          & span {
+            animation: text-fade-in 0.5s ease-in-out;
+          }
+        }
+
+        .banner-frame {
+          position: absolute;
+          left: 20%;
+          overflow: hidden;
+          animation: spread 1.5s ease-in-out;
+
+          .banner-mp4 {
+            width: 650px;
+            height: 500px;
+            opacity: 0.5;
+            object-fit: cover;
+            background-image: cover;
+            border-bottom-right-radius: 160px;
+            animation: img-fade-in 1.5s ease-in-out;
+          }
+
+          @keyframes img-fade-in {
+            0% {
+              opacity: 0;
+            }
+            100% {
+              opacity: 0.5;
+            }
+          }
+        }
+
+        @keyframes spread {
+          0% {
+            width: 0px;
+          }
+          100% {
+            width: 650px;
+          }
+        }
+      }
+
+      .banner-content-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 40%;
+
+        .banner-des-div {
+          min-height: 150px;
+
+          .banner-des {
+            margin-bottom: 0.5rem;
+            font-size: 40px;
+            font-family: serif;
+            font-style: italic;
+            color: rgba(100, 100, 100, 1);
+
+            & span {
+              animation: text-fade-in 0.5s ease-in-out;
+            }
+          }
+        }
+
+        .btn-div {
+          min-height: 80px;
+
+          & button {
+            width: 130px;
+            margin-top: 30px;
+            padding: 13px 0;
+            border: 1px solid $fprimary;
+            border-radius: 50px;
+            background-color: inherit;
+            font-size: 18px;
+            font-family: SUIT-Regular;
+            color: $fprimary;
+            animation: button-fade-in 1s ease-in-out;
+
+            &:hover {
+              cursor: pointer;
+              opacity: 0.8;
+              transition: all 0.5s;
+            }
+          }
+        }
+      }
+    }
+
+    .circle {
+      box-sizing: border-box;
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      left: -230px;
+      top: -230px;
+      border-radius: 100%;
+      border: 1px solid $lprimary;
+    }
+
+    .diag {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      right: -350px;
+      bottom: -350px;
+      border: 1px solid $lprimary;
+      transform: rotate(-45deg);
+    }
+
+    .square {
+      position: absolute;
+      width: 100px;
+      height: 200px;
+      right: 0;
+      bottom: 0;
+      border-top: 1px solid $lprimary;
+      border-left: 1px solid $lprimary;
+    }
+  }
+
+  .notice {
+    width: 75%;
+    margin: 2rem auto;
+
+    .notice-title {
+      font-family: serif;
+      font-size: 60px;
+    }
+  }
+}
+
+@keyframes text-fade-in {
+  from {
+    margin: 0 0 0 -2px;
+    opacity: 0;
+  }
+  to {
+    margin: 0 0 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes button-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// .banner-content {
+//   outline: 1px solid red;
+
+//   .banner-content-left {
+//     outline: 1px solid orange;
+//   }
+
+//   .banner-content-right {
+//     outline: 1px solid orange;
+//   }
+// }

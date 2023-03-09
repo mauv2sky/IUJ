@@ -1,0 +1,50 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.component {
+  width: 100%;
+  height: 80px;
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  background-color: $primary;
+  border-bottom: 1px solid $lprimary;
+  font-family: SUIT-Regular;
+  color: $fprimary;
+
+  .component-inner {
+    width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .tmp-logo {
+      font-family: serif;
+      font-style: italic;
+      font-size: 40px;
+      font-weight: 600;
+    }
+
+    .nav-right {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      & p {
+        margin: 0 1rem 0 0;
+        font-size: 18px;
+      }
+
+      .tmp-profile-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 100px;
+        border: 1px solid $lprimary;
+        background-color: rgb(222, 222, 222);
+      }
+    }
+  }
+}
