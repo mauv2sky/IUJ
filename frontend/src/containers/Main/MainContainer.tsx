@@ -1,8 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import bannerMp4 from '../../assets/banner.mp4';
+import Notice, { NoticeInterface } from '../../components/Notice/Notice';
 import styles from './MainContainer.module.scss';
 
+const noticeList: NoticeInterface[] = [
+  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
+  { title: '제목이 긴 정책 제목입니다아아아아아아아아아.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
+  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
+  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
+  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
+  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
+  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
+  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
+];
+
 function MainContainer() {
+  // ================================ 변수, useState ================================
   const [showBannerLogo, setShowBannerLogo] = useState(0);
   const bannerLogo = 'IUJ';
   const bannerLogoList = bannerLogo.split('').slice(0, showBannerLogo);
@@ -21,6 +34,27 @@ function MainContainer() {
   let des2Interval: number | undefined;
   let des3Interval: number | undefined;
   const [showFindBtn, setShowFindBtn] = useState(false);
+  /** 스크롤 */
+  const [scrollY, setScrollY] = useState(0);
+  /** 정책 부분 보여주기 */
+  const [showNotice, setShowNotice] = useState(false);
+
+  // ================================ useEffect ================================
+
+  useEffect(() => {
+    if (scrollY >= 300) {
+      setShowNotice(true);
+    }
+  }, [scrollY]);
+
+  /** 스크롤 이벤트 추가 */
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   /** 로고 천천히 보여주기 */
   useEffect(() => {
@@ -67,6 +101,13 @@ function MainContainer() {
     }
   }, [showBannerDes2, showBannerDes3]);
 
+  // ================================ Handler ================================
+
+  /** 스크롤 */
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.banner}>
@@ -112,6 +153,7 @@ function MainContainer() {
       </div>
       <div className={styles.notice}>
         <p className={styles['notice-title']}>Notice</p>
+        {showNotice && <Notice noticeList={noticeList} />}
       </div>
     </div>
   );

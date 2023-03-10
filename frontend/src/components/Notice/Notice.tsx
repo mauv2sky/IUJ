@@ -1,29 +1,57 @@
-import React, { useState } from 'react';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import React, { useEffect, useState } from 'react';
+import styles from './Notice.module.scss';
 
-function Notice() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+export interface NoticeInterface {
+  title: string;
+  content: string;
+}
 
-  const handleSelect = (index, item) => {
-    setSelectedIndex(index);
+function Notice({ noticeList }: { noticeList: NoticeInterface[] }) {
+  const [page, setPage] = useState(1);
+  const pageNoticeList = noticeList.slice(5 * (page - 1), 5 * page);
+  const [showNotice, setShowNotice] = useState(0);
+  const resultList = pageNoticeList.slice(0, showNotice);
+
+  useEffect(() => {
+    setShowNotice(0);
+
+    const noticeInterval = window.setInterval(() => {
+      setShowNotice((prev) => prev + 1);
+    }, 100);
+
+    return () => {
+      clearInterval(noticeInterval);
+    };
+  }, [page]);
+
+  const onClickSlideBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.target as HTMLButtonElement;
+    if (target.name === 'right') {
+      setPage(2);
+    } else {
+      setPage(1);
+    }
   };
 
   return (
-    <Carousel selectedItem={selectedIndex} onSelect={handleSelect}>
-      <div>
-        <img src="image1.jpg" />
-        <p className="legend">Legend 1</p>
-      </div>
-      <div>
-        <img src="image2.jpg" />
-        <p className="legend">Legend 2</p>
-      </div>
-      <div>
-        <img src="image3.jpg" />
-        <p className="legend">Legend 3</p>
-      </div>
-    </Carousel>
+    <div className={styles.component}>
+      {page > 1 && (
+        <button name="left" className={styles['left-btn']} onClick={onClickSlideBtn}>
+          {'<'}
+        </button>
+      )}
+      {resultList.map((notice, index) => (
+        <div key={index} className={styles.notice}>
+          <p className={styles['notice-title']}>{notice.title}</p>
+          <p className={styles['notice-content']}>{notice.content}</p>
+        </div>
+      ))}
+      {page === 1 && (
+        <button name="right" className={styles['right-btn']} onClick={onClickSlideBtn}>
+          {'>'}
+        </button>
+      )}
+    </div>
   );
 }
 
