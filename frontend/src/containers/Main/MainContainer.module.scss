@@ -8,6 +8,7 @@
   padding: 80px 0 0 0;
   background-color: $primary;
   color: $fprimary;
+  font-family: 'SUIT-Regular';
 
   .banner {
     height: 700px;
@@ -31,8 +32,6 @@
 
         .tmp-logo {
           font-size: 200px;
-          font-family: serif;
-          font-style: italic;
           z-index: 1;
 
           & span {
@@ -49,7 +48,7 @@
           .banner-mp4 {
             width: 650px;
             height: 500px;
-            opacity: 0.5;
+            opacity: 0.6;
             object-fit: cover;
             background-image: cover;
             border-bottom-right-radius: 160px;
@@ -61,7 +60,7 @@
               opacity: 0;
             }
             100% {
-              opacity: 0.5;
+              opacity: 0.6;
             }
           }
         }
@@ -83,13 +82,12 @@
         width: 40%;
 
         .banner-des-div {
-          min-height: 150px;
+          min-height: 170px;
 
           .banner-des {
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             font-size: 40px;
-            font-family: serif;
-            font-style: italic;
+            // font-style: italic;
             color: rgba(100, 100, 100, 1);
 
             & span {
@@ -160,8 +158,33 @@
     margin: 2rem auto;
 
     .notice-title {
-      font-family: serif;
       font-size: 60px;
+    }
+  }
+
+  .hr {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+  .service {
+    width: 85%;
+    margin: 2rem auto;
+
+    .service-title {
+      font-size: 60px;
+    }
+
+    .service-img {
+      margin-top: 2rem;
+      padding: 50px;
+      height: 900px;
+      background-color: brown;
+
+      & p {
+        font-size: 50px;
+        color: white;
+        margin-bottom: 2rem;
+      }
     }
   }
 }

@@ -4,11 +4,12 @@ import styles from './Notice.module.scss';
 export interface NoticeInterface {
   title: string;
   content: string;
+  url: string;
 }
 
 function Notice({ noticeList }: { noticeList: NoticeInterface[] }) {
   const [page, setPage] = useState(1);
-  const pageNoticeList = noticeList.slice(5 * (page - 1), 5 * page);
+  const pageNoticeList = noticeList.slice(4 * (page - 1), 4 * page);
   const [showNotice, setShowNotice] = useState(0);
   const resultList = pageNoticeList.slice(0, showNotice);
 
@@ -33,6 +34,10 @@ function Notice({ noticeList }: { noticeList: NoticeInterface[] }) {
     }
   };
 
+  const onClickNotice = (url: string) => {
+    window.open(url);
+  };
+
   return (
     <div className={styles.component}>
       {page > 1 && (
@@ -41,9 +46,17 @@ function Notice({ noticeList }: { noticeList: NoticeInterface[] }) {
         </button>
       )}
       {resultList.map((notice, index) => (
-        <div key={index} className={styles.notice}>
-          <p className={styles['notice-title']}>{notice.title}</p>
-          <p className={styles['notice-content']}>{notice.content}</p>
+        <div
+          key={index}
+          className={styles.notice}
+          onClick={() => {
+            onClickNotice(notice.url);
+          }}
+        >
+          <div>
+            <p className={styles['notice-title']}>{notice.title}</p>
+            <p className={styles['notice-content']}>{notice.content}</p>
+          </div>
         </div>
       ))}
       {page === 1 && (
