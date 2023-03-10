@@ -1,0 +1,72 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.component {
+  margin: 0 auto;
+  min-width: 1600px;
+  width: 1600px;
+  min-height: 400px;
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .notice {
+    margin-top: 40px;
+    padding: 20px 10px 0 10px;
+    width: 300px;
+    height: 300px;
+    // outline: 0.5px solid rgb(158, 158, 158);
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    font-family: 'SUIT-Regular';
+    overflow: hidden;
+    animation: fade-in 0.5s;
+
+    &:hover {
+      border: 1px solid rgba(0, 0, 0, 0.3);
+      background-color: $primary;
+      transform: scale(1.05);
+      transition: 0.2s;
+    }
+
+    .notice-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      margin-top: 80px;
+    }
+    100% {
+      opacity: 1;
+      margin-top: 40px;
+    }
+  }
+
+  & button {
+    position: absolute;
+    margin-top: 50px;
+    border: none;
+    background-color: inherit;
+    font-size: 40px;
+    color: rgba(52, 52, 52, 0.2);
+
+    &:hover {
+      cursor: pointer;
+      color: rgba(52, 52, 52, 0.5);
+    }
+  }
+
+  .left-btn {
+    left: 0;
+    margin-left: -70px;
+  }
+
+  .right-btn {
+    right: 0;
+    margin-right: -70px;
+  }
+}
