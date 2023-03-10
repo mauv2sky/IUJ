@@ -15,15 +15,13 @@
   color: $fprimary;
 
   .component-inner {
-    width: 1120px;
+    width: 1800px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     .tmp-logo {
-      font-family: serif;
-      font-style: italic;
       font-size: 40px;
       font-weight: 600;
     }

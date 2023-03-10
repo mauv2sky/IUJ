@@ -4,14 +4,36 @@ import Notice, { NoticeInterface } from '../../components/Notice/Notice';
 import styles from './MainContainer.module.scss';
 
 const noticeList: NoticeInterface[] = [
-  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
-  { title: '제목이 긴 정책 제목입니다아아아아아아아아아.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
-  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
-  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
-  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
-  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
-  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
-  { title: '정책 제목입니다.', content: '정책 내용입니다아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아아' },
+  {
+    title: '신혼희망타운',
+    content: '육아·보육을 비롯한 신혼부부 수요를 반영하여 건설하고, 전량을 신혼부부에게 공급하는 신혼부부 특화형 공공주택입니다.',
+    url: 'https://housing.seoul.go.kr/site/main/content/sh01_060511',
+  },
+  {
+    title: '내집마련 디딤돌대출',
+    content: '정부 지원 3대 서민 구입자금을 하나로 통합한 저금리의 주택구입자금 대출 제도',
+    url: 'https://www.fss.or.kr/s1332/financial/financial03050101.jsp',
+  },
+  {
+    title: '주거안정 월세대출',
+    content: '월세 부담으로 고민인 분들을 위한 월세 자금 대출제도',
+    url: 'https://www.fss.or.kr/s1332/financial/financial03050202.jsp',
+  },
+  {
+    title: '청년 임차보증금 이자지원 사업',
+    content: '목돈 마련이 어려운 근로청년 및 취업준비생의 소득대비 높은 주거비용 부담경감을 위해 임차보증금 대출을 지원 합니다.',
+    url: 'https://housing.seoul.go.kr/site/main/content/sh01_040901',
+  },
+  {
+    title: '중소기업취업청년 전월세보증금대출',
+    content: '중소기업에 취업한 청년들에게 저리의 중소기업 취업청년 전월세보증금 대출해드립니다.',
+    url: 'https://nhuf.molit.go.kr/FP/FP05/FP0502/FP05020603.jsp',
+  },
+  {
+    title: '서울 신혼부부 임차보증금 이자지원 사업',
+    content: '신혼부부들의 행복한 미래를 위해 더 나은 주거환경과 소득대비 높은 주거비 부담을 완화하기 위해 신혼부부 임차보증금 지원사업을 시행합니다.',
+    url: 'https://housing.seoul.go.kr/site/main/content/sh01_0400800',
+  },
 ];
 
 function MainContainer() {
@@ -61,7 +83,7 @@ function MainContainer() {
     if (showBannerLogo === 0) {
       logoInterval = window.setInterval(() => {
         setShowBannerLogo((prev) => prev + 1);
-      }, 25);
+      }, 50);
     }
   }, [showBannerLogo]);
 
@@ -155,6 +177,20 @@ function MainContainer() {
         <p className={styles['notice-title']}>Notice</p>
         {showNotice && <Notice noticeList={noticeList} />}
       </div>
+      {showNotice && <div className={styles.hr} />}
+      {showNotice && (
+        <div className={styles.service}>
+          <p className={styles['service-title']}>Service</p>
+          <div className={styles['service-img']}>
+            <p>IUJ</p>
+            <p>자녀가 있는 가족을 위한 부동산 정보를 제공합니다.</p>
+            <p>Customized</p>
+            <p>부동산 추천에 사용되는 점수는 당신이 원하는 인프라를 기반으로 산출됩니다.</p>
+            <p>For Children</p>
+            <p>교통, 치안 등의 기본 시설 뿐만 아니라 유치원, 학군, 학원 등의 시설 정보를 제공합니다.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
