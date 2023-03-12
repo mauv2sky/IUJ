@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import bannerMp4 from '../../assets/banner.mp4';
 import Notice, { NoticeInterface } from '../../components/Notice/Notice';
 import styles from './MainContainer.module.scss';
+import service2 from '../../assets/service1.jpg';
+import service3 from '../../assets/service2.jpg';
 
 const noticeList: NoticeInterface[] = [
   {
@@ -38,37 +40,37 @@ const noticeList: NoticeInterface[] = [
 
 function MainContainer() {
   // ================================ 변수, useState ================================
+  /** 글자 천천히 보여주기 위한 Interval */
+  let logoInterval: number | undefined, des1Interval: number | undefined, des2Interval: number | undefined, des3Interval: number | undefined;
+  /** 스크롤 */
+  const [scrollY, setScrollY] = useState(0);
+  /** 배너 로고 얼만큼 보여줄지 */
   const [showBannerLogo, setShowBannerLogo] = useState(0);
   const bannerLogo = 'IUJ';
   const bannerLogoList = bannerLogo.split('').slice(0, showBannerLogo);
-  let logoInterval: number | undefined;
+  /** 배너 mp4 보여줄지 여부 */
   const [showBanner, setShowBanner] = useState(false);
+  /** ===== 배너 설명 첫째 줄 ~ 셋째 줄 얼만큼 보여줄지 ===== */
   const [showBannerDes1, setShowBannerDes1] = useState(0);
   const [showBannerDes2, setShowBannerDes2] = useState(0);
   const [showBannerDes3, setShowBannerDes3] = useState(0);
+  /** ======================================================= */
   const bannerDes1 = 'for happiness and peace';
   const bannerDes2 = 'in your family';
   const bannerDes3 = 'look for a house of your taste';
   const bannerDesList1 = bannerDes1.split('').slice(0, showBannerDes1);
   const bannerDesList2 = bannerDes2.split('').slice(0, showBannerDes2);
   const bannerDesList3 = bannerDes3.split('').slice(0, showBannerDes3);
-  let des1Interval: number | undefined;
-  let des2Interval: number | undefined;
-  let des3Interval: number | undefined;
+  /** 집 찾아보기 버튼 보여줄지 여부 */
   const [showFindBtn, setShowFindBtn] = useState(false);
-  /** 스크롤 */
-  const [scrollY, setScrollY] = useState(0);
-  /** 정책 부분 보여주기 */
+  /** Notice 보여줄지 여부 */
   const [showNotice, setShowNotice] = useState(false);
+  /** Service 첫 번째 아이템 보여줄지 여부 */
+  const [showService1, setShowService1] = useState(false);
+  /** Service 두 번째 아이템 보여줄지 여부 */
+  const [showService2, setShowService2] = useState(false);
 
   // ================================ useEffect ================================
-
-  useEffect(() => {
-    if (scrollY >= 300) {
-      setShowNotice(true);
-    }
-  }, [scrollY]);
-
   /** 스크롤 이벤트 추가 */
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -78,14 +80,27 @@ function MainContainer() {
     };
   }, []);
 
+  /** 스크롤 300 이상이면 Notice 보여주기 */
+  useEffect(() => {
+    if (scrollY >= 300) {
+      setShowNotice(true);
+    }
+
+    if (scrollY >= 800) {
+      setShowService1(true);
+    }
+
+    if (scrollY >= 1300) {
+      setShowService2(true);
+    }
+  }, [scrollY]);
+
   /** 로고 천천히 보여주기 */
   useEffect(() => {
-    if (showBannerLogo === 0) {
-      logoInterval = window.setInterval(() => {
-        setShowBannerLogo((prev) => prev + 1);
-      }, 50);
-    }
-  }, [showBannerLogo]);
+    logoInterval = window.setInterval(() => {
+      setShowBannerLogo((prev) => prev + 1);
+    }, 50);
+  }, []);
 
   /** 설명 첫째 줄 천천히 보여주기 */
   useEffect(() => {
@@ -181,13 +196,29 @@ function MainContainer() {
       {showNotice && (
         <div className={styles.service}>
           <p className={styles['service-title']}>Service</p>
-          <div className={styles['service-img']}>
-            <p>IUJ</p>
-            <p>자녀가 있는 가족을 위한 부동산 정보를 제공합니다.</p>
-            <p>Customized</p>
-            <p>부동산 추천에 사용되는 점수는 당신이 원하는 인프라를 기반으로 산출됩니다.</p>
-            <p>For Children</p>
-            <p>교통, 치안 등의 기본 시설 뿐만 아니라 유치원, 학군, 학원 등의 시설 정보를 제공합니다.</p>
+          <div className={styles['service-content']}>
+            {showService1 && (
+              <div className={styles['service-content-item']}>
+                <div className={styles['service-content-item-des']}>
+                  <p className={styles['service-content-item-des-title']} style={{ textAlign: 'right' }}>
+                    Customized
+                  </p>
+                  <p className={styles['service-content-item-des-content']} style={{ textAlign: 'right' }}>
+                    부동산 추천에 사용되는 점수는 당신이 원하는 인프라를 기반으로 산출됩니다.
+                  </p>
+                </div>
+                <img src={service2} className={styles['service-content-item-img']} />
+              </div>
+            )}
+            {showService2 && (
+              <div className={styles['service-content-item']}>
+                <img src={service3} className={styles['service-content-item-img']} />
+                <div className={styles['service-content-item-des']}>
+                  <p className={styles['service-content-item-des-title']}>For Children</p>
+                  <p className={styles['service-content-item-des-content']}>교통, 치안 등의 기본 시설 뿐만 아니라 유치원, 학군, 학원 등의 시설 정보를 제공합니다.</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
