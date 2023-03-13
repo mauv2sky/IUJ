@@ -6,9 +6,7 @@ function MapContainer() {
   return (
     <div className={styles.container}>
       <MapSidebar />
-      <div>
-        <p>MapContent</p>
-      </div>
+      <div></div>
     </div>
   );
 }

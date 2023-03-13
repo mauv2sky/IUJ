@@ -21,7 +21,6 @@ function MapSidebar() {
           매물 목록
         </div>
       </div>
-      {tabIndex === 0 && <div className={styles.priority}></div>}
     </div>
   );
 }
