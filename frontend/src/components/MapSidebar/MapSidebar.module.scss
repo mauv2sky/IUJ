@@ -1,0 +1,45 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.component {
+  width: 500px;
+  border-right: 1px solid $lfc;
+
+  .tab {
+    display: flex;
+    justify-content: flex-end;
+    border-bottom: 1px solid $lfc;
+
+    & > div {
+      margin: 2rem 1rem 0 0;
+      padding: 0 1rem 0.7rem 1rem;
+      height: 30px;
+      display: flex;
+      align-items: flex-end;
+      border: 1px solid $lfc;
+      border-bottom: none;
+      border-top-left-radius: 7px;
+      border-top-right-radius: 7px;
+      font-size: 17px;
+      color: white;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .selected {
+      background-color: $tc;
+    }
+
+    .not-selected {
+      background-color: rgb(133, 133, 133);
+    }
+  }
+
+  .priority {
+    height: 100%;
+    background-color: white;
+  }
+}

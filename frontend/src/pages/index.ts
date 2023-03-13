@@ -1,1 +1,2 @@
-export { default as MainPage } from './Main/MainPage';
+export { default as MainPage } from './MainPage';
+export { default as MapPage } from './MapPage';

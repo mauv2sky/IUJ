@@ -4,6 +4,7 @@ import Notice, { NoticeInterface } from '../../components/Notice/Notice';
 import styles from './MainContainer.module.scss';
 import service1 from '../../assets/service1.jpg';
 import service2 from '../../assets/service2.jpg';
+import { useNavigate } from 'react-router-dom';
 
 const noticeList: NoticeInterface[] = [
   {
@@ -39,7 +40,8 @@ const noticeList: NoticeInterface[] = [
 ];
 
 function MainContainer() {
-  // ================================ 변수, useState ================================
+  // ================================ 변수, useState ================
+  const navigate = useNavigate();
   /** 글자 천천히 보여주기 위한 Interval */
   let logoInterval: number | undefined, des1Interval: number | undefined, des2Interval: number | undefined, des3Interval: number | undefined;
   /** 스크롤 */
@@ -199,6 +201,11 @@ function MainContainer() {
     setScrollY(window.scrollY);
   };
 
+  /** 집 찾아보기 클릭 */
+  const onClickGoMap = () => {
+    navigate('/map');
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.banner}>
@@ -238,7 +245,13 @@ function MainContainer() {
                 ))}
               </p>
             </div>
-            <div className={styles['btn-div']}>{showFindBtn && <button className={styles['find-btn']}>집 찾아보기</button>}</div>
+            <div className={styles['btn-div']}>
+              {showFindBtn && (
+                <button className={styles['find-btn']} onClick={onClickGoMap}>
+                  집 찾아보기
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
