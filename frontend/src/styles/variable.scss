@@ -7,12 +7,12 @@
   font-style: normal;
 }
 
-htmL {
-  font-family: 'SUIT-Regular';
+* {
+  font-family: 'SUIT-Regular' !important;
 }
 
-$primary: rgba(255, 254, 249, 1);
-$secondary: rgba(255, 250, 238, 1);
-$highlight: rgba(238, 196, 133, 1);
-$fprimary: rgba(52, 52, 52, 1);
-$lprimary: rgba(0, 0, 0, 0.2);
+$fc: rgba(255, 227, 225, 1);
+$sc: rgba(255, 209, 209, 1);
+$tc: rgba(255, 148, 148, 1);
+$ffc: rgba(70, 70, 70, 1);
+$lfc: rgb(200, 200, 200);

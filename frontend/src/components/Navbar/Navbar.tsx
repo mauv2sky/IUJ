@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Navbar.module.scss';
 
 function Navbar() {
+  const navigate = useNavigate();
   /** 네브바 보여줄지 여부 */
   const [showNavbar, setShowNavbar] = useState(true);
 
@@ -25,12 +27,24 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  /** 로고 클릭 시 */
+  const onClickLogo = () => {
+    navigate('/');
+  };
+
+  /** 내 집 찾아보기 클릭 시 */
+  const onClickGoMap = () => {
+    navigate('/map');
+  };
+
   return (
     <div className={`${styles.component} ${showNavbar || window.pageYOffset < 400 ? '' : styles.hidden}`}>
       <div className={styles['component-inner']}>
-        <p className={styles['tmp-logo']}>IUJ</p>
+        <p className={styles['tmp-logo']} onClick={onClickLogo}>
+          IUJ
+        </p>
         <div className={styles['nav-right']}>
-          <a>내 집 찾아보기</a>
+          <a onClick={onClickGoMap}>내 집 찾아보기</a>
           <div className={styles['tmp-profile-img']}>B</div>
         </div>
       </div>

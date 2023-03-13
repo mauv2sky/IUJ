@@ -53,7 +53,7 @@ function Notice({ noticeList }: { noticeList: NoticeInterface[] }) {
             onClickNotice(notice.url);
           }}
         >
-          <div>
+          <div className={styles['notice-inner']}>
             <p className={styles['notice-title']}>{notice.title}</p>
             <p className={styles['notice-content']}>{notice.content}</p>
           </div>

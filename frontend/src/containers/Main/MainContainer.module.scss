@@ -6,9 +6,8 @@
   min-height: 250vh;
   height: 100%;
   padding: 80px 0 0 0;
-  background-color: $primary;
-  color: $fprimary;
-  font-family: 'SUIT-Regular';
+  background-color: white;
+  color: $ffc;
 
   .banner {
     height: 700px;
@@ -16,7 +15,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid $lfc;
     overflow: hidden;
 
     .banner-content {
@@ -84,18 +83,18 @@
             width: 130px;
             margin-top: 30px;
             padding: 13px 0;
-            border: 1px solid $fprimary;
+            border: 1px solid $ffc;
             border-radius: 50px;
             background-color: inherit;
             font-size: 18px;
-            font-family: SUIT-Regular;
-            color: $fprimary;
+            color: $ffc;
             animation: fade-in 1s ease-in-out;
 
             &:hover {
               cursor: pointer;
-              opacity: 0.8;
-              transition: all 0.5s;
+              border: 1px solid $tc;
+              color: $tc;
+              transition: all 0.2s;
             }
           }
         }
@@ -110,7 +109,7 @@
       left: -230px;
       top: -230px;
       border-radius: 100%;
-      border: 1px solid $lprimary;
+      border: 1px solid $lfc;
     }
 
     .diag {
@@ -119,7 +118,7 @@
       height: 700px;
       right: -350px;
       bottom: -350px;
-      border: 1px solid $lprimary;
+      border: 1px solid $lfc;
       transform: rotate(-45deg);
     }
 
@@ -129,14 +128,14 @@
       height: 200px;
       right: 0;
       bottom: 0;
-      border-top: 1px solid $lprimary;
-      border-left: 1px solid $lprimary;
+      border-top: 1px solid $lfc;
+      border-left: 1px solid $lfc;
     }
   }
 
   .notice {
     width: 85%;
-    margin: 2rem auto;
+    margin: 4rem auto 2rem auto;
 
     .notice-title {
       font-size: 60px;
@@ -144,12 +143,12 @@
   }
 
   .hr {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid $lfc;
   }
 
   .service {
     width: 85%;
-    margin: 2rem auto;
+    margin: 4rem auto 2rem auto;
 
     .service-title {
       font-size: 60px;

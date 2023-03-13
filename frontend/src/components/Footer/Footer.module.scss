@@ -5,13 +5,12 @@
   height: 400px;
   display: flex;
   align-items: flex-end;
-  background-color: $primary;
-  font-family: 'SUIT-Regular';
+  background-color: white;
 
   .component-inner {
     width: 100%;
     height: 200px;
-    border-top: 1px solid $lprimary;
+    border-top: 1px solid $lfc;
     display: flex;
     flex-direction: column;
     justify-content: center;
