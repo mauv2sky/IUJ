@@ -177,11 +177,12 @@
           padding: 2rem;
 
           .service-content-item-des-title {
-            transition: font-size 0.3s;
+            transition: all 0.3s;
           }
 
           .service-content-item-des-content {
             margin-top: 20px;
+            line-height: 2.5rem;
             transition: font-size 0.3s;
           }
         }

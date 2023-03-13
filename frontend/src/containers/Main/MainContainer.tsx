@@ -74,7 +74,7 @@ function MainContainer() {
   /** Service 두 번째 제목 ref */
   const serviceTitle2Ref = useRef<HTMLParagraphElement>(null);
   /** Service 두 번째 내용 ref */
-  const serviceContent2Ref = useRef<HTMLParagraphElement>(null);
+  const serviceContent2Ref = useRef<HTMLPreElement>(null);
   /** Service 두 번째 이미지 ref */
   const serviceImg2Ref = useRef<HTMLImageElement>(null);
 
@@ -88,65 +88,61 @@ function MainContainer() {
     };
   }, []);
 
-  /** 스크롤 300 이상이면 Notice 보여주기 */
   useEffect(() => {
-    console.log(scrollY);
-
+    /** 스크롤 300 이상이면 Notice 보여주기 */
     if (scrollY >= 300) {
       setShowNotice(true);
     }
 
+    /** service 첫 번째 내용 애니메이션 */
     if (scrollY >= 1000 && scrollY < 1400) {
-      if (serviceTitle1Ref.current) {
+      if (serviceTitle1Ref.current && serviceContent1Ref.current && serviceImg1Ref.current) {
         serviceTitle1Ref.current.style.opacity = '1';
         serviceTitle1Ref.current.style.fontSize = '70px';
-      }
-      if (serviceContent1Ref.current) {
+        serviceTitle1Ref.current.style.letterSpacing = '3px';
+
         serviceContent1Ref.current.style.opacity = '1';
         serviceContent1Ref.current.style.fontSize = '25px';
-      }
-      if (serviceImg1Ref.current) {
+
         serviceImg1Ref.current.style.opacity = '1';
         serviceImg1Ref.current.style.filter = 'grayscale(0.2)';
       }
     } else {
-      if (serviceTitle1Ref.current) {
+      if (serviceTitle1Ref.current && serviceContent1Ref.current && serviceImg1Ref.current) {
         serviceTitle1Ref.current.style.opacity = '0.7';
         serviceTitle1Ref.current.style.fontSize = '65px';
-      }
-      if (serviceContent1Ref.current) {
+        serviceTitle1Ref.current.style.letterSpacing = '0px';
+
         serviceContent1Ref.current.style.opacity = '0.7';
         serviceContent1Ref.current.style.fontSize = '25px';
-      }
-      if (serviceImg1Ref.current) {
+
         serviceImg1Ref.current.style.opacity = '0.7';
         serviceImg1Ref.current.style.filter = 'grayscale(1)';
       }
     }
 
+    /** service 두 번째 내용 애니메이션 */
     if (scrollY >= 1450) {
-      if (serviceTitle2Ref.current) {
+      if (serviceTitle2Ref.current && serviceContent2Ref.current && serviceImg2Ref.current) {
         serviceTitle2Ref.current.style.opacity = '1';
         serviceTitle2Ref.current.style.fontSize = '70px';
-      }
-      if (serviceContent2Ref.current) {
+        serviceTitle2Ref.current.style.letterSpacing = '3px';
+
         serviceContent2Ref.current.style.opacity = '1';
         serviceContent2Ref.current.style.fontSize = '25px';
-      }
-      if (serviceImg2Ref.current) {
+
         serviceImg2Ref.current.style.opacity = '1';
         serviceImg2Ref.current.style.filter = 'grayscale(0.3)';
       }
     } else {
-      if (serviceTitle2Ref.current) {
+      if (serviceTitle2Ref.current && serviceContent2Ref.current && serviceImg2Ref.current) {
         serviceTitle2Ref.current.style.opacity = '0.7';
         serviceTitle2Ref.current.style.fontSize = '65px';
-      }
-      if (serviceContent2Ref.current) {
+        serviceTitle2Ref.current.style.letterSpacing = '0px';
+
         serviceContent2Ref.current.style.opacity = '0.7';
         serviceContent2Ref.current.style.fontSize = '25px';
-      }
-      if (serviceImg2Ref.current) {
+
         serviceImg2Ref.current.style.opacity = '0.7';
         serviceImg2Ref.current.style.filter = 'grayscale(1)';
       }
@@ -272,9 +268,10 @@ function MainContainer() {
                 <p ref={serviceTitle2Ref} className={styles['service-content-item-des-title']}>
                   For Children
                 </p>
-                <p ref={serviceContent2Ref} className={styles['service-content-item-des-content']}>
-                  교통, 치안 등의 기본 시설 뿐만 아니라 유치원, 학군, 학원 등의 시설 정보를 제공합니다.
-                </p>
+                <pre ref={serviceContent2Ref} className={styles['service-content-item-des-content']}>
+                  교통, 치안 등의 기본 시설 외에도 유치원, 학군, 학원 등의 <br />
+                  자녀를 위한 정보를 제공합니다.
+                </pre>
               </div>
             </div>
           </div>
