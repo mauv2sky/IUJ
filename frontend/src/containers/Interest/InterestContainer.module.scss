@@ -12,8 +12,8 @@
   width: 100%;
   height: 640px;
   background-color: rgba(23, 23, 23);
-  border-bottom: 1px solid $fprimary;
-  color: $primary;
+  border-bottom: 1px solid $lfc;
+  color: white;
   font-family: 'SUIT-Regular';
   display: grid;
   grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
@@ -28,65 +28,65 @@
 .box1 {
   float: left;
   height: 100%;
-  border-right: 1px solid $fprimary;
-  border-top: 1px solid $fprimary;
-  color: $fprimary;
+  border-right: 1px solid $lfc;
+  border-top: 1px solid $lfc;
+  color: $lfc;
 }
 .box2 {
   height: 100%;
   float: left;
-  color: $fprimary;
-  border-right: 1px solid $fprimary;
+  color: $lfc;
+  border-right: 1px solid $lfc;
 }
 .box2_1 {
   width: 100%;
   height: 50%;
-  border-bottom: 1px solid $fprimary;
-  border-top: 1px solid $fprimary;
-  color: $fprimary;
+  border-bottom: 1px solid $lfc;
+  border-top: 1px solid $lfc;
+  color: $lfc;
 }
 .box2_2 {
   width: 100%;
   height: 50%;
   float: left;
-  color: $fprimary;
+  color: $lfc;
   font-size: 70px;
   font-weight: 700;
-  color: $primary;
+  color: white;
   vertical-align: bottom;
 }
 .box3 {
   height: 100%;
   float: left;
-  border-right: 1px solid $fprimary;
-  border-top: 1px solid $fprimary;
+  border-right: 1px solid $lfc;
+  border-top: 1px solid $lfc;
   border-bottom-right-radius: 50% 50%;
-  color: $fprimary;
+  color: $lfc;
 }
 .box3_1 {
   width: 50%;
   height: 50%;
-  border: 1px solid $fprimary;
+  border: 1px solid $lfc;
   border-radius: 50%;
-  color: $fprimary;
+  color: $lfc;
 }
 .box4 {
   height: 100%;
   float: left;
-  border-right: 1px solid $fprimary;
-  border-top: 1px solid $fprimary;
-  color: $fprimary;
+  border-right: 1px solid $lfc;
+  border-top: 1px solid $lfc;
+  color: $lfc;
 }
 .box5 {
   height: 100%;
   float: left;
-  border-right: 1px solid $fprimary;
-  border-top: 1px solid $fprimary;
-  color: $fprimary;
+  border-right: 1px solid $lfc;
+  border-top: 1px solid $lfc;
+  color: $lfc;
 }
 .introduce {
   float: left;
-  color: $primary;
+  color: white;
   margin-top: 20px;
   margin-left: 325px;
   font-size: xx-large;
@@ -94,8 +94,8 @@
 }
 .searchbutton {
   float: right;
-  color: $primary;
+  color: white;
   margin-top: 65px;
   margin-right: 325px;
-  border: 1px solid $primary;
+  border: 1px solid white;
 }
