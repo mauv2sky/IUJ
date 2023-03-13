@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import styles from './InterestContainer.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 function InterestContainer() {
-  // const [first, setfirst] = useState(0);
+  const navigate = useNavigate();
+
+  /** 집 찾아보기 클릭 */
+  const onClickGoMap = () => {
+    navigate('/map');
+  };
 
   return (
     <div>
@@ -30,13 +36,16 @@ function InterestContainer() {
             <br />
             <h1>이 곳에 저장하세요!</h1>
           </div>
-          <div className={styles.searchbutton}>집 찾아보기</div>
+          <div className={styles['btn-div']}>
+            <button className={styles['find-btn']} onClick={onClickGoMap}>
+              집 찾아보기
+            </button>
+          </div>
         </div>
       </div>
       <div className={styles.container2}>
-        <div>
-          <h5>매물 주소</h5>
-          <h5>건물 종류</h5>
+        <div className={styles.title}>
+          <h2>관심 매물 목록</h2>
         </div>
       </div>
     </div>
