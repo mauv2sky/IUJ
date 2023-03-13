@@ -206,6 +206,10 @@ function MainContainer() {
     navigate('/map');
   };
 
+  const onClickGoInterest = () => {
+    navigate('/interest');
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.banner}>
@@ -252,6 +256,7 @@ function MainContainer() {
                 </button>
               )}
             </div>
+            <button onClick={onClickGoInterest}>황호선 바보</button>
           </div>
         </div>
       </div>
