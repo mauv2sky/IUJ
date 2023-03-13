@@ -100,6 +100,7 @@ function MainContainer() {
       if (serviceTitle1Ref.current) {
         serviceTitle1Ref.current.style.opacity = '1';
         serviceTitle1Ref.current.style.fontSize = '70px';
+        serviceTitle1Ref.current.style.letterSpacing = '3px';
       }
       if (serviceContent1Ref.current) {
         serviceContent1Ref.current.style.opacity = '1';
@@ -113,6 +114,7 @@ function MainContainer() {
       if (serviceTitle1Ref.current) {
         serviceTitle1Ref.current.style.opacity = '0.7';
         serviceTitle1Ref.current.style.fontSize = '65px';
+        serviceTitle1Ref.current.style.letterSpacing = '0px';
       }
       if (serviceContent1Ref.current) {
         serviceContent1Ref.current.style.opacity = '0.7';
@@ -128,6 +130,7 @@ function MainContainer() {
       if (serviceTitle2Ref.current) {
         serviceTitle2Ref.current.style.opacity = '1';
         serviceTitle2Ref.current.style.fontSize = '70px';
+        serviceTitle2Ref.current.style.letterSpacing = '3px';
       }
       if (serviceContent2Ref.current) {
         serviceContent2Ref.current.style.opacity = '1';
@@ -141,6 +144,7 @@ function MainContainer() {
       if (serviceTitle2Ref.current) {
         serviceTitle2Ref.current.style.opacity = '0.7';
         serviceTitle2Ref.current.style.fontSize = '65px';
+        serviceTitle2Ref.current.style.letterSpacing = '0px';
       }
       if (serviceContent2Ref.current) {
         serviceContent2Ref.current.style.opacity = '0.7';
