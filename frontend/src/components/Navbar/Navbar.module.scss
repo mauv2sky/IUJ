@@ -13,6 +13,10 @@
   border-bottom: 1px solid $lprimary;
   font-family: SUIT-Regular;
   color: $fprimary;
+  transition: top 2s ease-in-out;
+  &.hidden {
+    top: -100%;
+  }
 
   .component-inner {
     width: 1800px;
@@ -24,6 +28,10 @@
     .tmp-logo {
       font-size: 40px;
       font-weight: 600;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .nav-right {
@@ -31,9 +39,16 @@
       justify-content: space-between;
       align-items: center;
 
-      & p {
+      & a {
         margin: 0 1rem 0 0;
         font-size: 18px;
+        transition: font-size 0.2s;
+
+        &:hover {
+          cursor: pointer;
+          font-size: 18.5px;
+          color: black;
+        }
       }
 
       .tmp-profile-img {
@@ -42,6 +57,15 @@
         border-radius: 100px;
         border: 1px solid $lprimary;
         background-color: rgb(222, 222, 222);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-weight: 600;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
   }
