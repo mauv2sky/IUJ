@@ -6,7 +6,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import store from './store/store';
 import NormalRoot from './roots/NormalRoot';
-import { MainPage } from './pages/index';
+import { MainPage, InterestPage } from './pages/index';
 import './styles/reset.scss';
 
 const router = createBrowserRouter([
@@ -17,6 +17,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <MainPage />,
+      },
+      {
+        path: 'interest',
+        element: <InterestPage />,
       },
     ],
   },
