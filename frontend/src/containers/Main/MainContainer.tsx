@@ -74,7 +74,7 @@ function MainContainer() {
   /** Service 두 번째 제목 ref */
   const serviceTitle2Ref = useRef<HTMLParagraphElement>(null);
   /** Service 두 번째 내용 ref */
-  const serviceContent2Ref = useRef<HTMLParagraphElement>(null);
+  const serviceContent2Ref = useRef<HTMLPreElement>(null);
   /** Service 두 번째 이미지 ref */
   const serviceImg2Ref = useRef<HTMLImageElement>(null);
 
@@ -268,9 +268,10 @@ function MainContainer() {
                 <p ref={serviceTitle2Ref} className={styles['service-content-item-des-title']}>
                   For Children
                 </p>
-                <p ref={serviceContent2Ref} className={styles['service-content-item-des-content']}>
-                  교통, 치안 등의 기본 시설 뿐만 아니라 유치원, 학군, 학원 등의 시설 정보를 제공합니다.
-                </p>
+                <pre ref={serviceContent2Ref} className={styles['service-content-item-des-content']}>
+                  교통, 치안 등의 기본 시설 외에도 유치원, 학군, 학원 등의 <br />
+                  자녀를 위한 정보를 제공합니다.
+                </pre>
               </div>
             </div>
           </div>
