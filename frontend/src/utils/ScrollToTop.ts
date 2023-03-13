@@ -5,7 +5,9 @@ const ScrollToTop = (): null => {
   const { pathname } = useLocation();
 
   const handleScrollTop = () => {
-    window.scrollTo(0, 0);
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0);
+    };
   };
 
   useEffect(() => {
