@@ -88,69 +88,61 @@ function MainContainer() {
     };
   }, []);
 
-  /** 스크롤 300 이상이면 Notice 보여주기 */
   useEffect(() => {
-    console.log(scrollY);
-
+    /** 스크롤 300 이상이면 Notice 보여주기 */
     if (scrollY >= 300) {
       setShowNotice(true);
     }
 
+    /** service 첫 번째 내용 애니메이션 */
     if (scrollY >= 1000 && scrollY < 1400) {
-      if (serviceTitle1Ref.current) {
+      if (serviceTitle1Ref.current && serviceContent1Ref.current && serviceImg1Ref.current) {
         serviceTitle1Ref.current.style.opacity = '1';
         serviceTitle1Ref.current.style.fontSize = '70px';
         serviceTitle1Ref.current.style.letterSpacing = '3px';
-      }
-      if (serviceContent1Ref.current) {
+
         serviceContent1Ref.current.style.opacity = '1';
         serviceContent1Ref.current.style.fontSize = '25px';
-      }
-      if (serviceImg1Ref.current) {
+
         serviceImg1Ref.current.style.opacity = '1';
         serviceImg1Ref.current.style.filter = 'grayscale(0.2)';
       }
     } else {
-      if (serviceTitle1Ref.current) {
+      if (serviceTitle1Ref.current && serviceContent1Ref.current && serviceImg1Ref.current) {
         serviceTitle1Ref.current.style.opacity = '0.7';
         serviceTitle1Ref.current.style.fontSize = '65px';
         serviceTitle1Ref.current.style.letterSpacing = '0px';
-      }
-      if (serviceContent1Ref.current) {
+
         serviceContent1Ref.current.style.opacity = '0.7';
         serviceContent1Ref.current.style.fontSize = '25px';
-      }
-      if (serviceImg1Ref.current) {
+
         serviceImg1Ref.current.style.opacity = '0.7';
         serviceImg1Ref.current.style.filter = 'grayscale(1)';
       }
     }
 
+    /** service 두 번째 내용 애니메이션 */
     if (scrollY >= 1450) {
-      if (serviceTitle2Ref.current) {
+      if (serviceTitle2Ref.current && serviceContent2Ref.current && serviceImg2Ref.current) {
         serviceTitle2Ref.current.style.opacity = '1';
         serviceTitle2Ref.current.style.fontSize = '70px';
         serviceTitle2Ref.current.style.letterSpacing = '3px';
-      }
-      if (serviceContent2Ref.current) {
+
         serviceContent2Ref.current.style.opacity = '1';
         serviceContent2Ref.current.style.fontSize = '25px';
-      }
-      if (serviceImg2Ref.current) {
+
         serviceImg2Ref.current.style.opacity = '1';
         serviceImg2Ref.current.style.filter = 'grayscale(0.3)';
       }
     } else {
-      if (serviceTitle2Ref.current) {
+      if (serviceTitle2Ref.current && serviceContent2Ref.current && serviceImg2Ref.current) {
         serviceTitle2Ref.current.style.opacity = '0.7';
         serviceTitle2Ref.current.style.fontSize = '65px';
         serviceTitle2Ref.current.style.letterSpacing = '0px';
-      }
-      if (serviceContent2Ref.current) {
+
         serviceContent2Ref.current.style.opacity = '0.7';
         serviceContent2Ref.current.style.fontSize = '25px';
-      }
-      if (serviceImg2Ref.current) {
+
         serviceImg2Ref.current.style.opacity = '0.7';
         serviceImg2Ref.current.style.filter = 'grayscale(1)';
       }
