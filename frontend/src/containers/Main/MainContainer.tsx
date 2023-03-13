@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import bannerMp4 from '../../assets/banner.mp4';
 import Notice, { NoticeInterface } from '../../components/Notice/Notice';
 import styles from './MainContainer.module.scss';
-import service2 from '../../assets/service1.jpg';
-import service3 from '../../assets/service2.jpg';
+import service1 from '../../assets/service1.jpg';
+import service2 from '../../assets/service2.jpg';
 
 const noticeList: NoticeInterface[] = [
   {
@@ -65,10 +65,18 @@ function MainContainer() {
   const [showFindBtn, setShowFindBtn] = useState(false);
   /** Notice 보여줄지 여부 */
   const [showNotice, setShowNotice] = useState(false);
-  /** Service 첫 번째 아이템 보여줄지 여부 */
-  const [showService1, setShowService1] = useState(false);
-  /** Service 두 번째 아이템 보여줄지 여부 */
-  const [showService2, setShowService2] = useState(false);
+  /** Service 첫 번째 제목 ref */
+  const serviceTitle1Ref = useRef<HTMLParagraphElement>(null);
+  /** Service 첫 번째 내용 ref */
+  const serviceContent1Ref = useRef<HTMLParagraphElement>(null);
+  /** Service 첫 번째 이미지 ref */
+  const serviceImg1Ref = useRef<HTMLImageElement>(null);
+  /** Service 두 번째 제목 ref */
+  const serviceTitle2Ref = useRef<HTMLParagraphElement>(null);
+  /** Service 두 번째 내용 ref */
+  const serviceContent2Ref = useRef<HTMLParagraphElement>(null);
+  /** Service 두 번째 이미지 ref */
+  const serviceImg2Ref = useRef<HTMLImageElement>(null);
 
   // ================================ useEffect ================================
   /** 스크롤 이벤트 추가 */
@@ -82,16 +90,66 @@ function MainContainer() {
 
   /** 스크롤 300 이상이면 Notice 보여주기 */
   useEffect(() => {
+    console.log(scrollY);
+
     if (scrollY >= 300) {
       setShowNotice(true);
     }
 
-    if (scrollY >= 800) {
-      setShowService1(true);
+    if (scrollY >= 1000 && scrollY < 1400) {
+      if (serviceTitle1Ref.current) {
+        serviceTitle1Ref.current.style.opacity = '1';
+        serviceTitle1Ref.current.style.fontSize = '70px';
+      }
+      if (serviceContent1Ref.current) {
+        serviceContent1Ref.current.style.opacity = '1';
+        serviceContent1Ref.current.style.fontSize = '25px';
+      }
+      if (serviceImg1Ref.current) {
+        serviceImg1Ref.current.style.opacity = '1';
+        serviceImg1Ref.current.style.filter = 'grayscale(0.2)';
+      }
+    } else {
+      if (serviceTitle1Ref.current) {
+        serviceTitle1Ref.current.style.opacity = '0.7';
+        serviceTitle1Ref.current.style.fontSize = '65px';
+      }
+      if (serviceContent1Ref.current) {
+        serviceContent1Ref.current.style.opacity = '0.7';
+        serviceContent1Ref.current.style.fontSize = '25px';
+      }
+      if (serviceImg1Ref.current) {
+        serviceImg1Ref.current.style.opacity = '0.7';
+        serviceImg1Ref.current.style.filter = 'grayscale(1)';
+      }
     }
 
-    if (scrollY >= 1300) {
-      setShowService2(true);
+    if (scrollY >= 1450) {
+      if (serviceTitle2Ref.current) {
+        serviceTitle2Ref.current.style.opacity = '1';
+        serviceTitle2Ref.current.style.fontSize = '70px';
+      }
+      if (serviceContent2Ref.current) {
+        serviceContent2Ref.current.style.opacity = '1';
+        serviceContent2Ref.current.style.fontSize = '25px';
+      }
+      if (serviceImg2Ref.current) {
+        serviceImg2Ref.current.style.opacity = '1';
+        serviceImg2Ref.current.style.filter = 'grayscale(0.3)';
+      }
+    } else {
+      if (serviceTitle2Ref.current) {
+        serviceTitle2Ref.current.style.opacity = '0.7';
+        serviceTitle2Ref.current.style.fontSize = '65px';
+      }
+      if (serviceContent2Ref.current) {
+        serviceContent2Ref.current.style.opacity = '0.7';
+        serviceContent2Ref.current.style.fontSize = '25px';
+      }
+      if (serviceImg2Ref.current) {
+        serviceImg2Ref.current.style.opacity = '0.7';
+        serviceImg2Ref.current.style.filter = 'grayscale(1)';
+      }
     }
   }, [scrollY]);
 
@@ -197,28 +255,28 @@ function MainContainer() {
         <div className={styles.service}>
           <p className={styles['service-title']}>Service</p>
           <div className={styles['service-content']}>
-            {showService1 && (
-              <div className={styles['service-content-item']}>
-                <div className={styles['service-content-item-des']}>
-                  <p className={styles['service-content-item-des-title']} style={{ textAlign: 'right' }}>
-                    Customized
-                  </p>
-                  <p className={styles['service-content-item-des-content']} style={{ textAlign: 'right' }}>
-                    부동산 추천에 사용되는 점수는 당신이 원하는 인프라를 기반으로 산출됩니다.
-                  </p>
-                </div>
-                <img src={service2} className={styles['service-content-item-img']} />
+            <div className={styles['service-content-item']}>
+              <div className={styles['service-content-item-des']}>
+                <p ref={serviceTitle1Ref} className={styles['service-content-item-des-title']} style={{ textAlign: 'right' }}>
+                  Customized
+                </p>
+                <p ref={serviceContent1Ref} className={styles['service-content-item-des-content']} style={{ textAlign: 'right' }}>
+                  부동산 추천에 사용되는 점수는 당신이 원하는 인프라를 기반으로 산출됩니다.
+                </p>
               </div>
-            )}
-            {showService2 && (
-              <div className={styles['service-content-item']}>
-                <img src={service3} className={styles['service-content-item-img']} />
-                <div className={styles['service-content-item-des']}>
-                  <p className={styles['service-content-item-des-title']}>For Children</p>
-                  <p className={styles['service-content-item-des-content']}>교통, 치안 등의 기본 시설 뿐만 아니라 유치원, 학군, 학원 등의 시설 정보를 제공합니다.</p>
-                </div>
+              <img src={service1} ref={serviceImg1Ref} className={styles['service-content-item-img']} />
+            </div>
+            <div className={styles['service-content-item']}>
+              <img src={service2} ref={serviceImg2Ref} className={styles['service-content-item-img']} />
+              <div className={styles['service-content-item-des']}>
+                <p ref={serviceTitle2Ref} className={styles['service-content-item-des-title']}>
+                  For Children
+                </p>
+                <p ref={serviceContent2Ref} className={styles['service-content-item-des-content']}>
+                  교통, 치안 등의 기본 시설 뿐만 아니라 유치원, 학군, 학원 등의 시설 정보를 제공합니다.
+                </p>
               </div>
-            )}
+            </div>
           </div>
         </div>
       )}
