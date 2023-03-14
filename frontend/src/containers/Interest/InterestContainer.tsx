@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './InterestContainer.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { List } from 'reselect/es/types';
+import InterestCard, { InterestType } from '../../components/InterestCard/InterestCard';
 
 // API 호출 함수 만듦
 // interface Item {
@@ -17,6 +18,39 @@ import { List } from 'reselect/es/types';
 
 //   return data;
 // }
+
+const interestList: InterestType[] = [
+  {
+    name: '송삼',
+    address: ['도로명 주소', '지번 주소'],
+    deal: ['123', '987'],
+  },
+  {
+    name: '송삼',
+    address: ['도로명 주소', '지번 주소'],
+    deal: ['123', '987'],
+  },
+  {
+    name: '송삼',
+    address: ['도로명 주소', '지번 주소'],
+    deal: ['123', '987'],
+  },
+  {
+    name: '송삼',
+    address: ['도로명 주소', '지번 주소'],
+    deal: ['123', '987'],
+  },
+  {
+    name: '송삼',
+    address: ['도로명 주소', '지번 주소'],
+    deal: ['123', '987'],
+  },
+  {
+    name: '송삼',
+    address: ['도로명 주소', '지번 주소'],
+    deal: ['123', '987'],
+  },
+];
 
 function InterestContainer() {
   const navigate = useNavigate();
