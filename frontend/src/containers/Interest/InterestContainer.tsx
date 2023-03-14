@@ -100,12 +100,12 @@ function InterestContainer() {
 
         {/* 카드 레이아웃 */}
         <div className={styles.cardlist}>
-          <div className={styles.card}>
+          {/* <div className={styles.card}>
             <div>송삼</div>
             <div>1억 1000만 ~ 3억 5000만</div>
             <div>지번: 부산 강서구 송정동 1627-5</div>
             <div>도로명: 부산광역시 강서구 녹산산단335로 7 (송정동)</div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

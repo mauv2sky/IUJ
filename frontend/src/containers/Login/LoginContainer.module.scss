@@ -1,0 +1,42 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.container {
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: 80px 0 0 0;
+  display: flex;
+  background-color: white;
+  justify-content: center;
+}
+.btn-div {
+  margin-top: 100px;
+  min-height: 80px;
+
+  & button {
+    margin: auto;
+    width: 130px;
+    padding: 13px 0;
+    border: 1px solid white;
+    border-radius: 50px;
+    background-color: black;
+    font-size: 18px;
+    color: white;
+    animation: fade-in 1s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      border: 1px solid $tc;
+      color: $tc;
+      transition: all 0.2s;
+    }
+  }
+}
+
+.title {
+  margin-top: 150px;
+  font-size: 50px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 70px;
+}
