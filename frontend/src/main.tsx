@@ -28,10 +28,6 @@ const router = createBrowserRouter([
         path: 'detail',
         element: <DetailPage />,
       },
-      {
-        path: 'login',
-        element: <LoginPage />,
-      },
     ],
   },
   /** Footer 없는 페이지 */
@@ -42,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: 'map',
         element: <MapPage />,
+      },
+      {
+        path: 'login',
+        element: <LoginPage />,
       },
     ],
   },
