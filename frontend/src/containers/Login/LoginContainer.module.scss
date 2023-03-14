@@ -3,14 +3,14 @@
 
 .container {
   width: 100%;
-  min-height: calc(100vh - 80px);
+  // min-height: calc(100vh - 80px);
   padding: 80px 0 0 0;
   display: flex;
   background-color: white;
   justify-content: center;
 }
 .btn-div {
-  margin-top: 100px;
+  margin-top: 65px;
   min-height: 80px;
 
   & button {
@@ -39,4 +39,91 @@
   font-weight: 700;
   text-align: center;
   line-height: 70px;
+}
+
+.footerstyle {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1fr;
+  border: 1px solid $lfc;
+  // border-bottom: 1px solid $lfc;
+  border-bottom-left-radius: 18% 100%;
+  border-top-right-radius: 35% 100%;
+}
+
+.box1 {
+  float: left;
+  height: 300px;
+  border-right: 1px solid $lfc;
+  border-left: 1px solid $lfc;
+  border-bottom: 1px solid $lfc;
+  // border-bottom-right-radius: 50% 50%;
+}
+.box2 {
+  float: left;
+  height: 300px;
+  // border: 1px solid $lfc;
+}
+.box2_1 {
+  width: 100%;
+  height: 50%;
+  // border-top: 1px solid $lfc;
+  border-bottom: 1px solid $lfc;
+  border-right: 1px solid $lfc;
+}
+.box2_2 {
+  width: 100%;
+  height: 50%;
+  float: left;
+  color: $ffc;
+  font-size: 70px;
+  font-weight: 700;
+  color: white;
+  vertical-align: bottom;
+  // border-left: 1px solid $lfc;
+}
+.box3 {
+  float: left;
+  height: 300px;
+  // border-right: 1px solid $lfc;
+  // border-top: 1px solid $lfc;
+}
+.box3_1 {
+  width: 50%;
+  float: left;
+  height: 100%;
+  border: 1px solid $lfc;
+  border-radius: 50%;
+  color: $lfc;
+}
+.box3_2 {
+  float: left;
+  height: 300px;
+  border-left: 1px solid $lfc;
+  border-top: 1px solid $lfc;
+}
+.box4 {
+  float: left;
+  height: 300px;
+  // border-top: 1px solid $lfc;
+}
+.container1 {
+  opacity: 0;
+  animation: fade-in 1s forwards;
+}
+
+.container2 {
+  opacity: 0;
+  animation: fade-in 1s 0.5s forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
