@@ -13,7 +13,7 @@
   border-bottom: 1px solid $lfc;
   font-family: SUIT-Regular;
   color: $ffc;
-  transition: top 2s ease-in-out;
+  transition: top 1.5s ease-in-out;
   &.hidden {
     top: -100%;
   }
@@ -50,6 +50,7 @@
       }
 
       .tmp-profile-img {
+        position: relative;
         width: 40px;
         height: 40px;
         border-radius: 100px;
