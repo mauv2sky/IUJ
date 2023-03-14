@@ -1,0 +1,30 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.component {
+  color: $ffc;
+
+  .title {
+    margin: 1rem 0 0 0;
+    padding: 1rem;
+    text-align: end;
+    font-size: 22px;
+  }
+
+  .priority {
+    margin: 1rem 0 0 0;
+    height: 300px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+    .priority-item {
+      border: 1px solid red;
+
+      & > div {
+        margin: 0 auto;
+        border: 1px solid black;
+        width: 50%;
+      }
+    }
+  }
+}
