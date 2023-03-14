@@ -1,0 +1,37 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.component {
+  z-index: 1000;
+  position: absolute;
+  left: -100px;
+  bottom: -150px;
+  width: 150px;
+  padding: 1rem;
+  border: 1px solid $sc;
+  border-radius: 5px;
+  background-color: white;
+  animation: fade-in 0.2s ease-in-out;
+
+  .item {
+    padding: 1rem 0;
+    border-radius: 5px;
+    text-align: center;
+    color: $ffc;
+    font-weight: normal;
+    font-size: 18px;
+
+    &:hover {
+      background-color: rgb(250, 250, 250);
+    }
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

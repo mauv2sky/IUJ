@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import bannerMp4 from '../../assets/banner.mp4';
-import Notice, { NoticeInterface } from '../../components/Notice/Notice';
+import Notice, { NoticeType } from '../../components/Notice/Notice';
 import styles from './MainContainer.module.scss';
 import service1 from '../../assets/service1.jpg';
 import service2 from '../../assets/service2.jpg';
 import { useNavigate } from 'react-router-dom';
 
-const noticeList: NoticeInterface[] = [
+const noticeList: NoticeType[] = [
   {
     title: '신혼희망타운',
     content: '육아·보육을 비롯한 신혼부부 수요를 반영하여 건설하고, 전량을 신혼부부에게 공급하는 신혼부부 특화형 공공주택입니다.',
@@ -45,17 +45,17 @@ function MainContainer() {
   /** 글자 천천히 보여주기 위한 Interval */
   let logoInterval: number | undefined, des1Interval: number | undefined, des2Interval: number | undefined, des3Interval: number | undefined;
   /** 스크롤 */
-  const [scrollY, setScrollY] = useState(0);
+  const [scrollY, setScrollY] = useState<number>(0);
   /** 배너 로고 얼만큼 보여줄지 */
-  const [showBannerLogo, setShowBannerLogo] = useState(0);
+  const [showBannerLogo, setShowBannerLogo] = useState<number>(0);
   const bannerLogo = 'IUJ';
   const bannerLogoList = bannerLogo.split('').slice(0, showBannerLogo);
   /** 배너 mp4 보여줄지 여부 */
-  const [showBanner, setShowBanner] = useState(false);
+  const [showBanner, setShowBanner] = useState<boolean>(false);
   /** ===== 배너 설명 첫째 줄 ~ 셋째 줄 얼만큼 보여줄지 ===== */
-  const [showBannerDes1, setShowBannerDes1] = useState(0);
-  const [showBannerDes2, setShowBannerDes2] = useState(0);
-  const [showBannerDes3, setShowBannerDes3] = useState(0);
+  const [showBannerDes1, setShowBannerDes1] = useState<number>(0);
+  const [showBannerDes2, setShowBannerDes2] = useState<number>(0);
+  const [showBannerDes3, setShowBannerDes3] = useState<number>(0);
   /** ======================================================= */
   const bannerDes1 = 'for happiness and peace';
   const bannerDes2 = 'in your family';
@@ -64,9 +64,9 @@ function MainContainer() {
   const bannerDesList2 = bannerDes2.split('').slice(0, showBannerDes2);
   const bannerDesList3 = bannerDes3.split('').slice(0, showBannerDes3);
   /** 집 찾아보기 버튼 보여줄지 여부 */
-  const [showFindBtn, setShowFindBtn] = useState(false);
+  const [showFindBtn, setShowFindBtn] = useState<boolean>(false);
   /** Notice 보여줄지 여부 */
-  const [showNotice, setShowNotice] = useState(false);
+  const [showNotice, setShowNotice] = useState<boolean>(false);
   /** Service 첫 번째 제목 ref */
   const serviceTitle1Ref = useRef<HTMLParagraphElement>(null);
   /** Service 첫 번째 내용 ref */
@@ -206,10 +206,6 @@ function MainContainer() {
     navigate('/map');
   };
 
-  const onClickGoInterest = () => {
-    navigate('/interest');
-  };
-
   return (
     <div className={styles.container}>
       <div className={styles.banner}>
@@ -256,7 +252,6 @@ function MainContainer() {
                 </button>
               )}
             </div>
-            <button onClick={onClickGoInterest}>황호선 바보</button>
           </div>
         </div>
       </div>

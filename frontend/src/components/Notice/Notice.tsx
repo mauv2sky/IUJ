@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Notice.module.scss';
 
-export interface NoticeInterface {
+export type NoticeType = {
   title: string;
   content: string;
   url: string;
-}
+};
 
-function Notice({ noticeList }: { noticeList: NoticeInterface[] }) {
+type NoticePropsType = {
+  noticeList: NoticeType[];
+};
+
+function Notice({ noticeList }: NoticePropsType) {
   const [page, setPage] = useState(1);
   const pageNoticeList = noticeList.slice(4 * (page - 1), 4 * page);
   const [showNotice, setShowNotice] = useState(0);

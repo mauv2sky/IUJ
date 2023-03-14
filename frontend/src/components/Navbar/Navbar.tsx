@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ProfileMenu, { ProfileMenuType } from '../ProfileMenu/ProfileMenu';
 import styles from './Navbar.module.scss';
+
+/** 프로필 메뉴바 리스트 */
+const menuList: ProfileMenuType[] = [
+  {
+    title: '관심 매물 목록',
+    url: '/interest',
+  },
+  {
+    title: '로그아웃',
+    url: '/',
+  },
+];
 
 function Navbar() {
   const navigate = useNavigate();
   /** 네브바 보여줄지 여부 */
   const [showNavbar, setShowNavbar] = useState(true);
+  /** 프로필 메뉴 보여줄지 여부 */
+  const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
 
   /** 네브바 보여줄지 여부 결정 */
   useEffect(() => {
@@ -14,7 +29,7 @@ function Navbar() {
     const handleScroll = () => {
       const currentScrollPos = window.pageYOffset;
       const isScrolledDown = prevScrollpos < currentScrollPos;
-      if (currentScrollPos < 400) {
+      if (currentScrollPos < 300) {
         setShowNavbar(true);
       } else {
         setShowNavbar(!isScrolledDown);
@@ -38,14 +53,21 @@ function Navbar() {
   };
 
   return (
-    <div className={`${styles.component} ${showNavbar || window.pageYOffset < 400 ? '' : styles.hidden}`}>
+    <div className={`${styles.component} ${showNavbar || window.pageYOffset < 300 ? '' : styles.hidden}`}>
       <div className={styles['component-inner']}>
         <p className={styles['tmp-logo']} onClick={onClickLogo}>
           IUJ
         </p>
         <div className={styles['nav-right']}>
           <a onClick={onClickGoMap}>내 집 찾아보기</a>
-          <div className={styles['tmp-profile-img']}>B</div>
+          <div
+            onClick={() => {
+              setShowProfileMenu(true);
+            }}
+            className={styles['tmp-profile-img']}
+          >
+            B{showProfileMenu && <ProfileMenu menuList={menuList} setShowProfileMenu={setShowProfileMenu} />}
+          </div>
         </div>
       </div>
     </div>
