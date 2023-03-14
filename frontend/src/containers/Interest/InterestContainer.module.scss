@@ -126,3 +126,13 @@
   font-weight: 700;
   color: rgba(23, 23, 23);
 }
+.cardlist {
+  margin: 70px 325px;
+  justify-content: space-between;
+}
+
+.card {
+  width: 420px;
+  height: 280px;
+  border: 1px solid $ffc;
+}
