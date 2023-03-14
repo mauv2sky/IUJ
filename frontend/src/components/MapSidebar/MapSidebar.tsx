@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SetPriority from '../SetPriority/SetPriority';
 import styles from './MapSidebar.module.scss';
 
 function MapSidebar() {
@@ -21,6 +22,7 @@ function MapSidebar() {
           매물 목록
         </div>
       </div>
+      {tabIndex === 0 && <SetPriority />}
     </div>
   );
 }
