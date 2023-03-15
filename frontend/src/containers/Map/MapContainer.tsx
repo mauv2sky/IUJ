@@ -60,7 +60,7 @@ function MapContainer() {
           const bounds = map.getBounds();
 
           /** 현재 영역의 매물들 가져옴 */
-          console.log(bounds, '로 api 요청');
+          console.log(bounds.toString(), '로 api 요청');
 
           /** api 요청으로 가져온 매물 리스트 */
           const markers = [
