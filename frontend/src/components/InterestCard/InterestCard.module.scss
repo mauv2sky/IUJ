@@ -2,20 +2,30 @@
 @import '../../styles/variable.scss';
 
 .component {
-  margin: -30px auto 0 auto;
+  margin: 0px auto 0 auto;
   min-width: 1650px;
-  width: 1600px;
+  // width: 100%;
   min-height: 500px;
   position: relative;
   display: flex;
   align-items: center;
+  // justify-content: center; /* 추가 */
+
+  .interest-line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    // width: 100%;
+  }
 
   .interest {
-    padding: 20px 15px 0 15px;
-    width: 380px;
-    height: 300px;
-    border-top: 1px solid $lfc;
-    border-right: 1px solid $lfc;
+    border-radius: 5px;
+    padding: 0px 15px 0 15px;
+    width: 400px;
+    height: 235px;
+    margin-bottom: 30px;
+    border: 1px solid $lfc;
+    margin-right: 30px;
     overflow: hidden;
     animation: fade-in 1s;
     transition: 0.2s;
@@ -24,8 +34,14 @@
     flex-direction: column;
     align-items: center;
 
+    box-shadow: 1px 3px 2px 1px rgb(70, 70, 70, 0.6);
+
     .interest-inner {
+      padding-top: 0;
+      // border-left: 5px solid $tc;
+      border-top-left-radius: 3% 10%;
       width: 90%;
+      // width: 100%;
     }
 
     &::before {
@@ -44,53 +60,67 @@
       background-color: white;
       z-index: 10;
       transform: scale(1.05);
+
       &::before {
         width: 100%;
       }
     }
 
-    .interest-title {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
+    // .box1 {
+    //   width: 40%;
+    //   height: 50px;
+    //   float: left;
+    //   text-align: center;
+    //   line-height: 235px;
+    // }
+    // .box2 {
+    //   margin-left: 10px;
+    //   width: 50%;
+    //   height: 50px;
+    //   float: left;
+    // }
+    // .interest-name {
+    //   font-size: 1.7rem;
+    //   font-weight: 1000;
+    //   margin-top: 40px;
 
-    .interest-content {
-      font-size: 1rem;
+    //   padding-bottom: 15px;
+    //   border-bottom: 5px solid $tc;
+    // }
+    // .interest-deal {
+    //   margin-top: 40px;
+    //   font-size: large;
+    //   font-weight: 800;
+
+    //   line-height: 1.5rem;
+    // }
+    // .interest-address {
+    //   margin-top: 20px;
+    //   font-size: 1rem;
+    //   line-height: 20px;
+    // }
+
+    .interest-name {
+      font-size: 1.7rem;
+      font-weight: 1000;
+      margin-top: 40px;
+      margin-left: 30px;
+      margin-right: 30px;
+      padding-bottom: 15px;
+      border-bottom: 5px solid $tc;
+    }
+    .interest-deal {
+      margin-top: 40px;
+      font-size: large;
+      font-weight: 800;
+      margin-left: 30px;
       line-height: 1.5rem;
     }
-  }
-
-  @keyframes fade-in {
-    0% {
-      opacity: 0;
-      margin-top: 100px;
+    .interest-address {
+      margin-top: 20px;
+      font-size: 1rem;
+      margin-left: 30px;
+      line-height: 20px;
     }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  & button {
-    position: absolute;
-    margin-top: 50px;
-    border: none;
-    background-color: inherit;
-    font-size: 40px;
-    color: rgba(52, 52, 52, 0.2);
-
-    &:hover {
-      cursor: pointer;
-      color: $tc;
-    }
-  }
-
-  .left-btn {
-    left: 0;
-    margin-left: -70px;
-  }
-
-  .right-btn {
-    right: 0;
-    margin-right: -70px;
   }
 }
