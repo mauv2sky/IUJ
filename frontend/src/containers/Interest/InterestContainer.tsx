@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './InterestContainer.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { List } from 'reselect/es/types';
+import InterestCard, { InterestType } from '../../components/InterestCard/InterestCard';
 
 // API 호출 함수 만듦
 // interface Item {
@@ -18,8 +19,60 @@ import { List } from 'reselect/es/types';
 //   return data;
 // }
 
+const interestList: InterestType[] = [
+  {
+    name: '송정삼정그린코아',
+    address: ['부산광역시 강서구 녹산산단335로 7', '부산 강서구 송정동 1627-5'],
+    deal: ['1억 2000만원', '9억 8000만원'],
+    type: '아파트',
+    id: 1,
+  },
+  {
+    name: '송정삼정그린코아',
+    address: ['부산광역시 강서구 녹산산단335로 7', '부산 강서구 송정동 1627-5'],
+    deal: ['1억 2000만원', '9억 8000만원'],
+    type: '아파트',
+    id: 1,
+  },
+  {
+    name: '송정삼정그린코아',
+    address: ['부산광역시 강서구 녹산산단335로 7', '부산 강서구 송정동 1627-5'],
+    deal: ['1억 2000만원', '9억 8000만원'],
+    type: '아파트',
+    id: 1,
+  },
+  // {
+  //   name: '송삼',
+  //   address: ['부산광역시 강서구 녹산산단335로 7', '부산 강서구 송정동 1627-5'],
+  //   deal: ['123', '987'],
+  // },
+  // {
+  //   name: '송삼',
+  //   address: ['부산광역시 강서구 녹산산단335로 7', '부산 강서구 송정동 1627-5'],
+  //   deal: ['123', '987'],
+  // },
+  // {
+  //   name: '송삼',
+  //   address: ['부산광역시 강서구 녹산산단335로 7', '부산 강서구 송정동 1627-5'],
+  //   deal: ['123', '987'],
+  // },
+  // {
+  //   name: '송삼',
+  //   address: ['부산광역시 강서구 녹산산단335로 7', '부산 강서구 송정동 1627-5'],
+  //   deal: ['123', '987'],
+  // },
+];
+
 function InterestContainer() {
   const navigate = useNavigate();
+
+  /** 스크롤 */
+  const [scrollY, setScrollY] = useState<number>(0);
+
+  /** 스크롤 */
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
 
   /** 집 찾아보기 클릭 */
   const onClickGoMap = () => {
@@ -30,6 +83,25 @@ function InterestContainer() {
   const onClickGoDetail = () => {
     navigate('/detail');
   };
+
+  /** Interest 보여줄지 여부 */
+  const [showInterest, setShowInterest] = useState<boolean>(false);
+
+  /** 스크롤 이벤트 추가 */
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    /** 스크롤 300 이상이면 Interest 보여주기 */
+    if (scrollY >= 300) {
+      setShowInterest(true);
+    }
+  });
 
   // 목록에서 API호출 함수사용
   // const [loading, setLoading] = useState<boolean>(true);
@@ -52,7 +124,7 @@ function InterestContainer() {
   // }
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.container1}>
         <div className={styles.bigbox}>
           <div className={styles.box1}></div>
@@ -100,12 +172,8 @@ function InterestContainer() {
 
         {/* 카드 레이아웃 */}
         <div className={styles.cardlist}>
-          {/* <div className={styles.card}>
-            <div>송삼</div>
-            <div>1억 1000만 ~ 3억 5000만</div>
-            <div>지번: 부산 강서구 송정동 1627-5</div>
-            <div>도로명: 부산광역시 강서구 녹산산단335로 7 (송정동)</div>
-          </div> */}
+          <div className={styles.interest}>{showInterest && <InterestCard interestList={interestList} />}</div>
+          {showInterest && <div className={styles.hr} />}
         </div>
       </div>
     </div>

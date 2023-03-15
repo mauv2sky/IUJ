@@ -1,69 +1,61 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './InterestCard.module.scss';
 
-export interface InterestCardInterface {
+export type InterestType = {
   name: string;
-  address: string;
-  deal: string;
-}
+  address: string[];
+  deal: string[];
+  type: string;
+  id: number;
+};
 
-function InterestCard({ interestList }: { interestList: InterestCardInterface[] }) {
-  const [page, setPage] = useState(1);
-  const pageInterestList = interestList.slice(4 * (page - 1), 4 * page);
-  const [showInterest, setShowInterest] = useState(0);
-  const resultList = pageInterestList.slice(0, showInterest);
+type InterestPropsType = {
+  interestList: InterestType[];
+};
 
-  useEffect(() => {
-    setShowInterest(0);
-
-    const interestInterval = window.setInterval(() => {
-      setShowInterest((prev) => prev + 1);
-    }, 100);
-
-    return () => {
-      clearInterval(interestInterval);
-    };
-  }, [page]);
-
-  const onClickSlideBtn = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const target = e.target as HTMLButtonElement;
-    if (target.name === 'right') {
-      setPage(2);
-    } else {
-      setPage(1);
-    }
-  };
-
-  const onClickInterest = (url: string) => {
-    window.open(url);
+function InterestCard({ interestList }: InterestPropsType) {
+  const onClickInterest = () => {
+    window.open('http://localhost:5173/detail');
   };
 
   return (
     <div className={styles.component}>
-      {page > 1 && (
-        <button name="left" className={styles['left-btn']} onClick={onClickSlideBtn}>
-          {'<'}
-        </button>
-      )}
-      {resultList.map((interest, index) => (
-        <div
-          key={index}
-          className={styles.interest}
-          onClick={() => {
-            onClickInterest(interest.deal);
-          }}
-        >
-          <div className={styles['interest-inner']}>
-            <p className={styles['interest-name']}>{interest.name}</p>
-            <p className={styles['interest-address']}>{interest.address}</p>
-          </div>
+      {interestList.map((interest, index) => (
+        <div key={index} className={styles.interest} onClick={onClickInterest} style={{ visibility: interest ? 'visible' : 'hidden' }}>
+          {interest && (
+            // 여기부터 새로운
+            // <div className={styles['interest-inner']}>
+            //   <div className={styles.box1}>
+            //     <p>{interest.type}</p>
+            //   </div>
+            //   <div className={styles.box2}>
+            //     <div className={styles['interest-name']}>
+            //       <p className={styles.interestname}>{interest.name}</p>
+            //     </div>
+            //     <div className={styles['interest-deal']}>
+            //       <p style={{ whiteSpace: 'pre-wrap' }}>{interest.deal.join(' ~ ')}</p>
+            //     </div>
+            //     <div className={styles['interest-address']} style={{ whiteSpace: 'pre-wrap' }}>
+            //       <p>{`지번 주소: ${interest.address[1]}\n도로명 주소: ${interest.address[0]}`}</p>
+            //     </div>
+            //   </div>
+            // </div>
+            // 여기까지 새로운
+
+            <div className={styles['interest-inner']}>
+              <div className={styles['interest-name']}>
+                <p className={styles.interestname}>{interest.name}</p>
+              </div>
+              <div className={styles['interest-deal']}>
+                <p style={{ whiteSpace: 'pre-wrap' }}>{interest.deal.join(' ~ ')}</p>
+              </div>
+              <div className={styles['interest-address']} style={{ whiteSpace: 'pre-wrap' }}>
+                <p>{`지번 주소: ${interest.address[1]}\n도로명 주소: ${interest.address[0]}`}</p>
+              </div>
+            </div>
+          )}
         </div>
       ))}
-      {page === 1 && (
-        <button name="right" className={styles['right-btn']} onClick={onClickSlideBtn}>
-          {'>'}
-        </button>
-      )}
     </div>
   );
 }
