@@ -14,8 +14,7 @@ type priorityListType = {
 function SetPriority() {
   /** ============================== 변수, useState ============================== */
   const [priorityList, setPrirortyList] = useState<priorityListType[]>([]);
-  const defaultDummyList = [0, 1, 2, 3, 4];
-  const [dummyList, setDummyList] = useState<number[]>(defaultDummyList);
+  const [dummyList, setDummyList] = useState<number[]>([0, 1, 2, 3, 4]);
   const [priorityListForRequest, setPriorityListForRequest] = useState<string[]>([]);
   const schools = {
     title: '학군',
@@ -51,14 +50,6 @@ function SetPriority() {
   const categories = [schools, transports, amenities, securities, cultures];
 
   /** ============================== useEffect ============================== */
-  useEffect(() => {
-    const newDummyList = defaultDummyList.slice(priorityList.length, 5);
-    setDummyList(newDummyList);
-  }, [priorityList]);
-
-  useEffect(() => {
-    console.log(dummyList);
-  }, [dummyList]);
 
   /** ============================== 함수 ============================== */
 
@@ -138,7 +129,10 @@ function SetPriority() {
 
   return (
     <div className={styles.component}>
-      <h1 className={styles.title}>부동산 점수 환산을 위한 우선 순위를 설정해주세요.</h1>
+      <h1 className={styles.title} style={{ margin: '2rem 0 0.5rem 0' }}>
+        부동산 맞춤 추천을 위한
+      </h1>
+      <h1 className={styles.title}>주변 인프라의 선호 순위를 설정해주세요.</h1>
       <div className={styles.graph}>
         <GrRefresh className={styles.refresh} onClick={onClickRefresh} />
         {priorityList.map((graph, index) => (
@@ -149,11 +143,13 @@ function SetPriority() {
             <p>{graph.kind}</p>
           </div>
         ))}
-        {dummyList.map((value) => (
-          <div key={value} className={styles['graph-item']} style={{ height: `calc(90% - ${value * 7}%)` }}>
-            <div style={{ backgroundColor: 'grey', marginBottom: '23.5px' }}></div>
-          </div>
-        ))}
+        {priorityList.length === 0 &&
+          dummyList.map((value) => (
+            <div key={value} className={styles['graph-item']} style={{ height: `calc(90% - ${value * 7}%)` }}>
+              <div style={{ backgroundColor: 'rgb(240, 240, 240)', marginBottom: '23.5px' }}></div>
+            </div>
+          ))}
+        {priorityList.length === 0 && <p className={styles['priority-comment']}>하단의 원하는 인프라를 클릭해 선호 순위를 설정해주세요.</p>}
       </div>
       <div className={styles.priority}>
         {categories.map((category, index) => (
