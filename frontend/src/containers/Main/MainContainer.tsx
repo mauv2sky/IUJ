@@ -57,9 +57,9 @@ function MainContainer() {
   const [showBannerDes2, setShowBannerDes2] = useState<number>(0);
   const [showBannerDes3, setShowBannerDes3] = useState<number>(0);
   /** ======================================================= */
-  const bannerDes1 = 'for happiness and peace';
-  const bannerDes2 = 'in your family';
-  const bannerDes3 = 'look for a house of your taste';
+  const bannerDes1 = 'To bring happiness and peace';
+  const bannerDes2 = 'to your family';
+  const bannerDes3 = 'look for a home that fits your taste';
   const bannerDesList1 = bannerDes1.split('').slice(0, showBannerDes1);
   const bannerDesList2 = bannerDes2.split('').slice(0, showBannerDes2);
   const bannerDesList3 = bannerDes3.split('').slice(0, showBannerDes3);
@@ -175,7 +175,7 @@ function MainContainer() {
       clearInterval(des1Interval);
       des2Interval = window.setInterval(() => {
         setShowBannerDes2((prev) => prev + 1);
-      }, 30);
+      }, 25);
     }
   }, [showBannerDes1]);
 
@@ -190,7 +190,7 @@ function MainContainer() {
       clearInterval(des2Interval);
       des3Interval = window.setInterval(() => {
         setShowBannerDes3((prev) => prev + 1);
-      }, 45);
+      }, 35);
     }
   }, [showBannerDes2, showBannerDes3]);
 

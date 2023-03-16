@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PriorityList from '../PriorityList/PriorityList';
 import SetPriority from '../SetPriority/SetPriority';
 import styles from './MapSidebar.module.scss';
 
@@ -23,6 +24,7 @@ function MapSidebar() {
         </div>
       </div>
       {tabIndex === 0 && <SetPriority />}
+      {tabIndex === 1 && <PriorityList />}
     </div>
   );
 }

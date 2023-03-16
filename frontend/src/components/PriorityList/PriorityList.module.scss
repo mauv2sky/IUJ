@@ -1,0 +1,18 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.component {
+  height: calc(100% - 58.19px);
+  display: flex;
+  align-items: center;
+  color: $ffc;
+
+  .component-inner {
+    height: calc(96%);
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}

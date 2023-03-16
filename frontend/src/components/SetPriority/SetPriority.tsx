@@ -1,11 +1,12 @@
-import React, { useEffect, useState, CSSProperties } from 'react';
+import React, { useState } from 'react';
 import { GrRefresh } from 'react-icons/gr';
 import { FaSchool, FaBus, FaHospitalUser } from 'react-icons/fa';
 import { MdSecurity, MdMovie } from 'react-icons/md';
-import { AiFillSave, AiFillCloseCircle } from 'react-icons/ai';
+import { AiFillSave } from 'react-icons/ai';
+import { customAlert } from '../../utils/CustomAlert';
 import styles from './SetPriority.module.scss';
 
-type priorityListType = {
+type priorityType = {
   kind: string;
   color: string;
   icon: React.ReactNode;
@@ -13,9 +14,9 @@ type priorityListType = {
 
 function SetPriority() {
   /** ============================== 변수, useState ============================== */
-  const [priorityList, setPrirortyList] = useState<priorityListType[]>([]);
-  const [dummyList, setDummyList] = useState<number[]>([0, 1, 2, 3, 4]);
-  const [priorityListForRequest, setPriorityListForRequest] = useState<string[]>([]);
+  const [priority, setPrirorty] = useState<priorityType[]>([]);
+  const dummyPriority = [0, 1, 2, 3, 4];
+  const [priorityForRequest, setPriorityForRequest] = useState<string[]>([]);
   const schools = {
     title: '학군',
     kind: ['어린이집', '유치원', '초등학교', '중학교', '고등학교', '특수학교', '입시학원', '예체능학원'],
@@ -29,7 +30,7 @@ function SetPriority() {
     color: '#dc9e00',
   };
   const amenities = {
-    title: '편의 시설',
+    title: '편의',
     kind: ['병원', '마트', '편의점'],
     icon: <FaHospitalUser />,
     color: '#6aae45',
@@ -54,7 +55,7 @@ function SetPriority() {
   /** ============================== 함수 ============================== */
 
   /** 우선 순위 리스트를 요청용으로 전처리하기 위한 함수 */
-  const pretreat = (list: priorityListType[]) => {
+  const pretreat = (list: priorityType[]) => {
     const listForRequest = list.map((priority) => {
       return priority.kind;
     });
@@ -64,31 +65,31 @@ function SetPriority() {
 
   /** 우선 순위 삭제 */
   const deletePriority = (kind: string) => {
-    for (let i = 0; i < priorityList.length; i++) {
-      if (priorityList[i].kind === kind) {
-        const newPriorityList = priorityList.filter((priority) => {
+    for (let i = 0; i < priority.length; i++) {
+      if (priority[i].kind === kind) {
+        const newPriorityList = priority.filter((priority) => {
           return priority.kind !== kind;
         });
 
-        setPrirortyList(newPriorityList);
+        setPrirorty(newPriorityList);
 
         return;
       }
     }
   };
 
-  /** ============================== handleOnEvent ============================== */
+  /** ============================== event handler ============================== */
 
   /** 카테고리 아이템 클릭 시 */
   const onClickKind = (kind: string, color: string, icon: React.ReactNode) => {
     /** 클릭한 카테고리가 이미 우선 순위 리스트에 포함되어 있는 경우 */
-    for (let i = 0; i < priorityList.length; i++) {
-      if (priorityList[i].kind === kind) {
-        const newPriorityList = priorityList.filter((priority) => {
+    for (let i = 0; i < priority.length; i++) {
+      if (priority[i].kind === kind) {
+        const newPriorityList = priority.filter((priority) => {
           return priority.kind !== kind;
         });
 
-        setPrirortyList(newPriorityList);
+        setPrirorty(newPriorityList);
 
         return;
       }
@@ -96,18 +97,18 @@ function SetPriority() {
 
     /** 포함되어 있지 않은 경우 */
     /** 5개가 다 찼으면 더 이상 추가되지 않는다. */
-    if (priorityList.length == 5) {
+    if (priority.length == 5) {
       return;
     }
 
     /** 리스트에 추가 */
-    setPrirortyList((prev) => [...prev, { kind, color, icon }]);
-    setPriorityListForRequest((prev) => [...prev, kind]);
+    setPrirorty((prev) => [...prev, { kind, color, icon }]);
+    setPriorityForRequest((prev) => [...prev, kind]);
   };
 
   /** 우선 순위 초기화 */
   const onClickRefresh = () => {
-    setPrirortyList([]);
+    setPrirorty([]);
   };
 
   /** 우선 순위 삭제 */
@@ -117,14 +118,22 @@ function SetPriority() {
 
   /** 선호 순위 저장하기 버튼 클릭 시 */
   const onClickSave = () => {
-    setPriorityListForRequest(pretreat(priorityList));
-    console.log(priorityListForRequest, '로 선호 순위 저장 요청');
+    if (priority.length === 0) {
+      customAlert('선호 순위를 설정해주세요.');
+      return;
+    }
+    setPriorityForRequest(pretreat(priority));
+    console.log(priorityForRequest, '로 선호 순위 저장 요청');
   };
 
   /** 선호 순위 적용 버튼 클릭 시 */
   const onClickApply = () => {
-    setPriorityListForRequest(pretreat(priorityList));
-    console.log(priorityListForRequest, '로 선호 순위 적용 요청');
+    if (priority.length === 0) {
+      customAlert('선호 순위를 설정해주세요.');
+      return;
+    }
+    setPriorityForRequest(pretreat(priority));
+    console.log(priorityForRequest, '로 선호 순위 적용 요청');
   };
 
   return (
@@ -135,7 +144,7 @@ function SetPriority() {
       <h1 className={styles.title}>주변 인프라의 선호 순위를 설정해주세요.</h1>
       <div className={styles.graph}>
         <GrRefresh className={styles.refresh} onClick={onClickRefresh} />
-        {priorityList.map((graph, index) => (
+        {priority.map((graph, index) => (
           <div key={graph.kind} className={styles['graph-item']} style={{ height: `calc(90% - ${index * 7}%)` }}>
             <div style={{ backgroundColor: graph.color }} onClick={() => onClickDelete(graph.kind)}>
               <div style={{ color: graph.color }}>{graph.icon}</div>
@@ -143,13 +152,13 @@ function SetPriority() {
             <p>{graph.kind}</p>
           </div>
         ))}
-        {priorityList.length === 0 &&
-          dummyList.map((value) => (
+        {priority.length === 0 &&
+          dummyPriority.map((value) => (
             <div key={value} className={styles['graph-item']} style={{ height: `calc(90% - ${value * 7}%)` }}>
               <div style={{ backgroundColor: 'rgb(240, 240, 240)', marginBottom: '23.5px' }}></div>
             </div>
           ))}
-        {priorityList.length === 0 && <p className={styles['priority-comment']}>하단의 원하는 인프라를 클릭해 선호 순위를 설정해주세요.</p>}
+        {priority.length === 0 && <p className={styles['priority-comment']}>하단의 원하는 인프라를 클릭해 선호 순위를 설정해주세요.</p>}
       </div>
       <div className={styles.priority}>
         {categories.map((category, index) => (
