@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PriorityList from '../PriorityList/PriorityList';
+import RealEstateList from '../RealEstateList/RealEstateList';
 import SetPriority from '../SetPriority/SetPriority';
 import styles from './MapSidebar.module.scss';
 
@@ -25,6 +26,7 @@ function MapSidebar() {
       </div>
       {tabIndex === 0 && <SetPriority />}
       {tabIndex === 1 && <PriorityList />}
+      {tabIndex === 2 && <RealEstateList />}
     </div>
   );
 }
