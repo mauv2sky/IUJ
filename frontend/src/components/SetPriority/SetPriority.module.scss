@@ -5,8 +5,7 @@
   color: $ffc;
 
   .title {
-    margin: 1rem 0 0 0;
-    padding: 1rem;
+    padding: 0 1rem;
     font-size: 22px;
     text-align: center;
   }
@@ -14,7 +13,7 @@
   .graph {
     position: relative;
     margin: 2rem auto 0 auto;
-    width: 90%;
+    width: 85%;
     height: 200px;
     display: flex;
     justify-content: center;
@@ -22,7 +21,7 @@
 
     .graph-item {
       position: relative;
-      margin: 0 1rem 0 0;
+      margin: 0 0.5rem 0 0.5rem;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -30,6 +29,7 @@
 
       &:hover {
         cursor: pointer;
+        opacity: 0.5;
       }
 
       & > div {
@@ -43,6 +43,17 @@
         height: 100%;
         width: 55px;
         animation: grow 1s ease-in-out;
+
+        @keyframes grow {
+          0% {
+            opacity: 0;
+            height: 0%;
+          }
+          100% {
+            opacity: 1;
+            height: 100%;
+          }
+        }
 
         & > div {
           width: 37px;
@@ -70,14 +81,33 @@
         opacity: 0.5;
       }
     }
+
+    .priority-comment {
+      position: absolute;
+      top: 60%;
+      font-size: 14px;
+      animation: twinkle 2s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
   }
 
   .priority {
-    margin: 3rem auto 0 auto;
+    margin: 1rem auto 0 auto;
     width: 90%;
 
     .priority-item {
-      margin: 2rem 0 0 0;
+      margin: 1.2rem 0 0 1.5rem;
       display: flex;
 
       & * {
@@ -91,10 +121,11 @@
         border-right: 2px solid $lfc;
 
         .priority-category-title {
+          margin: 0.2rem 0 0 0;
           display: flex;
 
           .priority-category-title-text {
-            margin-right: 0.5rem;
+            margin-right: 0.3rem;
             width: 20px;
           }
 
@@ -106,8 +137,13 @@
       }
 
       .priority-category-content {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+
         .priority-category-item {
-          margin: 0 1rem 0 0;
+          display: inline-block;
+          margin: 0.2rem 1rem 0.2rem 0;
           font-size: 18px;
 
           &:hover {
@@ -120,11 +156,11 @@
   }
 
   .button-div {
-    margin: 3.5rem 0 0 0;
+    margin: 2.7rem 0 0 0;
     text-align: center;
 
     & p {
-      margin: 1.5rem auto;
+      margin: 1rem auto;
       display: flex;
       justify-content: center;
 
@@ -159,19 +195,7 @@
         cursor: pointer;
         border: 1px solid $tc;
         color: $tc;
-        transition: all 0.2s;
       }
     }
-  }
-}
-
-@keyframes grow {
-  0% {
-    opacity: 0;
-    height: 0%;
-  }
-  100% {
-    opacity: 1;
-    height: 100%;
   }
 }
