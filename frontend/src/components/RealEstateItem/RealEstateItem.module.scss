@@ -2,5 +2,130 @@
 @import '../../styles/variable.scss';
 
 .component {
-  margin: 1rem 0 0 0;
+  padding: 1rem 0;
+  width: 100%;
+  border-bottom: 1px solid $lfc;
+  color: $ffc;
+  transition: background-color 0.2s ease-in-out;
+
+  .name {
+    margin: 0.5rem 0 0 15px;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .component-inner {
+    margin: 12px 0 0 15px;
+    display: flex;
+    align-items: center;
+
+    .left {
+      width: 235px;
+      margin: 0 15px 0 0;
+
+      .img {
+        position: relative;
+        width: 235px;
+        height: 149px;
+        border-radius: 5px;
+        background-position: center;
+        background-size: 235px 149px;
+        transition: background-size 0.2s ease-in-out;
+      }
+
+      .type {
+        position: absolute;
+        right: 10px;
+        margin: 12px 0 0 0;
+
+        & span {
+          padding: 2px 5px;
+          background-color: rgba(255, 148, 148, 0.55);
+          color: white;
+          border-radius: 5px;
+
+          &:hover {
+            background-color: $sc;
+          }
+        }
+      }
+    }
+
+    .content {
+      width: 234px;
+      display: flex;
+      flex-direction: column;
+
+      .price {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .extent {
+        margin: 12px 0 0 0;
+        font-size: 16px;
+      }
+
+      .floor {
+        margin: 3px 0 0 0;
+        font-size: 16px;
+      }
+
+      .address {
+        margin: 12px 0 0 0;
+        font-size: 18px;
+      }
+
+      .score {
+        margin: 20px 0 0 0;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+
+        & div {
+          margin: 0 0 0 1rem;
+          min-width: 70px;
+        }
+
+        & span {
+          color: $ffc;
+        }
+
+        & svg {
+          font-size: 30px;
+          // margin-left: 5px;
+          color: rgb(200, 200, 200);
+
+          &:hover {
+            color: rgb(150, 150, 150);
+            animation: shake 1s infinite ease-in-out;
+          }
+
+          @keyframes shake {
+            0% {
+              transform: rotate(0deg);
+            }
+            20% {
+              transform: rotate(10deg);
+            }
+            60% {
+              transform: rotate(-10deg);
+            }
+            100% {
+              transform: rotate(0deg);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(255, 250.5, 250.5);
+
+    .component-inner .img {
+      background-size: 255px 161px;
+    }
+  }
 }

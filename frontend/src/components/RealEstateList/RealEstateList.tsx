@@ -9,7 +9,7 @@ function RealEstateList() {
         name: '명지 더 웨스턴',
         type: '아파트',
         address: ['', '부산시 강서구 명지동 3399'],
-        total_score: 87.56,
+        total_score: 82.56,
         score: {
           병원: 70,
           초등학교: 50,
@@ -17,14 +17,22 @@ function RealEstateList() {
           공원: 90,
           정류장: 60,
         },
+        average_deal: {
+          deal_type: '전세',
+          price: 0,
+          guarantee: 35000,
+          monthly: 0,
+        },
+        range_extent: [52.56, 84.61],
+        range_floor: [1, 21],
       },
     },
     {
       place: {
-        name: '명지 더 웨스턴',
+        name: '명지 퀸덤 1차 에디슨타운 아파트',
         type: '아파트',
-        address: ['', '부산시 강서구 명지동 3399'],
-        total_score: 87.56,
+        address: ['', '부산시 강서구 명지동 3230'],
+        total_score: 93.56,
         score: {
           병원: 70,
           초등학교: 50,
@@ -32,14 +40,22 @@ function RealEstateList() {
           공원: 90,
           정류장: 60,
         },
+        average_deal: {
+          deal_type: '월세',
+          price: 0,
+          guarantee: 20000,
+          monthly: 50,
+        },
+        range_extent: [52.56, 84.61],
+        range_floor: [1, 21],
       },
     },
     {
       place: {
-        name: '명지 더 웨스턴',
+        name: 'e편한세상 명지',
         type: '아파트',
-        address: ['', '부산시 강서구 명지동 3399'],
-        total_score: 87.56,
+        address: ['', '부산시 강서구 명지동 3230'],
+        total_score: 50.56,
         score: {
           병원: 70,
           초등학교: 50,
@@ -47,6 +63,14 @@ function RealEstateList() {
           공원: 90,
           정류장: 60,
         },
+        average_deal: {
+          deal_type: '매매',
+          price: 55000,
+          guarantee: 0,
+          monthly: 0,
+        },
+        range_extent: [52.56, 84.61],
+        range_floor: [1, 21],
       },
     },
   ];
