@@ -8,6 +8,7 @@ COPY . .
 RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
+# nginx 이미지 = nginx:stable-alpine >> 만들어서 대체
 # COPY --from=build-stage /var/jenkins_home/workspace/deploy_iuj/frontend/dist /usr/share/nginx/html
 COPY --from=build-stage dist /usr/share/nginx/html
 # COPY --from=build-stage src/main.tsx /usr/share/nginx/html/assets/src  이거 아님
