@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CountUp from 'react-countup';
 import { RiQuestionnaireFill } from 'react-icons/ri';
 import test from '../../assets/test.jpg';
@@ -29,6 +29,8 @@ type RealEstatePropsType = {
 };
 
 function RealEstateItem({ RE }: RealEstatePropsType) {
+  const [showDes, setShowDes] = useState<boolean>(false);
+
   const pretreatAmount = (amount: number) => {
     if (amount > 10000 && amount % 10000) {
       const tmp = amount.toString();
@@ -80,10 +82,15 @@ function RealEstateItem({ RE }: RealEstatePropsType) {
                 <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." style={{ color: 'rgba(255, 148, 148, 1)', fontWeight: '600' }} />
               )}
             </div>
-            <RiQuestionnaireFill />
+            <RiQuestionnaireFill
+              onClick={() => {
+                setShowDes(!showDes);
+              }}
+            />
           </p>
         </div>
       </div>
+      <div className={showDes ? styles['des-show-false'] : styles['des-show-true']}></div>
     </div>
   );
 }
