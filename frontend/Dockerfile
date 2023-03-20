@@ -1,9 +1,10 @@
 FROM node:16.15.0 as build-stage
 # WORKDIR /var/jenkins_home/workspace/deploy_iuj/frontend
+WORKDIR /app
 # COPY file path
-COPY package*.json /app/
+COPY package*.json .
 RUN npm install
-COPY . /app/
+COPY . .
 RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
