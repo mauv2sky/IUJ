@@ -1,0 +1,139 @@
+@import '../../styles//reset.scss';
+@import '../../styles/variable.scss';
+
+.container1 {
+  width: 100%;
+  height: 960px;
+  font-family: 'SUIT-Regular';
+  background-color: rgba(23, 23, 23);
+}
+.bigbox {
+  padding-top: 80px;
+  width: 100%;
+  height: 640px;
+  background-color: rgba(23, 23, 23);
+  border-bottom: 1px solid $ffc;
+  color: white;
+  font-family: 'SUIT-Regular';
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+}
+.container2 {
+  padding-top: 80px;
+  width: 1600px;
+  font-family: 'SUIT-Regular';
+  // border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.box1 {
+  float: left;
+  height: 100%;
+  border-right: 1px solid $ffc;
+  border-top: 1px solid $ffc;
+  color: $ffc;
+}
+.box2 {
+  height: 100%;
+  float: left;
+  color: $ffc;
+  border-right: 1px solid $ffc;
+}
+.box2_1 {
+  width: 100%;
+  height: 50%;
+  border-bottom: 1px solid $ffc;
+  border-top: 1px solid $ffc;
+  color: $ffc;
+}
+.box2_2 {
+  width: 100%;
+  height: 50%;
+  float: left;
+  color: $ffc;
+  font-size: 70px;
+  font-weight: 700;
+  color: white;
+  vertical-align: bottom;
+}
+.box3 {
+  height: 100%;
+  float: left;
+  border-right: 1px solid $ffc;
+  border-top: 1px solid $ffc;
+  border-bottom-right-radius: 50% 50%;
+  color: $ffc;
+}
+.box3_1 {
+  width: 50%;
+  height: 50%;
+  border: 1px solid $ffc;
+  border-radius: 50%;
+  color: $ffc;
+}
+.box4 {
+  height: 100%;
+  float: left;
+  border-right: 1px solid $ffc;
+  border-top: 1px solid $ffc;
+  color: $ffc;
+}
+.box5 {
+  height: 100%;
+  float: left;
+  border-right: 1px solid $ffc;
+  border-top: 1px solid $ffc;
+  color: $ffc;
+}
+.introduce {
+  float: left;
+  color: white;
+  margin-top: 20px;
+  margin-left: 325px;
+  font-size: xx-large;
+  font-weight: 700;
+}
+
+.btn-div {
+  min-height: 80px;
+  float: right;
+
+  & button {
+    width: 130px;
+    margin-top: 30px;
+    float: left;
+    margin-right: 325px;
+    padding: 13px 0;
+    border: 1px solid white;
+    border-radius: 50px;
+    background-color: inherit;
+    font-size: 18px;
+    color: white;
+    animation: fade-in 1s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      border: 1px solid $tc;
+      color: $tc;
+      transition: all 0.2s;
+    }
+  }
+}
+
+.title {
+  margin-top: 20px;
+  margin-left: 325px;
+  font-size: xx-large;
+  font-weight: 700;
+  color: rgba(23, 23, 23);
+}
+.cardlist {
+  margin-left: 325px;
+  margin-top: 0px;
+  margin-right: 325px;
+  // justify-content: space-between;
+}
+
+.card {
+  width: 420px;
+  height: 280px;
+  border: 1px solid $ffc;
+}

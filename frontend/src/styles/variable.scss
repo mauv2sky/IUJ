@@ -1,0 +1,18 @@
+@import './reset.scss';
+
+@font-face {
+  font-family: 'SUIT-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'SUIT-Regular' !important;
+}
+
+$fc: rgba(255, 227, 225, 1);
+$sc: rgba(255, 209, 209, 1);
+$tc: rgba(255, 148, 148, 1);
+$ffc: rgba(70, 70, 70, 1);
+$lfc: rgb(200, 200, 200);
