@@ -7,4 +7,6 @@
   flex-direction: column;
   align-items: center;
   color: $ffc;
+  overflow-y: scroll;
+  // overflow-x: hidden;
 }
