@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CountUp from 'react-countup';
 import { RiQuestionnaireFill } from 'react-icons/ri';
 import test from '../../assets/test.jpg';
@@ -11,7 +11,7 @@ export type RealEstateType = {
     address: string[];
     total_score: number;
     score: {
-      [kind: string]: number;
+      [kind: string]: number | undefined;
     };
     average_deal: {
       deal_type: string;
@@ -29,6 +29,8 @@ type RealEstatePropsType = {
 };
 
 function RealEstateItem({ RE }: RealEstatePropsType) {
+  const [showGraph, setShowGraph] = useState<boolean>(false);
+
   const pretreatAmount = (amount: number) => {
     if (amount > 10000 && amount % 10000) {
       const tmp = amount.toString();
@@ -69,7 +71,7 @@ function RealEstateItem({ RE }: RealEstatePropsType) {
           <p className={styles.floor}>
             층수: {RE.place.range_floor[0]} ~ {RE.place.range_floor[1]}
           </p>
-          <p className={styles.score}>
+          <div className={styles.score}>
             <span>추천 점수: </span>
             <div>
               {RE.place.total_score < 70 && <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." />}
@@ -80,8 +82,22 @@ function RealEstateItem({ RE }: RealEstatePropsType) {
                 <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." style={{ color: 'rgba(255, 148, 148, 1)', fontWeight: '600' }} />
               )}
             </div>
-            <RiQuestionnaireFill />
-          </p>
+            <RiQuestionnaireFill
+              onClick={() => {
+                setShowGraph(!showGraph);
+              }}
+            />
+          </div>
+        </div>
+      </div>
+      <div className={showGraph ? styles['graph-show'] : styles['graph-no-show']}>
+        <div className={styles['graph-inner']}>
+          {Object.entries(RE.place.score).map((data) => (
+            <div className={styles['graph-item']} style={{ height: `${data[1]}%` }}>
+              <p className={styles['graph-item-kind']}>{data[0]}</p>
+              <div className={styles['graph-item-stick']} />
+            </div>
+          ))}
         </div>
       </div>
     </div>
