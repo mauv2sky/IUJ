@@ -31,7 +31,7 @@
         border-radius: 5px;
         background-position: center;
         background-size: 235px 149px;
-        transition: background-size 0.2s ease-in-out;
+        transition: background-size 0.3s ease-in-out;
       }
 
       .type {
@@ -99,23 +99,23 @@
           &:hover {
             color: rgb(150, 150, 150);
             animation: shake 1s infinite ease-in-out;
+
+            @keyframes shake {
+              0% {
+                transform: rotate(0deg);
+              }
+              20% {
+                transform: rotate(10deg);
+              }
+              60% {
+                transform: rotate(-10deg);
+              }
+              100% {
+                transform: rotate(0deg);
+              }
+            }
             .score-des {
               display: flex;
-            }
-          }
-
-          @keyframes shake {
-            0% {
-              transform: rotate(0deg);
-            }
-            20% {
-              transform: rotate(10deg);
-            }
-            60% {
-              transform: rotate(-10deg);
-            }
-            100% {
-              transform: rotate(0deg);
             }
           }
         }
@@ -128,31 +128,90 @@
     background-color: rgba(255, 250.5, 250.5);
 
     .component-inner .img {
-      background-size: 255px 161px;
+      background-size: 271px 171px;
     }
   }
 
-  .des-show-false {
+  .graph-no-show {
+    position: absolute;
     display: none;
   }
 
-  .des-show-true {
+  .graph-show {
+    position: absolute;
     z-index: 100;
     top: 0;
     left: 100%;
-    position: absolute;
     width: 100%;
     height: 100%;
     animation: spread 0.5s ease-in-out;
     background-color: rgba(0, 0, 0, 0.5);
-  }
 
-  @keyframes spread {
-    from {
-      width: 0%;
+    @keyframes spread {
+      from {
+        width: 0%;
+      }
+      to {
+        width: 100%;
+      }
     }
-    to {
-      width: 100%;
+
+    .graph-inner {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      width: 90%;
+      height: 80%;
+      margin: 2rem auto 0 auto;
+      border-bottom: 1px solid rgba(211, 211, 211, 0.6);
+
+      .graph-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        margin: 0 1rem;
+
+        .graph-item-kind {
+          color: white;
+          margin: 0 0 0.5rem 0;
+          animation: fade-in 4s ease-in-out;
+
+          @keyframes fade-in {
+            0% {
+              opacity: 0;
+            }
+            20% {
+              opacity: 0;
+            }
+            25% {
+              opacity: 1;
+            }
+          }
+        }
+
+        .graph-item-stick {
+          width: 45px;
+          height: 100%;
+          background-color: $fc;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          animation: grow 2s ease-in-out;
+
+          @keyframes grow {
+            0% {
+              height: 0;
+            }
+            20% {
+              height: 0;
+            }
+            40% {
+              height: 100%;
+            }
+          }
+        }
+      }
     }
   }
 }

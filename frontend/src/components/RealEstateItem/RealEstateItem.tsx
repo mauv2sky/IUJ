@@ -11,7 +11,7 @@ export type RealEstateType = {
     address: string[];
     total_score: number;
     score: {
-      [kind: string]: number;
+      [kind: string]: number | undefined;
     };
     average_deal: {
       deal_type: string;
@@ -71,7 +71,7 @@ function RealEstateItem({ RE }: RealEstatePropsType) {
           <p className={styles.floor}>
             층수: {RE.place.range_floor[0]} ~ {RE.place.range_floor[1]}
           </p>
-          <p className={styles.score}>
+          <div className={styles.score}>
             <span>추천 점수: </span>
             <div>
               {RE.place.total_score < 70 && <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." />}
@@ -87,10 +87,19 @@ function RealEstateItem({ RE }: RealEstatePropsType) {
                 setShowDes(!showDes);
               }}
             />
-          </p>
+          </div>
         </div>
       </div>
-      <div className={showDes ? styles['des-show-false'] : styles['des-show-true']}></div>
+      <div className={showDes ? styles['graph-show'] : styles['graph-no-show']}>
+        <div className={styles['graph-inner']}>
+          {Object.entries(RE.place.score).map((data) => (
+            <div className={styles['graph-item']} style={{ height: `${data[1]}%` }}>
+              <p className={styles['graph-item-kind']}>{data[0]}</p>
+              <div className={styles['graph-item-stick']} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
