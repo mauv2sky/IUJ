@@ -139,7 +139,7 @@
 
   .graph-show {
     position: absolute;
-    z-index: 100;
+    z-index: 1000;
     top: 0;
     left: 100%;
     width: 100%;
@@ -166,7 +166,6 @@
       border-bottom: 1px solid rgba(211, 211, 211, 0.6);
 
       .graph-item {
-        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;

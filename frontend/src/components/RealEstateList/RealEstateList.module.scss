@@ -2,11 +2,9 @@
 @import '../../styles/variable.scss';
 
 .component {
-  height: calc(100% - 58.19px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  max-width: 500px;
+  max-height: calc(100% - 58.19px);
   color: $ffc;
+  overflow-x: visible;
   overflow-y: scroll;
-  // overflow-x: hidden;
 }
