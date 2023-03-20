@@ -29,7 +29,7 @@ type RealEstatePropsType = {
 };
 
 function RealEstateItem({ RE }: RealEstatePropsType) {
-  const [showDes, setShowDes] = useState<boolean>(false);
+  const [showGraph, setShowGraph] = useState<boolean>(false);
 
   const pretreatAmount = (amount: number) => {
     if (amount > 10000 && amount % 10000) {
@@ -84,13 +84,13 @@ function RealEstateItem({ RE }: RealEstatePropsType) {
             </div>
             <RiQuestionnaireFill
               onClick={() => {
-                setShowDes(!showDes);
+                setShowGraph(!showGraph);
               }}
             />
           </div>
         </div>
       </div>
-      <div className={showDes ? styles['graph-show'] : styles['graph-no-show']}>
+      <div className={showGraph ? styles['graph-show'] : styles['graph-no-show']}>
         <div className={styles['graph-inner']}>
           {Object.entries(RE.place.score).map((data) => (
             <div className={styles['graph-item']} style={{ height: `${data[1]}%` }}>
