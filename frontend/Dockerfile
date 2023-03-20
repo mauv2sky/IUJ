@@ -1,6 +1,6 @@
 FROM node:16.15.0 as build-stage
 WORKDIR /var/jenkins_home/workspace/deploy_iuj/frontend
-COPY package*.json ./app
+COPY package*.json ./app/
 RUN npm install
 COPY . ./app
 RUN npm run build
