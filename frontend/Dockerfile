@@ -11,5 +11,5 @@ FROM nginx:stable-alpine as production-stage
 # COPY --from=build-stage /var/jenkins_home/workspace/deploy_iuj/frontend/dist /usr/share/nginx/html
 COPY --from=build-stage dist /usr/share/nginx/html
 #COPY --from=build-stage /var/jenkins_home/workspace/deploy_iuj/frontend/deploy_conf/nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
+EXPOSE 8080
 CMD ["nginx", "-g","daemon off;"]
