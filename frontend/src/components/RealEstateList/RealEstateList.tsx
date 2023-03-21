@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import RealEstateItem, { RealEstateType } from '../RealEstateItem/RealEstateItem';
 import styles from './RealEstateList.module.scss';
 
 function RealEstateList() {
+  const [scrollY, setScrollY] = useState(0);
   const tmpRElist = [
     {
       place: {
+        id: 1,
         name: '명지 더 웨스턴',
         type: '아파트',
         address: ['', '부산시 강서구 명지동 3399'],
@@ -29,6 +31,7 @@ function RealEstateList() {
     },
     {
       place: {
+        id: 2,
         name: '명지 퀸덤 1차 에디슨타운 아파트',
         type: '아파트',
         address: ['', '부산시 강서구 명지동 3230'],
@@ -52,6 +55,7 @@ function RealEstateList() {
     },
     {
       place: {
+        id: 3,
         name: 'e편한세상 명지',
         type: '아파트',
         address: ['', '부산시 강서구 명지동 3230'],
@@ -75,6 +79,7 @@ function RealEstateList() {
     },
     {
       place: {
+        id: 4,
         name: '명지 더 웨스턴',
         type: '아파트',
         address: ['', '부산시 강서구 명지동 3399'],
@@ -98,6 +103,7 @@ function RealEstateList() {
     },
     {
       place: {
+        id: 5,
         name: '명지 퀸덤 1차 에디슨타운 아파트',
         type: '아파트',
         address: ['', '부산시 강서구 명지동 3230'],
@@ -121,6 +127,7 @@ function RealEstateList() {
     },
     {
       place: {
+        id: 6,
         name: 'e편한세상 명지',
         type: '아파트',
         address: ['', '부산시 강서구 명지동 3230'],
@@ -144,10 +151,16 @@ function RealEstateList() {
     },
   ];
 
+  const onScrollREList = (e: React.UIEvent) => {
+    const target = e.target as Element;
+
+    setScrollY(target.scrollTop);
+  };
+
   return (
-    <div className={styles.component}>
+    <div className={styles.component} onScroll={onScrollREList}>
       {tmpRElist.map((RE, index) => (
-        <RealEstateItem key={index} RE={RE} />
+        <RealEstateItem key={index} RE={RE} scrollY={scrollY} />
       ))}
     </div>
   );
