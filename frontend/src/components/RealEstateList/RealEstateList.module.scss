@@ -5,6 +5,14 @@
   max-width: 500px;
   max-height: calc(100% - 58.19px);
   color: $ffc;
-  overflow-x: visible;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(235, 235, 235);
+    border-radius: 5px;
+  }
 }
