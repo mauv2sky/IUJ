@@ -5,23 +5,27 @@ import com.iuj.backend.api.domain.enums.BuildingType;
 import com.iuj.backend.api.domain.enums.DealType;
 import com.iuj.backend.api.domain.enums.Recomm;
 import io.swagger.annotations.ApiParam;
+import lombok.Data;
 
-public class MapRequest {
+import java.util.List;
+
+@Data
+public class PlaceMainRequest {
     @ApiParam(value = "건물 타입", required = true)
-    BuildingType type;
+    private BuildingType type;
 
     @ApiParam(value = "거래 종류", required = true)
-    DealType deal_type;
+    private DealType deal_type;
 
     @ApiParam(value = "좌하, 우상의 위경도 좌표 정보, sw: [lat, lng], ne:[..]", required = true)
-    BoundDto bound;
+    private BoundDto bound;
 
     @ApiParam(value = "지도 레벨 (1~14)", required = true)
-    int level;
+    private int level;
 
     @ApiParam(value = "기본 필터 (가격, 넗이, 층수)")
-    BasicFilter filter;
+    private BasicFilter filter;
 
     @ApiParam(value = "선호 필터", required = true)
-    Recomm[] recomm;
+    private List<Recomm> recomm;
 }

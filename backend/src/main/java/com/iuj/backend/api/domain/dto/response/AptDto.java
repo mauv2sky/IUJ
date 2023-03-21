@@ -1,5 +1,6 @@
 package com.iuj.backend.api.domain.dto.response;
 
+import com.iuj.backend.api.domain.entity.Location;
 import com.iuj.backend.api.domain.entity.building.Apt;
 import lombok.*;
 
@@ -8,7 +9,7 @@ import javax.persistence.Id;
 
 @Getter
 @Setter
-public class AptDto extends LocationDto{
+public class AptDto extends Location {
     private Long id;
 
     private String sigungu;
