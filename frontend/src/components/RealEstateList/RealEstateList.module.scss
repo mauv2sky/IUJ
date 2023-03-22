@@ -8,6 +8,7 @@
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
+    display: inline;
     width: 10px;
   }
 

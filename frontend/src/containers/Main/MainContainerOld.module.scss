@@ -1,0 +1,231 @@
+@import '../../styles//reset.scss';
+@import '../../styles/variable.scss';
+
+.container {
+  width: 100%;
+  min-height: 250vh;
+  height: 100%;
+  background-color: white;
+  color: $ffc;
+
+  .banner {
+    height: 700px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid $lfc;
+    overflow: hidden;
+    background-image: url('../../assets/banner.png');
+
+    .banner-content {
+      width: 75%;
+      height: 80%;
+      display: flex;
+
+      .banner-content-left {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 60%;
+
+        .tmp-logo {
+          font-size: 200px;
+          z-index: 1;
+          text-shadow: 0 0 200px white;
+          color: white;
+
+          & span {
+            animation: text-fade-in 0.5s ease-in-out;
+          }
+        }
+
+        .banner-frame {
+          position: absolute;
+          left: 20%;
+          overflow: hidden;
+          animation: spread 1.5s ease-in-out;
+
+          .banner-mp4 {
+            width: 650px;
+            height: 500px;
+            opacity: 0.7;
+            object-fit: cover;
+            background-image: cover;
+            border-bottom-right-radius: 160px;
+            animation: img-fade-in 1.5s ease-in-out;
+          }
+        }
+      }
+
+      .banner-content-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 40%;
+
+        .banner-des-div {
+          min-height: 170px;
+
+          .banner-des {
+            margin-bottom: 1rem;
+            font-size: 35px;
+            color: white;
+
+            & span {
+              animation: text-fade-in 0.5s ease-in-out;
+            }
+          }
+        }
+
+        .btn-div {
+          min-height: 80px;
+
+          .find-btn {
+            width: 130px;
+            margin-top: 30px;
+            padding: 13px 0;
+            border: 1px solid white;
+            border-radius: 50px;
+            background-color: inherit;
+            font-size: 18px;
+            color: white;
+            animation: fade-in 1s ease-in-out;
+
+            &:hover {
+              cursor: pointer;
+              border: 1px solid $tc;
+              color: $tc;
+              transition: all 0.2s;
+            }
+          }
+        }
+      }
+    }
+
+    .circle {
+      box-sizing: border-box;
+      position: absolute;
+      width: 550px;
+      height: 550px;
+      left: -230px;
+      top: -230px;
+      border-radius: 100%;
+      border: 1px solid $lfc;
+    }
+
+    .diag {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      right: -350px;
+      bottom: -350px;
+      border: 1px solid $lfc;
+      transform: rotate(-45deg);
+    }
+
+    .square {
+      position: absolute;
+      width: 100px;
+      height: 200px;
+      right: 0;
+      bottom: 0;
+      border-top: 1px solid $lfc;
+      border-left: 1px solid $lfc;
+    }
+  }
+
+  .notice {
+    width: 85%;
+    margin: 4rem auto 2rem auto;
+
+    .notice-title {
+      font-size: 60px;
+    }
+  }
+
+  .hr {
+    border-bottom: 1px solid $lfc;
+  }
+
+  .service {
+    width: 85%;
+    margin: 4rem auto 2rem auto;
+
+    .service-title {
+      font-size: 60px;
+    }
+
+    .service-content {
+      display: flex;
+      flex-direction: column;
+
+      .service-content-item {
+        position: relative;
+        margin-top: 4rem;
+        display: flex;
+        animation: fade-in 1s ease-in-out;
+
+        .service-content-item-img {
+          width: 40%;
+          height: 400px;
+          border-radius: 5px;
+          transition: all 0.5s ease-in-out;
+        }
+
+        .service-content-item-des {
+          width: 60%;
+          padding: 2rem;
+
+          .service-content-item-des-title {
+            transition: all 0.3s;
+          }
+
+          .service-content-item-des-content {
+            margin-top: 20px;
+            line-height: 2.5rem;
+            transition: font-size 0.3s;
+          }
+        }
+      }
+    }
+  }
+}
+
+@keyframes text-fade-in {
+  from {
+    margin: 0 0 0 -2px;
+    opacity: 0;
+  }
+  to {
+    margin: 0 0 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes img-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes spread {
+  0% {
+    width: 0px;
+  }
+  100% {
+    width: 650px;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
