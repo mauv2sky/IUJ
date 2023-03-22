@@ -42,9 +42,9 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(8kthVnMDyLTrqpQ1fJuxOV2ovzVNQFMbBEvav7af9VZfiRQs0AdCvNcXgXizwgj3zP/NGnEseZXL1FnKzt56eg==)
-    username: ENC(AJWdvNP4zZGFNQ8XzBfskg==)
-    password: ENC(I++AzVGD5wjQlQvLHOgiiA==)
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWD}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -59,9 +59,9 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(8kthVnMDyLTrqpQ1fJuxOV2ovzVNQFMbBEvav7af9VZfiRQs0AdCvNcXgXizwgj3zP/NGnEseZXL1FnKzt56eg==)
-    username: ENC(AJWdvNP4zZGFNQ8XzBfskg==)
-    password: ENC(I++AzVGD5wjQlQvLHOgiiA==)
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWD}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
