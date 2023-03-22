@@ -125,6 +125,12 @@ table {
 input:focus {
   outline: none;
 }
+
+* {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 // * {
 //   -ms-user-select: none;
 //   -moz-user-select: -moz-none;

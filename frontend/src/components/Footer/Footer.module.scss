@@ -2,7 +2,7 @@
 @import '../../styles/variable.scss';
 
 .component {
-  height: 400px;
+  height: 200px;
   display: flex;
   align-items: flex-end;
   background-color: white;
@@ -19,8 +19,8 @@
       margin: 0 auto;
       width: 85%;
 
-      .title {
-        font-size: 60px;
+      .logo {
+        width: 150px;
       }
 
       .copyright {

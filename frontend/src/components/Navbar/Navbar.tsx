@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProfileMenu, { ProfileMenuType } from '../ProfileMenu/ProfileMenu';
+import logo from '../../assets/logo.png';
 import styles from './Navbar.module.scss';
 
 /** 프로필 메뉴바 리스트 */
@@ -55,9 +56,7 @@ function Navbar() {
   return (
     <div className={`${styles.component} ${showNavbar || window.pageYOffset < 300 ? '' : styles.hidden}`}>
       <div className={styles['component-inner']}>
-        <p className={styles['tmp-logo']} onClick={onClickLogo}>
-          IUJ
-        </p>
+        <img src={logo} alt="logo" onClick={onClickLogo} className={styles.logo} />
         <div className={styles['nav-right']}>
           <a onClick={onClickGoMap}>내 집 찾아보기</a>
           <div

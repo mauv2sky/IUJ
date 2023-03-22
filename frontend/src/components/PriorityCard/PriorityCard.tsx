@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaSchool, FaBus, FaHospitalUser } from 'react-icons/fa';
 import { MdSecurity, MdMovie } from 'react-icons/md';
+import { amenities, cultures, schools, securities, transports } from '../SetPriority/SetPriority';
 import styles from './PriorityCard.module.scss';
 
 type CategoryStyleType = {
@@ -12,11 +13,11 @@ type CategoryStyleType = {
 
 /** 카테고리 명에 따라 아이콘과 색을 매핑하기위한 object */
 const categoryStyle: CategoryStyleType = {
-  학군: { color: '#c40000', icon: <FaSchool /> },
-  교통: { color: '#dc9e00', icon: <FaBus /> },
-  편의: { color: '#6aae45', icon: <FaHospitalUser /> },
-  치안: { color: '#525cb6', icon: <MdSecurity /> },
-  문화: { color: '#55286f', icon: <MdMovie /> },
+  학군: { color: schools.color, icon: schools.icon },
+  교통: { color: transports.color, icon: transports.icon },
+  편의: { color: amenities.color, icon: amenities.icon },
+  치안: { color: securities.color, icon: securities.icon },
+  문화: { color: cultures.color, icon: cultures.icon },
 };
 
 export type ResponsedPriorityItemType = {
