@@ -24,7 +24,7 @@ public class AptDto extends Location {
 
 
     public AptDto(Apt entity) {
-        super(entity);
+//        super(entity);
         this.id = entity.getId();
         this.sigungu = entity.getSigungu();
         this.bungi = entity.getBungi();

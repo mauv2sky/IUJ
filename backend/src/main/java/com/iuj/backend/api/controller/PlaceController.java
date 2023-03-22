@@ -34,14 +34,14 @@ public class PlaceController {
         }
     }
 
-    @GetMapping("/apt/{id}")
-    @ApiOperation(value = "Get Apt By Id", notes = "this is test!")
-    public ResponseEntity<Object> testApi(@PathVariable Long id){
-        try{
-            return new ResponseEntity<>(aptService.aptMethod(id), HttpStatus.OK);
-        }catch (Exception e){
-            throw new CustomException(ErrorCode.UNKNOWN_ERROR);
-        }
-    }
+//    @GetMapping("/apt/{id}")
+//    @ApiOperation(value = "Get Apt By Id", notes = "this is test!")
+//    public ResponseEntity<Object> testApi(@PathVariable Long id){
+//        try{
+//            return new ResponseEntity<>(aptService.aptMethod(id), HttpStatus.OK);
+//        }catch (Exception e){
+//            throw new CustomException(ErrorCode.UNKNOWN_ERROR);
+//        }
+//    }
 
 }
