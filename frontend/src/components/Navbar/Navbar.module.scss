@@ -14,6 +14,7 @@
   font-family: SUIT-Regular;
   color: $ffc;
   transition: top 1.5s ease-in-out;
+
   &.hidden {
     top: -100%;
   }
@@ -25,9 +26,8 @@
     justify-content: space-between;
     align-items: center;
 
-    .tmp-logo {
-      font-size: 40px;
-      font-weight: 600;
+    .logo {
+      width: 80px;
 
       &:hover {
         cursor: pointer;
@@ -40,8 +40,8 @@
       align-items: center;
 
       & a {
-        margin: 0 1rem 0 0;
-        font-size: 18px;
+        margin: 0 2rem 0 0;
+        font-size: 20px;
 
         &:hover {
           cursor: pointer;

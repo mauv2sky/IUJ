@@ -12,48 +12,50 @@ type priorityType = {
   icon: React.ReactNode;
 };
 
+export const schools = {
+  title: '학군',
+  kind: ['어린이집', '유치원', '초등학교', '중학교', '고등학교', '특수학교', '입시학원', '예체능학원'],
+  icon: <FaSchool />,
+  color: '#DCBFB7',
+};
+
+export const transports = {
+  title: '교통',
+  kind: ['지하철', '버스'],
+  icon: <FaBus />,
+  color: '#DAB2E0',
+};
+
+export const amenities = {
+  title: '편의',
+  kind: ['병원', '마트', '편의점'],
+  icon: <FaHospitalUser />,
+  color: '#DBCEAF',
+};
+
+export const securities = {
+  title: '치안',
+  kind: ['치안'],
+  icon: <MdSecurity />,
+  color: '#B0C6DD',
+};
+
+export const cultures = {
+  title: '문화',
+  kind: ['공원', '영화관'],
+  icon: <MdMovie />,
+  color: '#A4D8C5',
+};
+
+const categories = [schools, transports, amenities, securities, cultures];
+
 function SetPriority() {
   /** ============================== 변수, useState ============================== */
   const [priority, setPrirorty] = useState<priorityType[]>([]);
   const dummyPriority = [0, 1, 2, 3, 4];
   const [priorityForRequest, setPriorityForRequest] = useState<string[]>([]);
-  const schools = {
-    title: '학군',
-    kind: ['어린이집', '유치원', '초등학교', '중학교', '고등학교', '특수학교', '입시학원', '예체능학원'],
-    icon: <FaSchool />,
-    color: '#c40000',
-  };
-  const transports = {
-    title: '교통',
-    kind: ['지하철', '정류장'],
-    icon: <FaBus />,
-    color: '#dc9e00',
-  };
-  const amenities = {
-    title: '편의',
-    kind: ['병원', '마트', '편의점'],
-    icon: <FaHospitalUser />,
-    color: '#6aae45',
-  };
-  const securities = {
-    title: '치안',
-    kind: ['치안'],
-    icon: <MdSecurity />,
-    color: '#525cb6',
-  };
-  const cultures = {
-    title: '문화',
-    kind: ['공원', '영화관'],
-    icon: <MdMovie />,
-    color: '#55286f',
-  };
-
-  const categories = [schools, transports, amenities, securities, cultures];
-
-  /** ============================== useEffect ============================== */
 
   /** ============================== 함수 ============================== */
-
   /** 우선 순위 리스트를 요청용으로 전처리하기 위한 함수 */
   const pretreat = (list: priorityType[]) => {
     const listForRequest = list.map((priority) => {

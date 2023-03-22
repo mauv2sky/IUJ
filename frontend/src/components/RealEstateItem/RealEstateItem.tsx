@@ -139,7 +139,7 @@ function RealEstateItem({ RE, scrollY }: RealEstatePropsType) {
                 <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." style={{ fontWeight: '600' }} />
               )}
               {RE.place.total_score >= 90 && (
-                <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." style={{ color: 'rgba(255, 148, 148, 1)', fontWeight: '600' }} />
+                <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." style={{ color: 'rgba(161, 188, 215, 1)', fontWeight: '600' }} />
               )}
             </div>
             <RiQuestionnaireFill id={'graph-btn' + RE.place.type + RE.place.id.toString()} onClick={onClickGraphBtn} />
