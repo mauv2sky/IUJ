@@ -11,10 +11,10 @@ function Detailcontainer() {
   const detailRelist: DetailType = {
     place: {
       id: 1234,
-      name: '송삼',
+      name: '송정삼정그린코아더시티',
       type: '아파트',
       latlng: [37.456, 127.789],
-      address: ['도로명주소', '지번주소'],
+      address: ['부산시 강서구 녹산산단335로 7', '부산광역시 강서구 송정동 1627-5'],
       deal: [
         {
           area: [84.67, 25.6],
