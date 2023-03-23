@@ -1,0 +1,27 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.container {
+  width: 240px;
+  height: 148px;
+  border: 1px solid $lfc;
+  float: left;
+  margin: 12px;
+  box-shadow: 1px 1px 1px 1px rgb(70, 70, 70, 0.6);
+  border-radius: 2px;
+  text-align: center;
+  justify-content: center;
+}
+.itemname {
+  font-size: 25px;
+  font-weight: 700;
+  margin-top: 32px;
+  margin-bottom: 20px;
+}
+.itemaddress {
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 20px;
+  margin-right: 20px;
+  line-height: 20px;
+}
