@@ -2,7 +2,9 @@
 @import '../../styles/variable.scss';
 
 .component {
+  max-width: 500px;
   width: 500px;
+  max-height: calc(100vh - 81px);
   border-right: 1px solid $lfc;
 
   .tab {

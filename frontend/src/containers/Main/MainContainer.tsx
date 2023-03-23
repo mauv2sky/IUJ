@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import bannerMp4 from '../../assets/banner.mp4';
-import Notice, { NoticeType } from '../../components/Notice/Notice';
-import styles from './MainContainer.module.scss';
-import service1 from '../../assets/service1.jpg';
-import service2 from '../../assets/service2.jpg';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import Notice from '../../components/Notice/Notice';
+import { NoticeType } from '../../components/Notice/Notice';
+import styles from './MainContainer.module.scss';
 
 const noticeList: NoticeType[] = [
   {
@@ -40,47 +39,29 @@ const noticeList: NoticeType[] = [
 ];
 
 function MainContainer() {
-  // ================================ 변수, useState ================
+  /** ==================================== 변수, useState ==================================== */
   const navigate = useNavigate();
-  /** 글자 천천히 보여주기 위한 Interval */
-  let logoInterval: number | undefined, des1Interval: number | undefined, des2Interval: number | undefined, des3Interval: number | undefined;
   /** 스크롤 */
   const [scrollY, setScrollY] = useState<number>(0);
-  /** 배너 로고 얼만큼 보여줄지 */
-  const [showBannerLogo, setShowBannerLogo] = useState<number>(0);
-  const bannerLogo = 'IUJ';
-  const bannerLogoList = bannerLogo.split('').slice(0, showBannerLogo);
-  /** 배너 mp4 보여줄지 여부 */
-  const [showBanner, setShowBanner] = useState<boolean>(false);
-  /** ===== 배너 설명 첫째 줄 ~ 셋째 줄 얼만큼 보여줄지 ===== */
+  let bannerTitleInteval: number | undefined, bannerDes1Interval: number | undefined, bannerDes2Interval: number | undefined;
+  /** 배너 속 타이틀 몇 글자 보여줄지 */
+  const [showBannerTitle, setShowBannerTitle] = useState<number>(0);
+  const bannerTitle = 'IUJ';
+  const bannerTitleList = bannerTitle.split('').slice(0, showBannerTitle);
+  /** ===== 배너 속 설명 첫째 줄 ~ 셋째 줄 얼만큼 보여줄지 ===== */
   const [showBannerDes1, setShowBannerDes1] = useState<number>(0);
   const [showBannerDes2, setShowBannerDes2] = useState<number>(0);
-  const [showBannerDes3, setShowBannerDes3] = useState<number>(0);
   /** ======================================================= */
-  const bannerDes1 = 'To bring happiness and peace';
-  const bannerDes2 = 'to your family';
-  const bannerDes3 = 'look for a home that fits your taste';
+  const bannerDes1 = '유저가 원하는 인프라를 기반으로';
+  const bannerDes2 = '맞춤형 주거 공간을 추천해드립니다.';
   const bannerDesList1 = bannerDes1.split('').slice(0, showBannerDes1);
   const bannerDesList2 = bannerDes2.split('').slice(0, showBannerDes2);
-  const bannerDesList3 = bannerDes3.split('').slice(0, showBannerDes3);
   /** 집 찾아보기 버튼 보여줄지 여부 */
   const [showFindBtn, setShowFindBtn] = useState<boolean>(false);
   /** Notice 보여줄지 여부 */
   const [showNotice, setShowNotice] = useState<boolean>(false);
-  /** Service 첫 번째 제목 ref */
-  const serviceTitle1Ref = useRef<HTMLParagraphElement>(null);
-  /** Service 첫 번째 내용 ref */
-  const serviceContent1Ref = useRef<HTMLParagraphElement>(null);
-  /** Service 첫 번째 이미지 ref */
-  const serviceImg1Ref = useRef<HTMLImageElement>(null);
-  /** Service 두 번째 제목 ref */
-  const serviceTitle2Ref = useRef<HTMLParagraphElement>(null);
-  /** Service 두 번째 내용 ref */
-  const serviceContent2Ref = useRef<HTMLPreElement>(null);
-  /** Service 두 번째 이미지 ref */
-  const serviceImg2Ref = useRef<HTMLImageElement>(null);
 
-  // ================================ useEffect ================================
+  /** ==================================== useEffect ==================================== */
   /** 스크롤 이벤트 추가 */
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -90,112 +71,50 @@ function MainContainer() {
     };
   }, []);
 
+  /**  */
   useEffect(() => {
-    /** 스크롤 300 이상이면 Notice 보여주기 */
-    if (scrollY >= 300) {
+    console.log(scrollY);
+
+    if (scrollY >= 450) {
       setShowNotice(true);
-    }
-
-    /** service 첫 번째 내용 애니메이션 */
-    if (scrollY >= 1000 && scrollY < 1400) {
-      if (serviceTitle1Ref.current && serviceContent1Ref.current && serviceImg1Ref.current) {
-        serviceTitle1Ref.current.style.opacity = '1';
-        serviceTitle1Ref.current.style.fontSize = '70px';
-        serviceTitle1Ref.current.style.letterSpacing = '3px';
-
-        serviceContent1Ref.current.style.opacity = '1';
-        serviceContent1Ref.current.style.fontSize = '25px';
-
-        serviceImg1Ref.current.style.opacity = '1';
-        serviceImg1Ref.current.style.filter = 'grayscale(0.2)';
-      }
-    } else {
-      if (serviceTitle1Ref.current && serviceContent1Ref.current && serviceImg1Ref.current) {
-        serviceTitle1Ref.current.style.opacity = '0.7';
-        serviceTitle1Ref.current.style.fontSize = '65px';
-        serviceTitle1Ref.current.style.letterSpacing = '0px';
-
-        serviceContent1Ref.current.style.opacity = '0.7';
-        serviceContent1Ref.current.style.fontSize = '25px';
-
-        serviceImg1Ref.current.style.opacity = '0.7';
-        serviceImg1Ref.current.style.filter = 'grayscale(1)';
-      }
-    }
-
-    /** service 두 번째 내용 애니메이션 */
-    if (scrollY >= 1450) {
-      if (serviceTitle2Ref.current && serviceContent2Ref.current && serviceImg2Ref.current) {
-        serviceTitle2Ref.current.style.opacity = '1';
-        serviceTitle2Ref.current.style.fontSize = '70px';
-        serviceTitle2Ref.current.style.letterSpacing = '3px';
-
-        serviceContent2Ref.current.style.opacity = '1';
-        serviceContent2Ref.current.style.fontSize = '25px';
-
-        serviceImg2Ref.current.style.opacity = '1';
-        serviceImg2Ref.current.style.filter = 'grayscale(0.3)';
-      }
-    } else {
-      if (serviceTitle2Ref.current && serviceContent2Ref.current && serviceImg2Ref.current) {
-        serviceTitle2Ref.current.style.opacity = '0.7';
-        serviceTitle2Ref.current.style.fontSize = '65px';
-        serviceTitle2Ref.current.style.letterSpacing = '0px';
-
-        serviceContent2Ref.current.style.opacity = '0.7';
-        serviceContent2Ref.current.style.fontSize = '25px';
-
-        serviceImg2Ref.current.style.opacity = '0.7';
-        serviceImg2Ref.current.style.filter = 'grayscale(1)';
-      }
     }
   }, [scrollY]);
 
-  /** 로고 천천히 보여주기 */
+  /** 타이틀 천천히 보여주기 */
   useEffect(() => {
-    logoInterval = window.setInterval(() => {
-      setShowBannerLogo((prev) => prev + 1);
-    }, 50);
+    bannerTitleInteval = window.setInterval(() => {
+      setShowBannerTitle((prev) => prev + 1);
+    }, 100);
   }, []);
 
   /** 설명 첫째 줄 천천히 보여주기 */
   useEffect(() => {
-    if (showBannerLogo === bannerLogo.length) {
-      clearInterval(logoInterval);
-      setShowBanner(true);
-      des1Interval = window.setInterval(() => {
+    if (showBannerTitle === bannerTitle.length) {
+      clearInterval(bannerTitleInteval);
+
+      bannerDes1Interval = window.setInterval(() => {
         setShowBannerDes1((prev) => prev + 1);
       }, 15);
     }
-  }, [showBannerLogo]);
+  }, [showBannerTitle]);
 
   /** 설명 둘째 줄 천천히 보여주기 */
   useEffect(() => {
-    if (showBannerDes1 === bannerDes1.length) {
-      clearInterval(des1Interval);
-      des2Interval = window.setInterval(() => {
-        setShowBannerDes2((prev) => prev + 1);
-      }, 25);
-    }
-  }, [showBannerDes1]);
-
-  /** 설명 셋째 줄 천천히 보여주기 */
-  useEffect(() => {
-    if (showBannerDes3 === bannerDes3.length) {
-      clearInterval(des3Interval);
+    if (showBannerDes2 === bannerDes2.length) {
+      clearInterval(bannerDes2Interval);
       setShowFindBtn(true);
     }
 
-    if (showBannerDes2 === bannerDes2.length) {
-      clearInterval(des2Interval);
-      des3Interval = window.setInterval(() => {
-        setShowBannerDes3((prev) => prev + 1);
-      }, 35);
+    if (showBannerDes1 === bannerDes1.length) {
+      clearInterval(bannerDes1Interval);
+
+      bannerDes2Interval = window.setInterval(() => {
+        setShowBannerDes2((prev) => prev + 1);
+      }, 30);
     }
-  }, [showBannerDes2, showBannerDes3]);
+  }, [showBannerDes1]);
 
-  // ================================ Handler ================================
-
+  /** ==================================== event handler ==================================== */
   /** 스크롤 */
   const handleScroll = () => {
     setScrollY(window.scrollY);
@@ -209,25 +128,13 @@ function MainContainer() {
   return (
     <div className={styles.container}>
       <div className={styles.banner}>
-        <div className={styles.circle} />
-        <div className={styles.diag} />
-        <div className={styles.square} />
-        <div className={styles['banner-content']}>
-          <div className={styles['banner-content-left']}>
-            <p className={styles['tmp-logo']}>
-              {bannerLogoList.map((char, index) => (
-                <span key={index}>{char}</span>
-              ))}
-            </p>
-            {showBanner && (
-              <div className={styles['banner-frame']}>
-                <video muted autoPlay loop className={styles['banner-mp4']}>
-                  <source src={bannerMp4} type="video/mp4" />
-                </video>
-              </div>
-            )}
-          </div>
-          <div className={styles['banner-content-right']}>
+        <div className={styles['banner-inner']}>
+          <p className={styles['banner-title']}>
+            {bannerTitleList.map((char, index) => (
+              <span key={index}>{char}</span>
+            ))}
+          </p>
+          <div className={styles['banner-right']}>
             <div className={styles['banner-des-div']}>
               <p className={styles['banner-des']}>
                 {bannerDesList1.map((char, index) => (
@@ -239,57 +146,17 @@ function MainContainer() {
                   <span key={index}>{char}</span>
                 ))}
               </p>
-              <p className={styles['banner-des']}>
-                {bannerDesList3.map((char, index) => (
-                  <span key={index}>{char}</span>
-                ))}
-              </p>
             </div>
-            <div className={styles['btn-div']}>
-              {showFindBtn && (
-                <button className={styles['find-btn']} onClick={onClickGoMap}>
-                  집 찾아보기
-                </button>
-              )}
-            </div>
+            <div className={styles.margin} />
+            <div className={styles['banner-btn-div']}>{showFindBtn && <BsFillArrowRightCircleFill className={styles['banner-btn']} onClick={onClickGoMap} />}</div>
           </div>
         </div>
       </div>
       <div className={styles.notice}>
         <p className={styles['notice-title']}>Notice</p>
         {showNotice && <Notice noticeList={noticeList} />}
+        {!showNotice && <div className={styles['notice-null']} />}
       </div>
-      {showNotice && <div className={styles.hr} />}
-      {showNotice && (
-        <div className={styles.service}>
-          <p className={styles['service-title']}>Service</p>
-          <div className={styles['service-content']}>
-            <div className={styles['service-content-item']}>
-              <div className={styles['service-content-item-des']}>
-                <p ref={serviceTitle1Ref} className={styles['service-content-item-des-title']} style={{ textAlign: 'right' }}>
-                  Customized
-                </p>
-                <p ref={serviceContent1Ref} className={styles['service-content-item-des-content']} style={{ textAlign: 'right' }}>
-                  부동산 추천에 사용되는 점수는 당신이 원하는 인프라를 기반으로 산출됩니다.
-                </p>
-              </div>
-              <img src={service1} ref={serviceImg1Ref} className={styles['service-content-item-img']} />
-            </div>
-            <div className={styles['service-content-item']}>
-              <img src={service2} ref={serviceImg2Ref} className={styles['service-content-item-img']} />
-              <div className={styles['service-content-item-des']}>
-                <p ref={serviceTitle2Ref} className={styles['service-content-item-des-title']}>
-                  For Children
-                </p>
-                <pre ref={serviceContent2Ref} className={styles['service-content-item-des-content']}>
-                  교통, 치안 등의 기본 시설 외에도 유치원, 학군, 학원 등의 <br />
-                  자녀를 위한 정보를 제공합니다.
-                </pre>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
