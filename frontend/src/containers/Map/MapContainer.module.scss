@@ -7,4 +7,85 @@
   padding: 80px 0 0 0;
   display: flex;
   background-color: white;
+
+  .option {
+    position: absolute;
+    display: flex;
+    z-index: 10;
+    top: 11%;
+    left: 27%;
+
+    .option-item {
+      position: relative;
+      margin: 0 20px 0 0;
+
+      & > button {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: white;
+        border: 1px solid $lfc;
+        border-radius: 5px;
+        font-size: 17px;
+        color: $ffc;
+        transition: all 0.2s ease-in-out;
+
+        & span {
+          min-width: 100px;
+        }
+
+        &:hover {
+          cursor: pointer;
+          background-color: rgb(250, 250, 250);
+        }
+      }
+
+      .selected-btn {
+        border: 1px solid $tc;
+        color: $tc;
+      }
+
+      & > div {
+        position: absolute;
+        top: 45px;
+        left: 0;
+        padding: 20px;
+        border: 1px solid $tc;
+        border-radius: 5px;
+        background-color: white;
+
+        .option-title {
+          font-size: 20px;
+        }
+      }
+
+      & svg {
+        font-size: 18px;
+      }
+
+      .type-btn {
+        width: 180px;
+        height: 35px;
+      }
+
+      .type-div {
+        width: 150px;
+
+        .type-item {
+          margin: 1rem 0 0 0;
+          padding: 0.2rem 0;
+
+          &:hover {
+            cursor: pointer;
+            background-color: rgb(250, 250, 250);
+          }
+        }
+      }
+
+      .deal-type-btn {
+        width: 140px;
+        height: 35px;
+      }
+    }
+  }
 }

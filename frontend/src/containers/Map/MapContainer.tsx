@@ -1,13 +1,44 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
+import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import MapSidebar from '../../components/MapSidebar/MapSidebar';
 import styles from './MapContainer.module.scss';
 
+type MapType = {
+  [key: string]: string;
+};
+
 function MapContainer() {
+  /** ================================================= useState, useRef, 변수 ================================================= */
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
   const [clusterer, setClusterer] = useState<any>(null);
+  const [showOption, setShowOption] = useState<number>(-1);
+  const typeMap: MapType = {
+    apartment: '아파트',
+    officetel: '오피스텔',
+    multi: '연립다세대',
+  };
+  const [type, setType] = useState<string>('apartment');
+  const dealTypeMap: MapType = {
+    sale: '매매',
+    charter: '전세',
+    monthly: '월세',
+  };
+  const [dealTypeInfo, setDealTypeInfo] = useState({
+    dealType: 'sale',
+    price: [0, 2000000],
+    guarantee: [0, 2000000],
+    monthly: [0, 5000],
+  });
 
+  /** ================================================= useEffect ================================================= */
+  /** 맵 생성 useEffect */
+  useEffect(() => {
+    createMap();
+  }, []);
+
+  /** ================================================= 함수 ================================================= */
   /** 현재 위치 가져오기 */
   const getCurrentPosition = (): Promise<GeolocationPosition> => {
     return new Promise((resolve, reject) => {
@@ -50,7 +81,7 @@ function MapContainer() {
             minLevel: 5,
           });
 
-          /** 바깥에서 map 쓸 수 있게 */
+          /** useState, 바깥에서 map 쓸 수 있게 */
           setMap(map);
 
           /** 바깥에서 clusterer 쓸 수 있게 */
@@ -91,33 +122,6 @@ function MapContainer() {
     }
   };
 
-  /** 맵 생성 useEffect */
-  useEffect(() => {
-    createMap();
-  }, []);
-
-  /** 지도 레벨이 변경되면 새로운 매물 요청 */
-  if (map) {
-    kakao.maps.event.addListener(map, 'zoom_changed', () => {
-      const bounds = map.getBounds();
-      console.log(bounds);
-      console.log('레벨 변경 - 매물 요청');
-
-      requestRealEstate();
-    });
-  }
-
-  /** 드래그가 끝나면 새로운 매물 요청 */
-  if (map) {
-    kakao.maps.event.addListener(map, 'dragend', () => {
-      const bounds = map.getBounds();
-      console.log(bounds);
-      console.log('드래그 이동 - 매물 요청');
-
-      requestRealEstate();
-    });
-  }
-
   /** 현재 영역 매물 요청 */
   const requestRealEstate = () => {
     /** 기존 맵, 클러스터러 초기화 */
@@ -150,9 +154,85 @@ function MapContainer() {
     }
   };
 
+  /** ================================================= event handler ================================================= */
+  const onClickOption = (e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGElement>) => {
+    const target = e.target as HTMLElement;
+    console.log(target);
+    const id = parseInt(target.id, 10);
+
+    console.log(id);
+
+    if (id === showOption) {
+      setShowOption(-1);
+    } else {
+      setShowOption(id);
+    }
+  };
+
+  const onChangeType = (changedType: string) => {
+    setType(changedType);
+    setShowOption(-1);
+  };
+
+  /** ================================================= Axios ================================================= */
+  /** 지도 레벨이 변경되면 새로운 매물 요청 */
+  if (map) {
+    kakao.maps.event.addListener(map, 'zoom_changed', () => {
+      const bounds = map.getBounds();
+      console.log(bounds);
+      console.log('레벨 변경 - 매물 요청');
+
+      requestRealEstate();
+    });
+  }
+
+  /** 드래그가 끝나면 새로운 매물 요청 */
+  if (map) {
+    kakao.maps.event.addListener(map, 'dragend', () => {
+      const bounds = map.getBounds();
+      console.log(bounds);
+      console.log('드래그 이동 - 매물 요청');
+
+      requestRealEstate();
+    });
+  }
+
   return (
     <div className={styles.container}>
       <MapSidebar />
+      <div className={styles.option}>
+        <div className={styles['option-item']}>
+          <button id="0" className={showOption === 0 ? `${styles['type-btn']} ${styles['selected-btn']}` : styles['type-btn']} onClick={onClickOption}>
+            <span style={{ minWidth: '100px' }}>{typeMap[type]}</span> {showOption !== 0 && <SlArrowDown id="0" onClick={onClickOption} />}{' '}
+            {showOption === 0 && <SlArrowUp id="0" onClick={onClickOption} />}
+          </button>
+          {showOption === 0 && (
+            <div className={styles['type-div']}>
+              <p className={styles['option-title']} style={{ marginBottom: '2rem' }}>
+                매물 종류
+              </p>
+              {Object.entries(typeMap).map((item) => (
+                <p
+                  key={item[0]}
+                  onClick={() => {
+                    onChangeType(item[0]);
+                  }}
+                  className={styles['type-item']}
+                >
+                  {item[1]}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+        <div className={styles['option-item']}>
+          <button id="1" className={showOption === 1 ? `${styles['deal-type-btn']} ${styles['selected-btn']}` : styles['deal-type-btn']} onClick={onClickOption}>
+            <span>{dealTypeMap[dealTypeInfo.dealType]}</span> {showOption !== 1 && <SlArrowDown id="1" onClick={onClickOption} />}
+            {showOption === 1 && <SlArrowUp id="1" onClick={onClickOption} />}
+          </button>
+          {showOption === 1 && <div className={styles['deal-type-div']}></div>}
+        </div>
+      </div>
       <div ref={mapRef} style={{ width: 'calc(100% - 500px)' }} />
     </div>
   );
