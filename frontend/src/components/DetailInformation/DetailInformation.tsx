@@ -41,7 +41,14 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
         <div className={styles.study}>여긴 학군 및 학원 정보</div>
         <div className={styles.study}>여긴 학군 및 학원 정보</div>
       </div>
-      <div className={styles.title}>{RE.place.name}</div>
+      <div className={styles.title}>
+        <div className={styles.type}>{detailRelist.place.type}</div>
+        <div className={styles.name}>{detailRelist.place.name}</div>
+        {/* <p className={styles.addresstext}>도로명 주소</p> */}
+        <div className={styles.address}>{detailRelist.place.address[0]}</div>
+        {/* <p className={styles.addresstext}>지번 주소</p> */}
+        <div className={styles.address}>{detailRelist.place.address[1]}</div>
+      </div>
     </div>
   );
 }

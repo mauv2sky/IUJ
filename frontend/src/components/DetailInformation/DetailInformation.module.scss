@@ -45,13 +45,13 @@
   border: 1px solid black;
 }
 .title {
-  border: 1px solid black;
-  display: flex;
+  border: 1px solid $lfc;
   float: right;
   width: 350px;
   height: 400px;
   position: sticky;
   top: 80px;
+  box-shadow: 1px 1px 1px 1px rgb(70, 70, 70, 0.6);
 }
 .costgraph {
   width: 100%;
@@ -74,4 +74,32 @@
   margin-left: 20px;
   font-weight: 700;
   font-size: 23px;
+}
+.type {
+  background-color: $tc;
+  border-radius: 5px;
+  width: 80px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  margin: 30px;
+  color: white;
+  font-size: medium;
+  font-weight: 300;
+}
+.name {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 30px;
+  margin-bottom: 20px;
+}
+// .addresstext {
+//   margin-top: 30px;
+//   margin-left: 30px;
+//   font-size: 17px;
+// }
+.address {
+  margin-top: 10px;
+  margin-left: 30px;
+  font-size: 17px;
 }
