@@ -1,0 +1,19 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.component {
+  max-width: 500px;
+  max-height: calc(100% - 58.19px);
+  color: $ffc;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: inline;
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(235, 235, 235);
+    border-radius: 5px;
+  }
+}
