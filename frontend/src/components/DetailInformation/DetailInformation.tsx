@@ -1,53 +1,81 @@
 import React, { useState } from 'react';
 import styles from './DetailInformation.module.scss';
-
-export type DetailType = {
-  place: {
-    id: number;
-    name: string;
-    type: string;
-    latlng: number[];
-    address: string[];
-    deal: {
-      area: number[];
-      floor: number;
-      contract_ym: number;
-      deal_type: string;
-      guarantee: number;
-      price: number;
-      monthly: number;
-    }[];
-  };
-  total_score: number;
-  map: {
-    [infra: string]: {}[];
-  };
-  facility: {
-    [infra: string]: { [key: string]: string | number[] | number }[];
-  };
-};
+import FacilityList, { FacilityType } from '../../components/FacilityList/FacilityList';
+import { DetailType } from '../../store/types/detailTypes';
+// import FacilityList from '../../components/FacilityList/FacilityList';
 
 type DetailPropsType = {
   detailRelist: DetailType;
 };
 
 function DetailInformation({ detailRelist }: DetailPropsType) {
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const onClickTab = (index: number) => {
+    setTabIndex(index);
+  };
+
+  const [tabIndex2, setTabIndex2] = useState(0);
+
+  const onClickTab2 = (index: number) => {
+    setTabIndex2(index);
+  };
+
+  const facilitylist: FacilityType[] = [];
   return (
     <div className={styles.component}>
       <div className={styles.information}>
         <div className={styles.costgraph}>여긴 실거래가 그래프</div>
         <div className={styles.costdata}>여긴 실거래가 데이터</div>
-        <div className={styles.study}>여긴 학군 및 학원 정보</div>
-        <div className={styles.study}>여긴 학군 및 학원 정보</div>
-        <div className={styles.study}>여긴 학군 및 학원 정보</div>
+        <div className={styles.school}>인근 학교 정보</div>
+        <div className={styles.schooltap}>
+          <div className={styles.tab}>
+            <div onClick={() => onClickTab(0)} className={tabIndex === 0 ? styles.selected : styles['not-selected']}>
+              어린이집
+            </div>
+            <div onClick={() => onClickTab(1)} className={tabIndex === 1 ? styles.selected : styles['not-selected']}>
+              유치원
+            </div>
+            <div onClick={() => onClickTab(2)} className={tabIndex === 2 ? styles.selected : styles['not-selected']}>
+              초등학교
+            </div>
+            <div onClick={() => onClickTab(3)} className={tabIndex === 3 ? styles.selected : styles['not-selected']}>
+              중학교
+            </div>
+            <div onClick={() => onClickTab(4)} className={tabIndex === 4 ? styles.selected : styles['not-selected']}>
+              고등학교
+            </div>
+            <div onClick={() => onClickTab(5)} className={tabIndex === 5 ? styles.selected : styles['not-selected']}>
+              특수학교
+            </div>
+          </div>
+          {tabIndex === 0 && <FacilityList facilitylist={detailRelist.facility.어린이집 ? detailRelist.facility.어린이집 : []} />}
+          {tabIndex === 1 && <FacilityList facilitylist={detailRelist.facility.유치원 ? detailRelist.facility.유치원 : []} />}
+          {tabIndex === 2 && <FacilityList facilitylist={detailRelist.facility.초등학교 ? detailRelist.facility.초등학교 : []} />}
+          {tabIndex === 3 && <FacilityList facilitylist={detailRelist.facility.중학교 ? detailRelist.facility.중학교 : []} />}
+          {tabIndex === 4 && <FacilityList facilitylist={detailRelist.facility.고등학교 ? detailRelist.facility.고등학교 : []} />}
+          {tabIndex === 5 && <FacilityList facilitylist={detailRelist.facility.특수학교 ? detailRelist.facility.특수학교 : []} />}
+        </div>
+        <div className={styles.school}>인근 학원 정보</div>
+        <div className={styles.schooltap2}>
+          <div className={styles.tab}>
+            <div onClick={() => onClickTab2(0)} className={tabIndex2 === 0 ? styles.selected : styles['not-selected']}>
+              입시학원
+            </div>
+            <div onClick={() => onClickTab2(1)} className={tabIndex2 === 1 ? styles.selected : styles['not-selected']}>
+              예체능학원
+            </div>
+          </div>
+          {tabIndex2 === 0 && <FacilityList facilitylist={detailRelist.facility.입시학원 ? detailRelist.facility.입시학원 : []} />}
+          {tabIndex2 === 1 && <FacilityList facilitylist={detailRelist.facility.예체능학원 ? detailRelist.facility.예체능학원 : []} />}
+        </div>
       </div>
       <div className={styles.title}>
         <div className={styles.type}>{detailRelist.place.type}</div>
         <div className={styles.name}>{detailRelist.place.name}</div>
-        {/* <p className={styles.addresstext}>도로명 주소</p> */}
         <div className={styles.address}>{detailRelist.place.address[0]}</div>
-        {/* <p className={styles.addresstext}>지번 주소</p> */}
         <div className={styles.address}>{detailRelist.place.address[1]}</div>
+        <button className={styles.interestbutton}>관심 매물 등록</button>
       </div>
     </div>
   );
