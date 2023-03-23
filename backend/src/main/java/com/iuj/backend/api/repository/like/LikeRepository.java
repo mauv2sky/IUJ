@@ -13,6 +13,9 @@ import java.util.List;
 public interface LikeRepository extends JpaRepository<LikeBuilding, LikeBuildingId> {
     @Query("SELECT b FROM LikeBuilding b WHERE b.email = :email")
     List<LikeBuilding> findByEmail(String email);
-//    List<LikeBuilding> findAll();
 
+//    @Query("SELECT b FROM LikeBuilding b WHERE b.email = :email")
+//    List<LikeBuilding> findByEmail(String email);
+//    List<LikeBuilding> findAll();
 }
+
