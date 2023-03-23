@@ -1,17 +1,25 @@
+// 정의된 복합키를 사용한 엔티티
 package com.iuj.backend.api.domain.entity;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 @Entity
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
+@IdClass(LikeBuildingId.class)
 public class LikeBuilding {
     @Id
     private Long building_id;
-
-    @Column(length=10)
+    @Id
     private String type;
-
-    @Column(length=25)
+    @Id
     private String email;
 }
