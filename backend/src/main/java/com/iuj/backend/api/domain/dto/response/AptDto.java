@@ -7,8 +7,12 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
+@ToString
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AptDto extends Location {
     private Long id;
 
