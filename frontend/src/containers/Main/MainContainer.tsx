@@ -75,7 +75,7 @@ function MainContainer() {
   useEffect(() => {
     console.log(scrollY);
 
-    if (scrollY >= 300) {
+    if (scrollY >= 450) {
       setShowNotice(true);
     }
   }, [scrollY]);
@@ -110,7 +110,7 @@ function MainContainer() {
 
       bannerDes2Interval = window.setInterval(() => {
         setShowBannerDes2((prev) => prev + 1);
-      }, 25);
+      }, 30);
     }
   }, [showBannerDes1]);
 
