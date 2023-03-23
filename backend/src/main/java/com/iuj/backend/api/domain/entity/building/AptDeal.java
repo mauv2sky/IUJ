@@ -6,9 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -34,6 +32,12 @@ public class AptDeal {
     private Integer floor;
     @Column
     private Integer monthly;
-    @Column
-    private Long apt_id;
+
+    @Column(name="apt_id")
+    private Long aptId;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "apt_id")
+//    private Apt apt;
+
 }

@@ -1,6 +1,5 @@
 package com.iuj.backend.api.domain.dto.response;
 
-import com.iuj.backend.api.domain.entity.Location;
 import com.iuj.backend.api.domain.entity.building.AptDeal;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +8,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DealDto extends Location {
+public class AptDealDto {
     private Long id;
+
     private String area;
     private String contract_ym;
     private String contract_day;
@@ -21,8 +21,9 @@ public class DealDto extends Location {
     private Integer monthly;
     private Long apt_id;
 
-    public DealDto(AptDeal entity){
-//        super(entity);
+    private AptDto author;
+
+    public AptDealDto(AptDeal entity){
         this.id = entity.getId();
         this.area = entity.getArea();
         this.contract_ym = entity.getContract_ym();
@@ -32,6 +33,7 @@ public class DealDto extends Location {
         this.price = entity.getPrice();
         this.floor = entity.getFloor();
         this.monthly = entity.getMonthly();
-        this.apt_id = entity.getApt_id();
+        this.apt_id = entity.getAptId();
+
     }
 }

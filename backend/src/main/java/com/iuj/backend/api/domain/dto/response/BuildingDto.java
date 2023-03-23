@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.iuj.backend.api.domain.enums.BuildingType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,7 +23,7 @@ public class BuildingDto {
     private String[] address;
 
     // 거래 관련
-    private List<DealDto> deal;
+    private List<AptDealDto> deal;
 
     // 점수 관련
     @JsonProperty("total_score")

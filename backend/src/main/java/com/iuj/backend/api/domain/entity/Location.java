@@ -20,8 +20,8 @@ public abstract class Location {
     @Column(length=45)
     private String lng;
 
-//    public Location(AptDeal entity) {
-//        this.lat = entity.getLat();
-//        this.lng = entity.getLng();
-//    }
+    public Location(Apt entity) {
+        this.lat = entity.getLat();
+        this.lng = entity.getLng();
+    }
 }
