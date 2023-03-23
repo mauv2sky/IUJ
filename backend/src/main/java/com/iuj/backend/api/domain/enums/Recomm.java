@@ -1,5 +1,8 @@
 package com.iuj.backend.api.domain.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Recomm {
 
     // 학군

@@ -2,8 +2,6 @@ package com.iuj.backend.api.domain.dto.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.iuj.backend.api.domain.converter.BuildingTypeConverter;
-import com.iuj.backend.api.domain.converter.TestConverter;
 import com.iuj.backend.api.domain.dto.common.BoundDto;
 import com.iuj.backend.api.domain.enums.BuildingType;
 import com.iuj.backend.api.domain.enums.DealType;
@@ -22,7 +20,7 @@ import java.util.List;
 //@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class PlaceMainRequest {
     @ApiModelProperty(value = "건물 타입", required = true)
-    @Convert(converter = BuildingTypeConverter.class)
+//    @Convert(converter = BuildingTypeConverter.class)
     private BuildingType type;
 
     @ApiModelProperty(value = "거래 종류", example = "매매", required = true)
