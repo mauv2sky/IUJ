@@ -19,13 +19,19 @@ public class BasicFilter {
 //    static final Integer MIN_PRICE = 0;
 //    static final Integer MAX_PRICE = Integer.MAX_VALUE;
 
-    @ApiModelProperty(value = "가격 필터", required = true)
+    @ApiModelProperty(value = "가격 필터 - 매매")
     private int[] price;
+
+    @ApiModelProperty(value = "가격 필터 - 보증금(전세, 월세)")
+    private int[] guarantee;
+
+    @ApiModelProperty(value = "가격 필터 - 월세")
+    private int[] monthly;
     
-        @ApiModelProperty(value = "평수 필터", required = true)
+    @ApiModelProperty(value = "평수 필터")
     private int[] extent;
 
-    @ApiModelProperty(value = "층수 필터", required = true)
+    @ApiModelProperty(value = "층수 필터")
     private int[] floor;
 
 }

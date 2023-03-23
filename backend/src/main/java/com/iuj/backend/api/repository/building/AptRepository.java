@@ -1,6 +1,7 @@
 package com.iuj.backend.api.repository.building;
 
 
+import com.iuj.backend.api.domain.dto.common.BoundDto;
 import com.iuj.backend.api.domain.entity.building.Apt;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
