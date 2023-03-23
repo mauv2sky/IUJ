@@ -16,11 +16,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 80px 0 0 0;
-    height: 860px;
+    height: 1030px;
     background-image: url('../../assets/banner.png');
     background-size: 150% 150%;
-    animation: gradient 5s ease infinite;
+    animation: gradient 4s ease infinite;
 
     .banner-inner {
       width: 80%;
@@ -31,7 +30,7 @@
         color: white;
 
         & span {
-          animation: title-fade-in 0.5s ease-in-out;
+          animation: title-fade-in 0.5s ease;
         }
       }
 
@@ -72,6 +71,7 @@
 
           &:hover {
             cursor: pointer;
+            opacity: 0.8;
           }
         }
       }
@@ -133,7 +133,7 @@
 
 @keyframes title-fade-in {
   from {
-    margin: 0 0 0 -10px;
+    margin: 0 0 0 -20px;
     opacity: 0;
   }
   to {
@@ -144,7 +144,7 @@
 
 @keyframes des-fade-in {
   from {
-    margin: 0 0 0 -2px;
+    margin: 0 0 0 -3px;
     opacity: 0;
   }
   to {
