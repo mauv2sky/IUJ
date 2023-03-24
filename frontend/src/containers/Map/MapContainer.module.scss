@@ -56,6 +56,7 @@
 
         .option-title {
           font-size: 20px;
+          margin-bottom: 2rem;
         }
       }
 
@@ -72,12 +73,13 @@
         width: 150px;
 
         .type-item {
-          margin: 1rem 0 0 0;
-          padding: 0.2rem 0;
+          margin: 0.5rem 0 0 0;
+          padding: 0.7rem 0 0.7rem 0.5rem;
+          border-radius: 5px;
 
           &:hover {
             cursor: pointer;
-            background-color: rgb(250, 250, 250);
+            background-color: $tc;
           }
         }
       }
@@ -86,6 +88,41 @@
         width: 140px;
         height: 35px;
       }
+
+      .deal-type-div {
+        width: 300px;
+
+        .deal-type {
+          border-bottom: 1px solid $lfc;
+          margin: 0 0 20px 0;
+          padding: 0 0 1.5rem 0;
+
+          & label {
+            margin: 1rem 1rem 0 0;
+            font-size: 17px;
+          }
+        }
+
+        & div {
+          & p {
+            display: flex;
+            margin: 0 0 1.5rem 0;
+            font-size: 17px;
+
+            .amount-title {
+              margin: 0 1rem 0 0;
+            }
+
+            .amount-content {
+              color: rgb(0, 106, 255);
+            }
+          }
+        }
+      }
     }
   }
+}
+
+#slider {
+  background: $lfc;
 }

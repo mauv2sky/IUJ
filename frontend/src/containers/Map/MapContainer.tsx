@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 import MapSidebar from '../../components/MapSidebar/MapSidebar';
 import styles from './MapContainer.module.scss';
+import { pretreatAmount } from '../../utils/PretreatAmount';
+
+/** 매매가 105000일 때는 2000000으로 바꿔서 보내기 */
 
 type MapType = {
   [key: string]: string;
@@ -15,22 +20,20 @@ function MapContainer() {
   const [clusterer, setClusterer] = useState<any>(null);
   const [showOption, setShowOption] = useState<number>(-1);
   const typeMap: MapType = {
-    apartment: '아파트',
-    officetel: '오피스텔',
-    multi: '연립다세대',
+    APT: '아파트',
+    OFFICETEL: '오피스텔',
+    VILLA: '연립다세대',
   };
-  const [type, setType] = useState<string>('apartment');
+  const [type, setType] = useState<string>('APT');
   const dealTypeMap: MapType = {
-    sale: '매매',
-    charter: '전세',
-    monthly: '월세',
+    BUY: '매매',
+    LONG_TERM_RENT: '전세',
+    MONTHLY_RENT: '월세',
   };
-  const [dealTypeInfo, setDealTypeInfo] = useState({
-    dealType: 'sale',
-    price: [0, 2000000],
-    guarantee: [0, 2000000],
-    monthly: [0, 5000],
-  });
+  const [dealType, setDealType] = useState<string>('BUY');
+  const [price, setPrice] = useState<number[]>([0, 2000000]);
+  const [guarantee, setGuarantee] = useState<number[]>([0, 2000000]);
+  const [monthly, setMonthly] = useState<number[]>([0, 5000]);
 
   /** ================================================= useEffect ================================================= */
   /** 맵 생성 useEffect */
@@ -174,6 +177,16 @@ function MapContainer() {
     setShowOption(-1);
   };
 
+  const onChangeDealType = (e: React.FormEvent<HTMLFormElement>) => {
+    const target = e.target as HTMLFormElement;
+    setDealType(target.value);
+  };
+
+  const onChangeAmount = (priceRange: number[]) => {
+    setPrice(priceRange);
+    console.log(price);
+  };
+
   /** ================================================= Axios ================================================= */
   /** 지도 레벨이 변경되면 새로운 매물 요청 */
   if (map) {
@@ -208,9 +221,7 @@ function MapContainer() {
           </button>
           {showOption === 0 && (
             <div className={styles['type-div']}>
-              <p className={styles['option-title']} style={{ marginBottom: '2rem' }}>
-                매물 종류
-              </p>
+              <p className={styles['option-title']}>매물 종류</p>
               {Object.entries(typeMap).map((item) => (
                 <p
                   key={item[0]}
@@ -227,10 +238,37 @@ function MapContainer() {
         </div>
         <div className={styles['option-item']}>
           <button id="1" className={showOption === 1 ? `${styles['deal-type-btn']} ${styles['selected-btn']}` : styles['deal-type-btn']} onClick={onClickOption}>
-            <span>{dealTypeMap[dealTypeInfo.dealType]}</span> {showOption !== 1 && <SlArrowDown id="1" onClick={onClickOption} />}
+            <span>{dealTypeMap[dealType]}</span> {showOption !== 1 && <SlArrowDown id="1" onClick={onClickOption} />}
             {showOption === 1 && <SlArrowUp id="1" onClick={onClickOption} />}
           </button>
-          {showOption === 1 && <div className={styles['deal-type-div']}></div>}
+          {showOption === 1 && (
+            <div className={styles['deal-type-div']}>
+              <p className={styles['option-title']}>거래 유형</p>
+              <form className={styles['deal-type']} onChange={onChangeDealType}>
+                <label>
+                  <input name="deal-type" type="radio" value="BUY" /> 매매
+                </label>
+                <label>
+                  <input name="deal-type" type="radio" value="LONG_TERM_RENT" /> 전세
+                </label>
+                <label>
+                  <input name="deal-type" type="radio" value="MONTHLY_RENT" /> 월세
+                </label>
+              </form>
+              <p className={styles['option-title']}>가격</p>
+              {dealType == 'BUY' && (
+                <div>
+                  <p>
+                    <span className={styles['amount-title']}>매매가 : </span>
+                    <span className={styles['amount-content']}>
+                      {pretreatAmount(price[0])} ~ {price[1] === 105000 || 2000000 ? '무제한' : pretreatAmount(price[1])}
+                    </span>
+                  </p>
+                  <RangeSlider id={styles.slider} min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={price} onInput={onChangeAmount} />
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
       <div ref={mapRef} style={{ width: 'calc(100% - 500px)' }} />

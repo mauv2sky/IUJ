@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import CountUp from 'react-countup';
 import { RiQuestionnaireFill } from 'react-icons/ri';
+import { pretreatAmount } from '../../utils/PretreatAmount';
 import test from '../../assets/test.jpg';
 import styles from './RealEstateItem.module.scss';
 
@@ -86,21 +87,6 @@ function RealEstateItem({ RE, scrollY }: RealEstatePropsType) {
     setTimeout(() => {
       setShowGraph(false);
     }, 500);
-  };
-
-  /** 매매가, 보증금, 월세 보기 쉽게 전처리 */
-  const pretreatAmount = (amount: number) => {
-    if (amount > 10000 && amount % 10000) {
-      const tmp = amount.toString();
-      const result = tmp.substring(0, 1) + '억 ' + tmp.substring(1, tmp.length) + '만';
-      return result;
-    } else if (amount % 10000 === 0) {
-      const tmp = amount.toString();
-      const result = tmp.substring(0, 1) + '억';
-      return result;
-    } else {
-      return amount.toString() + '만';
-    }
   };
 
   return (
