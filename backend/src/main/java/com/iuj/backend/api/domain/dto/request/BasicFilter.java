@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 
-@ApiModel(description = "기본 필터 모델")
+@ApiModel(description = "기본 필터 모델(가격, 평수, 층수 각각 범위)")
 
 public class BasicFilter {
 //    static final Integer MIN_PRICE = 0;
