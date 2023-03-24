@@ -3,7 +3,10 @@ package com.iuj.backend.api.controller;
 import com.iuj.backend.api.domain.dto.response.AptDto;
 import com.iuj.backend.api.domain.dto.response.AptDealDto;
 
+import com.iuj.backend.api.domain.dto.response.BusStopDto;
+import com.iuj.backend.api.domain.entity.infra.BusStop;
 import com.iuj.backend.api.service.AptService;
+import com.iuj.backend.api.service.TrafficService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +25,22 @@ import java.util.Map;
 public class DetailController {
 
     @Autowired
-    private AptService aptService;
+    private final AptService aptService;
+    private final TrafficService trafficService;
 
 
     @GetMapping("/apt/{id}")
     @ApiOperation(value="아파트 상세페이지 정보", notes="아파트 상세페이지 정보")
     public Map<String, Object> getApart(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> trafficMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
         List<AptDealDto> aptDealDTO = aptService.getDealByApartId(id);
-
+        List<BusStopDto> busStopDto = trafficService.findNearbyBusStops(apartDTO.getLat(), apartDTO.getLng());
         resultMap.put("apart", apartDTO);
         resultMap.put("deal", aptDealDTO);
+        trafficMap.put("bus", busStopDto);
+        
         return resultMap;
     }
 

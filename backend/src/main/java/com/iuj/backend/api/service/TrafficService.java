@@ -19,25 +19,34 @@ public class TrafficService {
         return busStopRepository.findAll();
     }
 
-    public List<BusStop> findNearbyBusStops(double lat, double lng){
-        double radius = 5;
-        double minLatitude = lat - (radius/111.319);
-        double maxLatitude = lat + (radius/111.319);
-        double minLongitude = lng - (radius/(111.319 * Math.cos(Math.toRadians(lat))));
-        double maxLongitude = lng + (radius/(111.319 * Math.cos(Math.toRadians(lat))));
+    public List<BusStopDto> findNearbyBusStops(String lat, String lng){
+        double latitude = Double.parseDouble(lat);
+        double longitude = Double.parseDouble(lng);
 
-        List<BusStop> busStops = busStopRepository.findAllBusBtwlngAndlat(minLatitude,maxLatitude, minLongitude,maxLongitude);
+        double radius = 5;
+        double minLatitude = latitude - (radius/111.319);
+        double maxLatitude = latitude + (radius/111.319);
+        double minLongitude = longitude - (radius/(111.319 * Math.cos(Math.toRadians(latitude))));
+        double maxLongitude = longitude + (radius/(111.319 * Math.cos(Math.toRadians(latitude))));
+
+        String minLat = String.valueOf(minLatitude);
+        String maxLat = String.valueOf(maxLatitude);
+        String minLng = String.valueOf(minLongitude);
+        String maxLng = String.valueOf(maxLongitude);
+
+        List<BusStop> busStops = busStopRepository.findAllBusBtwlngAndlat(minLat,maxLat, minLng,maxLng);
+
         List<BusStopDto> busStopDtos = new ArrayList<>();
         for (BusStop busStop : busStops) {
             BusStopDto busStopDto = new BusStopDto(
-                    busStop.getId(),
-                    busStop.getName(),
-                    busStop.getLat(),
-                    busStop.getLng()
+                busStop.getId(),
+                busStop.getName(),
+                busStop.getLat(),
+                busStop.getLng()
             );
             busStopDtos.add(busStopDto);
         }
-        return busStops;
+        return busStopDtos;
     }
 
     public List<Subway> getAllSubStops(){
