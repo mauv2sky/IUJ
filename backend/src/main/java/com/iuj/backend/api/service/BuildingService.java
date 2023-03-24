@@ -34,16 +34,16 @@ public class BuildingService {
         int level = request.getLevel();
 
         // 평수 -> 제곱미터 변환
-        BasicFilter filter = request.getFilter();
-        int[] extent = filter.getExtent();
-        filter.setExtent(new int[]{(int)Math.ceil(extent[0] * 3.3058), (int) ((extent[1]+1) * 3.3058)});
+//        BasicFilter filter = request.getFilter();
+//        int[] extent = filter.getExtent();
+//        filter.setExtent(new int[]{(int)Math.ceil(extent[0] * 3.3058), (int) ((extent[1]+1) * 3.3058)});
 
-        List<BuildingDto> buildingList = null;
+        List<BuildingDto> buildingList;
 
         if(level > 9) {
             throw new IllegalArgumentException();
         } else if(level > 3){
-            List<LocationMapping> locList = null;
+            List<LocationMapping> locList;
 
             if(buildingType.equals(BuildingType.APT)) {
                 locList = aptRepository.getByBound(bound.getSw()[0], bound.getSw()[1], bound.getNe()[0], bound.getNe()[1]);
@@ -66,6 +66,8 @@ public class BuildingService {
                     .filter(t -> t.getAverageDeal().getDeal_type() != null)
                     .collect(Collectors.toList());
         }
+
+        System.out.println(buildingList);
 
         if(buildingList != null){
             for(BuildingDto building : buildingList){

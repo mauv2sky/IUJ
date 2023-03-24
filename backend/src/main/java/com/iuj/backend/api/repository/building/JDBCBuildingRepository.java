@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class JDBCBuildingRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final String START_QUERY = "select building.id, name, road_addr, lat, lng, deal_type, concat(building.sigungu,' ', building.bungi) as addr, min(floor) as floor_min, max(floor) as floor_max, min(area) as area_min, max(area) as area_max, ";
+    private final String START_QUERY = "select building.id, name, road_addr, lat, lng, deal_type, concat(building.sigungu,' ', building.bungi) as addr, min(floor) as floor_min, max(floor) as floor_max, min(area) as area_min, max(area) as area_max, pyeong, ";
     private final String FIRST_INLINE_QUERY_START = "SELECT id, name, road_addr, lat, lng, sigungu, bungi FROM ";
     private final String FIRST_INLINE_QUERY_WHERE = "where lat > ? and lng > ? and lat < ? and lng < ? ";
 
@@ -51,7 +51,7 @@ public class JDBCBuildingRepository {
             String dealTableName = buildingTableName + "_deal";
             String FkId = buildingTableName + "_id";
 
-            List<String> queryArgs = new ArrayList<>();
+            List<Object> queryArgs = new ArrayList<>();
             queryArgs.addAll(Arrays.asList(sw));
             queryArgs.addAll(Arrays.asList(ne));
             queryArgs.add(dealType.getName());
@@ -62,7 +62,7 @@ public class JDBCBuildingRepository {
                     .append(FIRST_INLINE_QUERY_WHERE)
                     .append(") building ")
                     .append(" left join ( ")
-                    .append(" select floor, area, deal_type,")
+                    .append(" select floor, deal_type, area+0.0 as area, round((area+0.0)/3.3058, 0) as pyeong, ")
                     .append(FkId)
                     .append(',');
 
@@ -78,47 +78,46 @@ public class JDBCBuildingRepository {
                     .append(" from ")
                     .append(dealTableName)
                     .append(" where deal_type = ?")
-                    .append(" and area >= ? and area < ? ")
                     .append(" and floor >= ? and floor <= ? ");
 
-            queryArgs.addAll(Arrays.stream(filter.getExtent())
-                    .mapToObj(String::valueOf)
-                    .collect(Collectors.toList()));
+//            queryArgs.addAll(Arrays.stream(filter.getExtent())
+//                    .mapToObj(Integer::valueOf)
+//                    .collect(Collectors.toList()));
             queryArgs.addAll(Arrays.stream(filter.getFloor())
-                    .mapToObj(String::valueOf)
+                    .mapToObj(Integer::valueOf)
                     .collect(Collectors.toList()));
 
             if(dealType.equals(DealType.BUY)){
                 query.append(" and price >= ? and price <= ? ");
                 queryArgs.addAll(Arrays.stream(filter.getPrice())
-                        .mapToObj(String::valueOf)
+                        .mapToObj(Integer::valueOf)
                         .collect(Collectors.toList()));
             } else if(dealType.equals(DealType.LONG_TERM_RENT)){
                 query.append(" and guarantee >= ? and guarantee <= ? ");
                 queryArgs.addAll(Arrays.stream(filter.getPrice())
-                        .mapToObj(String::valueOf)
+                        .mapToObj(Integer::valueOf)
                         .collect(Collectors.toList()));
             } else {
                 query.append(" and guarantee >= ? and guarantee <= ? ")
                         .append(" and monthly >= ? and monthly <= ? ");
                 queryArgs.addAll(Arrays.stream(filter.getPrice())
-                        .mapToObj(String::valueOf)
+                        .mapToObj(Integer::valueOf)
                         .collect(Collectors.toList()));
                 queryArgs.addAll(Arrays.stream(filter.getPrice())
-                        .mapToObj(String::valueOf)
+                        .mapToObj(Integer::valueOf)
                         .collect(Collectors.toList()));
             }
 
-
             query.append(" ) deal ")
                     .append(" on building.id =  ")
+                    .append("deal.")
                     .append(FkId)
+                    .append(" where pyeong >= ? and pyeong <= ? ")
                     .append(" group by building.id ");
 
-
-
-            System.out.println(query);
-            System.out.println(queryArgs);
+            queryArgs.addAll(Arrays.stream(filter.getExtent())
+                    .mapToObj(Integer::valueOf)
+                    .collect(Collectors.toList()));
 
             if(dealType.equals(DealType.BUY)){
                 return jdbcTemplate.query(query.toString(), rowBuyMapper, queryArgs.toArray());
