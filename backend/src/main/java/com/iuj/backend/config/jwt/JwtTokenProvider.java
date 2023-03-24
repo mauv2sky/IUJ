@@ -49,6 +49,7 @@ public class JwtTokenProvider {
 
         return token;
     }
+    //
 
     public Authentication getAuthentication(String token) {
         LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 시작");
