@@ -1,6 +1,6 @@
 package com.iuj.backend.api.controller;
 
-import com.iuj.backend.api.domain.dto.request.GetPlaceLikeRequest;
+import com.iuj.backend.api.domain.dto.request.LikeBuildingRequest;
 import com.iuj.backend.api.domain.entity.LikeBuilding;
 import com.iuj.backend.api.domain.enums.ErrorCode;
 import com.iuj.backend.api.exception.CustomException;
@@ -21,12 +21,12 @@ public class LikeController {
     @Autowired
     private LikeService likeService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @ApiOperation(value = "관심매물 등록 api", notes = "관심매물 등록 api")
-    public ResponseEntity<Object> addLike(@RequestBody GetPlaceLikeRequest request,
-                                          @RequestHeader(value="X-Auth-Token") String authToken) {
+    public ResponseEntity<Object> addLike(@RequestBody LikeBuildingRequest request
+                                         ) {
         try{
-            likeService.addLike(request, authToken);
+            likeService.addLike(request);
             return ResponseEntity.ok().build();
         } catch (Exception e){
             // 예외 처리
@@ -35,7 +35,7 @@ public class LikeController {
     }
 
 
-//    @DeleteMapping("/")
+//    @DeleteMapping("")
 //    @ApiOperation(value = "관심매물 삭제 api", notes = "관심매물 삭제 api")
 //    public ResponseEntity<Object> delLike(@RequestBody PlaceLikeRequest request,
 //                                          @RequestHeader(value="X-Auth-Token") String authToken) {

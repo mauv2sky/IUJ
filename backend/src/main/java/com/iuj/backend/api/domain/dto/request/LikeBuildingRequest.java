@@ -17,15 +17,14 @@ import lombok.ToString;
 @NoArgsConstructor
 
 @ApiModel(description = "관심 매물 조회 모델")
-public class ChangePlaceLikeRequest {
+
+public class LikeBuildingRequest {
 
     @ApiModelProperty(value = "건물 id", required = true)
-    private int building_id;
+    private Long building_id;
 
     @ApiModelProperty(value = "건물 타입( apt | villa | officetel )", required = true)
-    private char type;
+    private String type;
 
-    @ApiModelProperty(value = "email", required = true)
-    private char email;
 
 }
