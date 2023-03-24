@@ -15,9 +15,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-
 @ApiModel(description = "관심 매물 조회 모델")
-
 public class LikeBuildingRequest {
 
     @ApiModelProperty(value = "건물 id", required = true)

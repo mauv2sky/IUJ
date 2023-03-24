@@ -15,7 +15,25 @@ public class LikeService {
     @Autowired
     private LikeRepository likeRepository;
 
-    public List<LikeBuilding> getAllLikesByEmail(String email) {
+    public List<LikeBuilding> getAllLikesByEmail(String authToken) {
+        // authToken으로 email 받아와야함
+        String email = "qwer"; // 임시로 email 값을 설정
+
+        List<LikeBuilding> likeBuildings = likeRepository.findByEmail(email);
+//        System.out.println(likeRepository.findByEmail(email));
+
+        for (LikeBuilding likeBuilding : likeBuildings) {
+//            System.out.println(likeBuilding);
+            Long building_id = likeBuilding.getBuilding_id();
+            String type = likeBuilding.getType();
+//            String email = likeBuilding.getEmail();
+
+
+        }
+
+
+//        response = [{name, address, deal, type, id}, {객체2}, ...]
+
         return likeRepository.findByEmail(email);
     }
 

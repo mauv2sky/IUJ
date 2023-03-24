@@ -49,11 +49,11 @@ public class LikeController {
     }
 
 
-    @GetMapping("/{email}")
+    @GetMapping("")
     @ApiOperation(value = "관심매물 조회 api", notes = "관심매물 조회 api")
-    public ResponseEntity<List<LikeBuilding>> getAllLikesByEmail(@PathVariable String email) {
+    public ResponseEntity<List<LikeBuilding>> getAllLikesByEmail(@RequestHeader(value="X-Auth-Token") String authToken) {
         try{
-            return new ResponseEntity<>(likeService.getAllLikesByEmail(email), HttpStatus.OK);
+            return new ResponseEntity<>(likeService.getAllLikesByEmail(authToken), HttpStatus.OK);
         }catch (Exception e){
             throw new CustomException(ErrorCode.UNKNOWN_ERROR);
         }
