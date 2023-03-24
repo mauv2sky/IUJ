@@ -17,8 +17,9 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
                 .antMatchers("/signup").permitAll();
+        http.csrf().disable()
+                .oauth2Login()
+                .loginPage("/login");
         return http.build();
     }
-
-
 }
