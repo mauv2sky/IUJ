@@ -14,8 +14,5 @@ public interface LikeRepository extends JpaRepository<LikeBuilding, LikeBuilding
     @Query("SELECT b FROM LikeBuilding b WHERE b.email = :email")
     List<LikeBuilding> findByEmail(String email);
 
-//    @Query("SELECT b FROM LikeBuilding b WHERE b.email = :email")
-//    List<LikeBuilding> findByEmail(String email);
-//    List<LikeBuilding> findAll();
 }
 

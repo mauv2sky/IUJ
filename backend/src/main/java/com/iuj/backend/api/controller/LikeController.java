@@ -23,10 +23,10 @@ public class LikeController {
 
     @PostMapping("")
     @ApiOperation(value = "관심매물 등록 api", notes = "관심매물 등록 api")
-    public ResponseEntity<Object> addLike(@RequestBody LikeBuildingRequest request
-                                         ) {
+    public ResponseEntity<Object> addLike(@RequestBody LikeBuildingRequest request,
+                                          @RequestHeader(value="X-Auth-Token") String authToken) {
         try{
-            likeService.addLike(request);
+            likeService.addLike(request, authToken);
             return ResponseEntity.ok().build();
         } catch (Exception e){
             // 예외 처리
@@ -35,18 +35,18 @@ public class LikeController {
     }
 
 
-//    @DeleteMapping("")
-//    @ApiOperation(value = "관심매물 삭제 api", notes = "관심매물 삭제 api")
-//    public ResponseEntity<Object> delLike(@RequestBody PlaceLikeRequest request,
-//                                          @RequestHeader(value="X-Auth-Token") String authToken) {
-//        try{
-//            likeService.delLike(request, authToken);
-//            return ResponseEntity.ok().build();
-//        } catch (Exception e){
-//            // 예외 처리
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//        }
-//    }
+    @DeleteMapping("")
+    @ApiOperation(value = "관심매물 삭제 api", notes = "관심매물 삭제 api")
+    public ResponseEntity<Object> delLike(@RequestBody LikeBuildingRequest request,
+                                          @RequestHeader(value="X-Auth-Token") String authToken) {
+        try{
+            likeService.delLike(request, authToken);
+            return ResponseEntity.ok().build();
+        } catch (Exception e){
+            // 예외 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
+        }
+    }
 
 
     @GetMapping("/{email}")
