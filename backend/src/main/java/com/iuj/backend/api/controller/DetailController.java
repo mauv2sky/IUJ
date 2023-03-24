@@ -31,11 +31,11 @@ public class DetailController {
         Map<String, Object> resultMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
         List<AptDealDto> aptDealDTO = aptService.getDealByApartId(id);
+
         resultMap.put("apart", apartDTO);
         resultMap.put("deal", aptDealDTO);
         return resultMap;
     }
-
 
 //    public ResponseEntity<Object> getAptList(@PathVariable Long id){
 //        return new ResponseEntity<>(aptService.aptMethod(id), HttpStatus.OK);
