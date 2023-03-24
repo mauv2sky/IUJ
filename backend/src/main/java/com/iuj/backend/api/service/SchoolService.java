@@ -40,6 +40,7 @@ public class SchoolService {
             List<SchoolDto> schoolList = schoolMap.getOrDefault(schoolType, new ArrayList<>());
             schoolList.add(schoolDto);
             schoolMap.put(schoolType, schoolList);
+
         }
 
         List<SchoolTypeDto> schoolTypeDtos = new ArrayList<>();

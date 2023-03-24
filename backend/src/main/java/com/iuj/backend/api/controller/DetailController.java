@@ -36,7 +36,7 @@ public class DetailController {
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> trafficMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
-        List<AptDealDto> aptDealDTO = aptService.getDealByApartId(id);
+        List<AptDealTypeDto> aptDealTypeDTO = aptService.getDealByApartId(id);
 //      교통
         List<BusStopDto> busStopDTO = trafficService.findNearbyBusStops(apartDTO.getLat(), apartDTO.getLng());
         List<SubwayDto> subwayDTO = trafficService.findNearbySubways(apartDTO.getLat(), apartDTO.getLng());
@@ -46,7 +46,7 @@ public class DetailController {
 
 
         resultMap.put("apart", apartDTO);
-        resultMap.put("deal", aptDealDTO);
+        resultMap.put("deal", aptDealTypeDTO);
 
         trafficMap.put("bus", busStopDTO);
         trafficMap.put("subway", subwayDTO);
