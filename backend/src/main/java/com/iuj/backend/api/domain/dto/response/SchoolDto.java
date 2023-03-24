@@ -14,7 +14,7 @@ public class SchoolDto {
     private String addr;
 
     public SchoolDto(int id, String name, String type, String lat, String lng, String addr){
-        this. id = id;
+        this.id = id;
         this.name = name;
         this.type = type;
         this.lat = lat;
