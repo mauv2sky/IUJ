@@ -42,7 +42,7 @@ public class DetailController {
         List<SubwayDto> subwayDTO = trafficService.findNearbySubways(apartDTO.getLat(), apartDTO.getLng());
 
 //        학군
-        List<SchoolDto> schoolDto = schoolService.findNearBySchool(apartDTO.getLat(), apartDTO.getLng());
+        List<SchoolTypeDto> schoolDto = schoolService.findNearBySchool(apartDTO.getLat(), apartDTO.getLng());
 
 
         resultMap.put("apart", apartDTO);
