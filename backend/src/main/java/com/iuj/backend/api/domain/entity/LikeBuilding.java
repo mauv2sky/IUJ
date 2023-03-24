@@ -17,7 +17,7 @@ import javax.persistence.IdClass;
 @NoArgsConstructor
 public class LikeBuilding {
     @Id
-    private Long building_id;
+    private Long id;
     @Id
     private String type;
     @Id

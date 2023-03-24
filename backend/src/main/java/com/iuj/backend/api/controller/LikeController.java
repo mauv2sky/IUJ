@@ -51,7 +51,7 @@ public class LikeController {
 
     @GetMapping("")
     @ApiOperation(value = "관심매물 조회 api", notes = "관심매물 조회 api")
-    public ResponseEntity<List<LikeBuilding>> getAllLikesByEmail(@RequestHeader(value="X-Auth-Token") String authToken) {
+    public ResponseEntity<Object> getAllLikesByEmail(@RequestHeader(value="X-Auth-Token") String authToken) {
         try{
             return new ResponseEntity<>(likeService.getAllLikesByEmail(authToken), HttpStatus.OK);
         }catch (Exception e){

@@ -19,9 +19,9 @@ import lombok.ToString;
 public class LikeBuildingRequest {
 
     @ApiModelProperty(value = "건물 id", required = true)
-    private Long building_id;
+    private Long id;
 
-    @ApiModelProperty(value = "건물 타입( apt | villa | officetel )", required = true)
+    @ApiModelProperty(value = "건물 타입( APT | VILLA | OFFICETEL )", required = true)
     private String type;
 
 

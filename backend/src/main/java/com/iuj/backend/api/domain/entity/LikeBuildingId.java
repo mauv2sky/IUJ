@@ -16,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class LikeBuildingId implements Serializable {
-    private Long building_id;
+    private Long id;
     private String type;
     private String email;
 }
