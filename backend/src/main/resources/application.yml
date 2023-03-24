@@ -12,6 +12,9 @@ logging:
   level:
     org.hibernate.sql: debug
 
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
 ---
 
 spring:
@@ -39,10 +42,9 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # jdbc:mysql://db-iuj.cj557j0pfgbg.ap-northeast-2.rds.amazonaws.com
     url: ${DB_URL}
-    username: ${DB_USER}  # iujuser
-    password: ${DB_PASSWD}   #!uj2023
+    username: ${DB_USER}
+    password: ${DB_PASSWD}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
@@ -57,10 +59,9 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # jdbc:mysql://db-iuj.cj557j0pfgbg.ap-northeast-2.rds.amazonaws.com
     url: ${DB_URL}
-    username: ${DB_USER}  # iujuser
-    password: ${DB_PASSWD}   #!uj2023
+    username: ${DB_USER}
+    password: ${DB_PASSWD}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
