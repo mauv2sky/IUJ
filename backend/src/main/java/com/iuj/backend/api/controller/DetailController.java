@@ -1,11 +1,11 @@
 package com.iuj.backend.api.controller;
 
-import com.iuj.backend.api.domain.dto.response.AptDto;
-import com.iuj.backend.api.domain.dto.response.AptDealDto;
+import com.iuj.backend.api.domain.dto.response.*;
 
-import com.iuj.backend.api.domain.dto.response.BusStopDto;
 import com.iuj.backend.api.domain.entity.infra.BusStop;
+import com.iuj.backend.api.domain.entity.infra.Subway;
 import com.iuj.backend.api.service.AptService;
+import com.iuj.backend.api.service.SchoolService;
 import com.iuj.backend.api.service.TrafficService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,7 @@ public class DetailController {
     @Autowired
     private final AptService aptService;
     private final TrafficService trafficService;
+    private final SchoolService schoolService;
 
 
     @GetMapping("/apt/{id}")
@@ -36,10 +37,22 @@ public class DetailController {
         Map<String, Object> trafficMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
         List<AptDealDto> aptDealDTO = aptService.getDealByApartId(id);
-        List<BusStopDto> busStopDto = trafficService.findNearbyBusStops(apartDTO.getLat(), apartDTO.getLng());
+//      교통
+        List<BusStopDto> busStopDTO = trafficService.findNearbyBusStops(apartDTO.getLat(), apartDTO.getLng());
+        List<SubwayDto> subwayDTO = trafficService.findNearbySubways(apartDTO.getLat(), apartDTO.getLng());
+
+//        학군
+        List<SchoolDto> schoolDto = schoolService.findNearBySchool(apartDTO.getLat(), apartDTO.getLng());
+
+
         resultMap.put("apart", apartDTO);
         resultMap.put("deal", aptDealDTO);
-        trafficMap.put("bus", busStopDto);
+
+        trafficMap.put("bus", busStopDTO);
+        trafficMap.put("subway", subwayDTO);
+
+        resultMap.put("school", schoolDto);
+        resultMap.put("traffic", trafficMap);
         
         return resultMap;
     }

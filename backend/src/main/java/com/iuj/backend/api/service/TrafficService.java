@@ -1,10 +1,12 @@
 package com.iuj.backend.api.service;
 
 import com.iuj.backend.api.domain.dto.response.BusStopDto;
+import com.iuj.backend.api.domain.dto.response.SubwayDto;
 import com.iuj.backend.api.domain.entity.infra.BusStop;
 import com.iuj.backend.api.domain.entity.infra.Subway;
 import com.iuj.backend.api.repository.infra.BusStopRepository;
 import com.iuj.backend.api.repository.infra.SubwayRepository;
+import com.iuj.backend.util.Near;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +22,11 @@ public class TrafficService {
     }
 
     public List<BusStopDto> findNearbyBusStops(String lat, String lng){
-        double latitude = Double.parseDouble(lat);
-        double longitude = Double.parseDouble(lng);
 
-        double radius = 5;
-        double minLatitude = latitude - (radius/111.319);
-        double maxLatitude = latitude + (radius/111.319);
-        double minLongitude = longitude - (radius/(111.319 * Math.cos(Math.toRadians(latitude))));
-        double maxLongitude = longitude + (radius/(111.319 * Math.cos(Math.toRadians(latitude))));
+        Near near = new Near();
+        String[] latlng = near.calLatLng(lat, lng);
 
-        String minLat = String.valueOf(minLatitude);
-        String maxLat = String.valueOf(maxLatitude);
-        String minLng = String.valueOf(minLongitude);
-        String maxLng = String.valueOf(maxLongitude);
-
-        List<BusStop> busStops = busStopRepository.findAllBusBtwlngAndlat(minLat,maxLat, minLng,maxLng);
+        List<BusStop> busStops = busStopRepository.findAllBusBtwlngAndlat(latlng[0],latlng[1], latlng[2],latlng[3]);
 
         List<BusStopDto> busStopDtos = new ArrayList<>();
         for (BusStop busStop : busStops) {
@@ -51,5 +43,25 @@ public class TrafficService {
 
     public List<Subway> getAllSubStops(){
         return subwayRepository.findAll();
+    }
+
+    public List<SubwayDto> findNearbySubways(String lat, String lng){
+
+        Near near = new Near();
+        String[] latlng = near.calLatLng(lat, lng);
+
+        List<Subway> subways = subwayRepository.findAllSubBtwlngAndlat(latlng[0],latlng[1], latlng[2],latlng[3]);
+
+        List<SubwayDto> subwayDtos = new ArrayList<>();
+        for (Subway subway : subways) {
+            SubwayDto subwayDto = new SubwayDto(
+                    subway.getId(),
+                    subway.getName(),
+                    subway.getLat(),
+                    subway.getLng()
+            );
+            subwayDtos.add(subwayDto);
+        }
+        return subwayDtos;
     }
 }
