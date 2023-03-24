@@ -15,23 +15,23 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class AptDeal {
     @Id
-    private Long id;
+    private int id;
     @Column(length = 45)
     private String area;
     @Column(length = 8)
     private String contract_ym;
     @Column (length = 2)
     private String contract_day;
-    @Column(length = 10)
-    private String deal_type;
+    @Column(length = 10, name="deal_type")
+    private String dealType;
+    @Column(nullable = true)
+    private int guarantee;
+    @Column(nullable = true)
+    private int price;
     @Column
-    private Integer guarantee;
-    @Column
-    private Integer price;
-    @Column
-    private Integer floor;
-    @Column
-    private Integer monthly;
+    private int floor;
+    @Column(nullable = true)
+    private int monthly;
 
     @Column(name="apt_id")
     private Long aptId;
