@@ -20,7 +20,10 @@
 }
 .container2 {
   padding-top: 80px;
-  width: 1600px;
+  width: 100%;
+  height: 600px;
+  // height: auto;
+  // overflow: hidden;
   font-family: 'SUIT-Regular';
   // border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }

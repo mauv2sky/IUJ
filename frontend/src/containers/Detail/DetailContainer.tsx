@@ -3,6 +3,11 @@ import { Map } from 'react-kakao-maps-sdk';
 import { useNavigate } from 'react-router-dom';
 import DetailInformation, { DetailType } from '../../components/DetailInformation/DetailInformation';
 import styles from './DetailContainer.module.scss';
+import InfraIconamenities from '../../components/InfraIcon/InfraIconamenities';
+import InfraIconcultures from '../../components/InfraIcon/InfraIconcultures';
+import InfraIconschools from '../../components/InfraIcon/InfraIconschools';
+import InfraIconsecurities from '../../components/InfraIcon/InfraIconsecurities';
+import InfraIcontransports from '../../components/InfraIcon/InfraIcontransports';
 
 function Detailcontainer() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -221,11 +226,39 @@ function Detailcontainer() {
       clusterer.addMarker(marker);
     }
   };
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const onClickTab = (index: number) => {
+    setTabIndex(index);
+  };
 
   return (
     <div className={styles.container}>
       <div ref={mapRef} className={styles.map} />
-      <div className={styles.icon}>여긴 인프라 아이콘</div>
+      <div className={styles.icon}>
+        <div className={styles.tab}>
+          <div onClick={() => onClickTab(0)} className={tabIndex === 0 ? styles.selected : styles['not-selected']}>
+            학군
+          </div>
+          <div onClick={() => onClickTab(1)} className={tabIndex === 1 ? styles.selected : styles['not-selected']}>
+            교통
+          </div>
+          <div onClick={() => onClickTab(2)} className={tabIndex === 2 ? styles.selected : styles['not-selected']}>
+            편의
+          </div>
+          <div onClick={() => onClickTab(3)} className={tabIndex === 3 ? styles.selected : styles['not-selected']}>
+            치안
+          </div>
+          <div onClick={() => onClickTab(4)} className={tabIndex === 4 ? styles.selected : styles['not-selected']}>
+            문화
+          </div>
+        </div>
+        {tabIndex === 0 && <InfraIconschools />}
+        {tabIndex === 1 && <InfraIcontransports />}
+        {tabIndex === 2 && <InfraIconamenities />}
+        {tabIndex === 3 && <InfraIconsecurities />}
+        {tabIndex === 4 && <InfraIconcultures />}
+      </div>
       <DetailInformation detailRelist={detailRelist} />
     </div>
   );
