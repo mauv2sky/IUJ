@@ -2,9 +2,7 @@ package com.iuj.backend.api.domain.entity;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -15,6 +13,7 @@ import javax.persistence.Id;
 @EqualsAndHashCode
 public class FavFilter {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(length = 30)

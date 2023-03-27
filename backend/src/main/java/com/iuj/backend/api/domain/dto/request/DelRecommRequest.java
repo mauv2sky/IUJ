@@ -17,10 +17,10 @@ import java.util.List;
 @Getter
 @ToString
 @NoArgsConstructor
-@ApiModel(description = "선호 필터 등록 모델")
-public class RecommRequest {
+@ApiModel(description = "선호 필터 삭제 모델")
+public class DelRecommRequest {
 
-    @ApiModelProperty(value = "선호 필터", required = true)
-    private List recomm;
+    @ApiModelProperty(value = "선호 필터 id", required = true)
+    private Long id;
 
 }

@@ -1,5 +1,7 @@
 package com.iuj.backend.api.controller;
 
+import com.iuj.backend.api.domain.dto.request.DelRecommRequest;
+import com.iuj.backend.api.domain.dto.request.RecommRequest;
 import com.iuj.backend.api.domain.enums.ErrorCode;
 import com.iuj.backend.api.exception.CustomException;
 import com.iuj.backend.api.service.RecommService;
@@ -17,34 +19,34 @@ public class RecommController {
     @Autowired
     private RecommService recommService;
 
-//    @PostMapping("")
-//    @ApiOperation(value = "선호 필터 ", notes = "관심매물 등록 api")
-//    public ResponseEntity<Object> addLike(@RequestBody LikeBuildingRequest request, @RequestHeader("X-Auth-Token") String authToken) {
-//        try {
-//            this.recommService.addRecomm(request, authToken);
-//            return ResponseEntity.ok().build();
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//        }
-//    }
-//
-//
-//
-//    @DeleteMapping("")
-//    @ApiOperation(value = "관심매물 삭제 api", notes = "관심매물 삭제 api")
-//    public ResponseEntity<Object> delLike(@RequestBody LikeBuildingRequest request,
-//                                          @RequestHeader(value="X-Auth-Token") String authToken) {
-//        try{
-//            likeService.delLike(request, authToken);
-//            return ResponseEntity.ok().build();
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
-//        }
-//    }
+    @PostMapping("")
+    @ApiOperation(value = "선호 필터 ", notes = "선호 필터 등록 api")
+    public ResponseEntity<Object> addRecomm(@RequestBody RecommRequest request, @RequestHeader("X-Auth-Token") String authToken) {
+        try {
+            recommService.addRecomm(request, authToken);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
+        }
+    }
+
+
+
+    @DeleteMapping("")
+    @ApiOperation(value = "선호 필터 삭제 api", notes = "선호 필터 삭제 api")
+    public ResponseEntity<Object> delRecomm(@RequestBody DelRecommRequest request,
+                                          @RequestHeader(value="X-Auth-Token") String authToken) {
+        try{
+            recommService.delRecomm(request, authToken);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
+        }
+    }
 
 
     @GetMapping("")
-    @ApiOperation(value = "관심매물 조회 api", notes = "관심매물 조회 api")
+    @ApiOperation(value = "선호 필터 조회 api", notes = "선호 필터 조회 api")
     public ResponseEntity<Object> getAllLikesByEmail(@RequestHeader(value="X-Auth-Token") String authToken) {
         try{
             return new ResponseEntity<>(recommService.getAllRecommsByEmail(authToken), HttpStatus.OK);
