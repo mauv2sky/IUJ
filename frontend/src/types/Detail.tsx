@@ -23,6 +23,7 @@
 //     [infra: string]: { [key: string]: string | number[] | number }[];
 //   };
 // };
+
 export type Detail어린이집Type = {
   facility: {
     [infra: string]: { [key: string]: string | number[] | number }[];

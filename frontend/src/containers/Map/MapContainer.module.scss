@@ -20,6 +20,7 @@
       margin: 0 20px 0 0;
 
       & > button {
+        height: 35px;
         display: flex;
         justify-content: space-around;
         align-items: center;
@@ -58,19 +59,42 @@
           font-size: 20px;
           margin-bottom: 2rem;
         }
+
+        .amount-content {
+          color: rgb(0, 106, 255);
+        }
       }
 
       & svg {
         font-size: 18px;
       }
 
+      .option-btn-div {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0 0 0;
+
+        & button {
+          padding: 0.5rem 1rem;
+          border-radius: 5px;
+          border: none;
+          background-color: $tc;
+          font-size: 18px;
+          color: white;
+
+          &:hover {
+            cursor: pointer;
+            background-color: $sc;
+          }
+        }
+      }
+
       .type-btn {
-        width: 180px;
-        height: 35px;
+        width: 160px;
       }
 
       .type-div {
-        width: 150px;
+        width: 120px;
 
         .type-item {
           margin: 0.5rem 0 0 0;
@@ -85,8 +109,11 @@
       }
 
       .deal-type-btn {
-        width: 140px;
-        height: 35px;
+        padding: 0 1.5rem;
+
+        & p {
+          margin: 0 1.6rem 0 0;
+        }
       }
 
       .deal-type-div {
@@ -112,17 +139,26 @@
             .amount-title {
               margin: 0 1rem 0 0;
             }
+          }
 
-            .amount-content {
-              color: rgb(0, 106, 255);
-            }
+          & #slider {
+            margin-top: 2rem;
+            background: $lfc;
           }
         }
       }
+
+      .extent-btn {
+        padding: 0 1.5rem;
+
+        & span {
+          margin: 0 1.5rem 0 0;
+        }
+      }
+
+      .extent-div {
+        width: 300px;
+      }
     }
   }
-}
-
-#slider {
-  background: $lfc;
 }

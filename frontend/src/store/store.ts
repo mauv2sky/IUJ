@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import userSlice from './slices/userSlice';
+import prioritySlice from './slices/prioritySlice';
 
 const persistConfig = {
   key: 'root',
@@ -12,6 +13,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   userSlice,
+  prioritySlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
