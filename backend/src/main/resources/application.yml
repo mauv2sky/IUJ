@@ -17,6 +17,8 @@ spring:
             scope:
               - email
               - profile
+  jwt:
+    secret: NiceE103!
 
 logging:
   level:
@@ -26,8 +28,7 @@ jasypt:
   encryptor:
     bean: jasyptStringEncryptor
 
-jwt:
-  secret: NiceE103!
+
 
 ---
 
