@@ -41,7 +41,7 @@ const priorityMapForRequest: priorityMapType = {
 
 export const schools = {
   title: '학군',
-  kind: ['어린이집', '유치원', '초등학교', '중학교', '고등학교', '특수학교', '입시학원', '예체능학원', '어린이집'],
+  kind: ['어린이집', '유치원', '초등학교', '중학교', '고등학교', '특수학교', '입시학원', '예체능학원'],
   icon: <FaSchool />,
   color: '#DCBFB7',
 };
@@ -81,7 +81,6 @@ function SetPriority() {
   const dispatch = useDispatch();
   const [priority, setPrirorty] = useState<priorityType[]>([]);
   const dummyPriority = [0, 1, 2, 3, 4];
-  const [priorityForRequest, setPriorityForRequest] = useState<string[]>([]);
 
   /** ============================== 함수 ============================== */
   /** 우선 순위 리스트를 요청용으로 전처리하기 위한 함수 */
@@ -137,6 +136,7 @@ function SetPriority() {
   /** 우선 순위 초기화 */
   const onClickRefresh = () => {
     setPrirorty([]);
+    dispatch(setPriority({ priority: [] }));
   };
 
   /** 우선 순위 삭제 */

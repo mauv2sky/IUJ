@@ -1,17 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
+import { useAppSelector } from '../../store/hooks';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
-// import RangeSlider from 'react-range-slider-input';
-// import 'react-range-slider-input/dist/style.css';
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 import MapSidebar from '../../components/MapSidebar/MapSidebar';
-import styles from './MapContainer.module.scss';
 import { pretreatAmount } from '../../utils/PretreatAmount';
 import { boundType, filterType } from '../../types/Map';
 import { requestRealEstateList } from '../../api/map';
-import { useAppSelector } from '../../store/hooks';
+import styles from './MapContainer.module.scss';
+import './Slider.scss';
 
-/** 선호 순위 적용, 선호 순위 목록에서 선호 순위 적용, 매물 타입 변경 시,
- * 그 외 필터들 적용 버튼 클릭 시, 드래그 끝날 때, 지도 레벨 변경 시 */
+/** 매물 목록 API 요청
+ * 선호 순위 적용
+ * 선호 순위 목록에서 선호 순위 적용
+ * 매물 타입 변경 시,
+ * 그 외 필터들 적용 버튼 클릭 시
+ * 드래그 끝날 때
+ * 지도 레벨 변경 시 */
 
 /** 매매가 105000일 때는 2000000으로 바꿔서 보내기 */
 
@@ -22,8 +28,8 @@ type MapType = {
 function MapContainer() {
   /** ================================================= useState, useRef, 변수 ================================================= */
   const mapRef = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<kakao.maps.Map>(null);
-  const [clusterer, setClusterer] = useState<any>(null);
+  const [map, setMap] = useState<kakao.maps.Map | null>(null);
+  const [clusterer, setClusterer] = useState<kakao.maps.MarkerClusterer | null>(null);
   const priority = useAppSelector((state) => state.prioritySlice.priority);
   const [showOption, setShowOption] = useState<number>(-1);
   const typeMap: MapType = {
@@ -47,9 +53,16 @@ function MapContainer() {
     createMap();
   }, []);
 
+  /** map, clusterer 등록되면 초기 매물 요청 */
+  useEffect(() => {
+    if (map && clusterer) {
+      requestRealEstateForMap();
+    }
+  }, [map, clusterer]);
+
   /** state에 있는 priority 변경 시 */
   useEffect(() => {
-    console.log('이걸로 요청할거', priority);
+    requestRealEstateForMap();
   }, [priority]);
 
   /** ================================================= 함수 ================================================= */
@@ -101,40 +114,15 @@ function MapContainer() {
           /** 바깥에서 clusterer 쓸 수 있게 */
           setClusterer(clusterer);
 
-          /** 현재 영역 가져옴 */
-          const bound = map.getBounds();
-
-          /** 현재 영역의 매물들 가져옴 */
-          console.log(bound.toString(), '로 api 요청');
-
-          /** api 요청으로 가져온 매물 리스트 */
-          const markers = [
-            {
-              latlng: new window.kakao.maps.LatLng(35.1010816, 128.8503296),
-            },
-            {
-              latlng: new window.kakao.maps.LatLng(35.103, 128.86),
-            },
-            {
-              latlng: new window.kakao.maps.LatLng(35.098, 128.84),
-            },
-            {
-              latlng: new window.kakao.maps.LatLng(35.08890247744162, 128.83822136672302),
-            },
-            {
-              latlng: new window.kakao.maps.LatLng(35.10386800625879, 128.86967958733695),
-            },
-          ];
-
           /** 마커 표시 */
-          for (let i = 0; i < markers.length; i++) {
-            const marker = new kakao.maps.Marker({
-              map,
-              position: markers[i].latlng,
-            });
+          // for (let i = 0; i < markers.length; i++) {
+          //   const marker = new kakao.maps.Marker({
+          //     map,
+          //     position: markers[i].latlng,
+          //   });
 
-            clusterer.addMarker(marker);
-          }
+          //   clusterer.addMarker(marker);
+          // }
         }
       } catch (error) {
         console.error(error);
@@ -151,10 +139,19 @@ function MapContainer() {
   };
 
   /** 현재 영역 매물 요청 */
-  const requestRealEstateForMap = async (bound: boundType, level: number) => {
+  const requestRealEstateForMap = async () => {
+    if (!clusterer || !map) {
+      return;
+    }
+
     /** 기존 맵, 클러스터러 초기화 */
     clusterer.clear();
 
+    /** 지도의 영역과 레벨 불러오기 */
+    const bound = pretreatBound(map.getBounds());
+    const level = map.getLevel();
+
+    /** 전세, 월세에 따른 보증금 전처리 */
     let guarantee;
     if (dealType === 'LONG_TERM_RENT') {
       guarantee = [guarantee1[0], guarantee1[1] === 105000 ? 2000000 : guarantee1[1]];
@@ -162,6 +159,7 @@ function MapContainer() {
       guarantee = [guarantee2[0], guarantee2[1] === 105000 ? 2000000 : guarantee2[1]];
     }
 
+    /** 월세 전처리 */
     let monthlyForRequest;
     if (dealType === 'MONTHLY') {
       monthlyForRequest = [monthly[0], monthly[1] === 350 ? 5000 : monthly[1]];
@@ -176,7 +174,7 @@ function MapContainer() {
       floor: [floor[0], floor[1] === 10 ? 100 : floor[1]],
     };
 
-    console.log({ bound, deal_type: dealType, filter, level, recomm: priority, type });
+    console.log('아래 정보로 매물 요청', { bound, deal_type: dealType, filter, level, recomm: priority, type });
 
     /** 백엔드에 매물 요청 */
     try {
@@ -201,10 +199,7 @@ function MapContainer() {
   /** 지도의 옵션 버튼 클릭 시 */
   const onClickOption = (e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGElement>) => {
     const target = e.target as HTMLElement;
-    console.log(target);
     const id = parseInt(target.id, 10);
-
-    console.log(id);
 
     if (id === showOption) {
       setShowOption(-1);
@@ -277,10 +272,7 @@ function MapContainer() {
 
   /** 적용 버튼 클릭 시 */
   const onClickApply = () => {
-    const bound = pretreatBound(map.getBounds());
-    const level = map.getLevel();
-
-    requestRealEstateForMap(bound, level);
+    requestRealEstateForMap();
   };
 
   /** ================================================= Axios ================================================= */
@@ -388,7 +380,7 @@ function MapContainer() {
                       {pretreatAmount(price[0])} ~ {price[1] === 105000 || price[1] === 2000000 ? '무제한' : pretreatAmount(price[1])}
                     </span>
                   </p>
-                  <RangeSlider id={styles.slider} min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={price} onInput={onChangePrice} />
+                  <RangeSlider id="slider" min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={price} onInput={onChangePrice} />
                 </div>
               )}
               {dealType == 'LONG_TERM_RENT' && (
@@ -399,7 +391,7 @@ function MapContainer() {
                       {pretreatAmount(guarantee1[0])} ~ {guarantee1[1] === 105000 || guarantee1[1] === 2000000 ? '무제한' : pretreatAmount(guarantee1[1])}
                     </span>
                   </p>
-                  <RangeSlider id={styles.slider} min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={guarantee1} onInput={onChangeGuarantee1} />
+                  <RangeSlider id="slider" min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={guarantee1} onInput={onChangeGuarantee1} />
                 </div>
               )}
               {dealType == 'MONTHLY_RENT' && (
@@ -410,14 +402,14 @@ function MapContainer() {
                       {pretreatAmount(guarantee2[0])} ~ {guarantee2[1] === 105000 || guarantee2[1] === 2000000 ? '무제한' : pretreatAmount(guarantee2[1])}
                     </span>
                   </p>
-                  <RangeSlider id={styles.slider} min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={guarantee2} onInput={onChangeGuarantee2} />
+                  <RangeSlider id="slider" min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={guarantee2} onInput={onChangeGuarantee2} />
                   <p style={{ margin: '3rem 0 0 0' }}>
                     <span className={styles['amount-title']}>월세 : </span>
                     <span className={styles['amount-content']}>
                       {pretreatAmount(monthly[0])} ~ {monthly[1] === 350 || monthly[1] === 5000 ? '무제한' : pretreatAmount(monthly[1])}
                     </span>
                   </p>
-                  <RangeSlider id={styles.slider} min={0} max={350} step={50} defaultValue={[0, 350]} value={monthly} onInput={onChangeMonthly} />
+                  <RangeSlider id="slider" min={0} max={350} step={50} defaultValue={[0, 350]} value={monthly} onInput={onChangeMonthly} />
                 </div>
               )}
               <div className={styles['option-btn-div']} onClick={onClickApply}>
@@ -441,7 +433,10 @@ function MapContainer() {
                   {extent[0]}㎡ ({extent2[0]}평) ~ {extent[1]}㎡ ({extent2[1]}평)
                 </span>
               </p>
-              <RangeSlider id={styles.slider} min={0} max={200} step={1} defaultValue={[0, 200]} value={extent2} onInput={onChangeExtent} />
+              <RangeSlider id="slider" min={0} max={200} step={1} defaultValue={[0, 200]} value={extent2} onInput={onChangeExtent} />
+              <div className={styles['option-btn-div']} onClick={onClickApply}>
+                <button>적용</button>
+              </div>
             </div>
           )}
         </div>
@@ -466,7 +461,10 @@ function MapContainer() {
                   </span>
                 )}
               </p>
-              <RangeSlider id={styles.slider} min={0} max={10} step={1} defaultValue={[0, 10]} value={floor} onInput={onChangeFloor} />
+              <RangeSlider id="slider" min={0} max={10} step={1} defaultValue={[0, 10]} value={floor} onInput={onChangeFloor} />
+              <div className={styles['option-btn-div']} onClick={onClickApply}>
+                <button>적용</button>
+              </div>
             </div>
           )}
         </div>
