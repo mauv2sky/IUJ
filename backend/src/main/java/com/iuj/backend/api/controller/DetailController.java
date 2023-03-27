@@ -2,10 +2,7 @@ package com.iuj.backend.api.controller;
 
 import com.iuj.backend.api.domain.dto.response.*;
 
-import com.iuj.backend.api.service.AptService;
-import com.iuj.backend.api.service.SafeService;
-import com.iuj.backend.api.service.SchoolService;
-import com.iuj.backend.api.service.TrafficService;
+import com.iuj.backend.api.service.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,7 @@ public class DetailController {
     private final AptService aptService;
     private final TrafficService trafficService;
     private final SchoolService schoolService;
-
+    private final AcademyService academyService;
     private final SafeService safeService;
 
     @GetMapping("/apt/{id}")
@@ -44,7 +41,7 @@ public class DetailController {
 
 //        학군
         List<SchoolTypeDto> schoolDto = schoolService.findNearBySchool(apartDTO.getLat(), apartDTO.getLng());
-
+        List<AcademyTypeDto> academyDto = academyService.findNearByAcademy(apartDTO.getLat(), apartDTO.getLng());
 //       치안
         List<CctvDto> cctvDto = safeService.findNearbyCctvs(apartDTO.getLat(), apartDTO.getLng());
         List<PoliceDto> policeDto = safeService.findNearbyPolices(apartDTO.getLat(), apartDTO.getLng());
@@ -54,14 +51,15 @@ public class DetailController {
 //
         trafficMap.put("bus", busStopDTO);
         trafficMap.put("subway", subwayDTO);
+//        resultMap.put("traffic", trafficMap);
 
         resultMap.put("school", schoolDto);
-        resultMap.put("traffic", trafficMap);
-
+        resultMap.put("academy", academyDto);
+//
         safeMap.put("CCTV", cctvDto);
         safeMap.put("Police", policeDto);
 
-        resultMap.put("safe", safeMap);
+//        resultMap.put("safe", safeMap);
 
 
         return resultMap;
@@ -81,7 +79,6 @@ public class DetailController {
 //    @GetMapping("/apt/{id}/detail")
 //    @ApiOperation(value = "아파트 상세 페이지 거래내역", notes="아파트 상세 거래 내역 ")
 //    public ResponseEntity<Object> getAptDetail(@PathVariable Long id){
-//        System.out.println(aptDetailService.dealMethod(id));
 //        return new ResponseEntity<>(aptDetailService.dealMethod(id), HttpStatus.OK);
 //    }
 }

@@ -38,7 +38,7 @@ public class AptService {
     public List<AptDealTypeDto> getDealByApartId(Long id) {
         Map<String, List<AptDealDto>> DealMap = new HashMap<>();
         List<AptDeal> deals = aptDealRepository.findByAptId(id);
-        System.out.println(deals);
+
         for (AptDeal aptDeal : deals) {
             AptDealDto aptDealDto = new AptDealDto(
                     aptDeal.getId(),

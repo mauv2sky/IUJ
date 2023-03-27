@@ -7,15 +7,13 @@ import java.util.List;
 
 @Getter
 @Setter
-public class SchoolTypeDto {
+public class AcademyTypeDto {
     private String type;
-    private List<SchoolDto> schools;
+    private List<AcademyDto> academys;
 
-    public SchoolTypeDto(String type, List<SchoolDto> schools){
-        this.schools = schools;
+    public AcademyTypeDto(String type, List<AcademyDto> academys){
         this.type = type;
+        this.academys = academys;
     }
-
-
 
 }
