@@ -2,6 +2,7 @@ package com.iuj.backend.api.controller;
 
 import com.iuj.backend.api.domain.dto.response.*;
 
+import com.iuj.backend.api.repository.infra.CinemaRepository;
 import com.iuj.backend.api.service.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +28,14 @@ public class DetailController {
     private final AcademyService academyService;
     private final SafeService safeService;
     private final ConviService conviService;
-
+    private final CultureService cultureService;
     @GetMapping("/apt/{id}")
     @ApiOperation(value="아파트 상세페이지 정보", notes="아파트 상세페이지 정보")
     public Map<String, Object> getApart(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> trafficMap = new HashMap<>();
         Map<String, Object> safeMap = new HashMap<>();
+        Map<String, Object> cultureMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
         List<AptDealTypeDto> aptDealTypeDTO = aptService.getDealByApartId(id);
 //      교통
@@ -50,21 +52,34 @@ public class DetailController {
 //        편의시설
         List<ConviDto> conviDto = conviService.findNearbyConvi(apartDTO.getLat(), apartDTO.getLng());
 
+//        문화시설
+        List<CinemaDto> cinemaDto = cultureService.findNearbyCinemas(apartDTO.getLat(), apartDTO.getLng());
+        List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(apartDTO.getLat(), apartDTO.getLng());
+        List<GalleryDto> galleryDto = cultureService.findNearbyGallerys(apartDTO.getLat(), apartDTO.getLng());
+        List<ParkDto> parkDto = cultureService.findNearbyParks(apartDTO.getLat(), apartDTO.getLng());
+
+
         resultMap.put("apart", apartDTO);
         resultMap.put("deal", aptDealTypeDTO);
-//
-        trafficMap.put("bus", busStopDTO);
-        trafficMap.put("subway", subwayDTO);
+//      교통 추가
+//        trafficMap.put("bus", busStopDTO);
+//        trafficMap.put("subway", subwayDTO);
 //        resultMap.put("traffic", trafficMap);
-
-        resultMap.put("school", schoolDto);
-        resultMap.put("academy", academyDto);
+//      학군 추가
+//        resultMap.put("school", schoolDto);
+//        resultMap.put("academy", academyDto);
+//      치안 추가
+//        safeMap.put("CCTV", cctvDto);
+//        safeMap.put("Police", policeDto);
 //
-        safeMap.put("CCTV", cctvDto);
-        safeMap.put("Police", policeDto);
-
-        resultMap.put("편의점", conviDto);
+//        resultMap.put("편의점", conviDto);
 //        resultMap.put("safe", safeMap);
+
+        cultureMap.put("영화관", cinemaDto);
+        cultureMap.put("도서관", libraryDto);
+        cultureMap.put("곻원", parkDto);
+        cultureMap.put("미술관", galleryDto);
+        resultMap.put("문화시설", cultureMap);
 
 
         return resultMap;
