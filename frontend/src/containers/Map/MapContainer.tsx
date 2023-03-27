@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
-import RangeSlider from 'react-range-slider-input';
-import 'react-range-slider-input/dist/style.css';
+// import RangeSlider from 'react-range-slider-input';
+// import 'react-range-slider-input/dist/style.css';
 import MapSidebar from '../../components/MapSidebar/MapSidebar';
 import styles from './MapContainer.module.scss';
 import { pretreatAmount } from '../../utils/PretreatAmount';

@@ -19,16 +19,24 @@
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  border: 2px solid $ffc;
   opacity: 0.5;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  background-color: $ffc;
+  &.selected {
+    background-color: #a4d8c5;
+    opacity: 1;
+    transform: scale(1.05);
+  }
 }
 .icon {
-  color: $ffc;
+  color: white;
   & svg {
     font-size: 25px;
+  }
+  &.selected {
+    color: #a4d8c5;
   }
 }
