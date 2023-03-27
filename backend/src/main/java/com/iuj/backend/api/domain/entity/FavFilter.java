@@ -3,6 +3,7 @@ package com.iuj.backend.api.domain.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 
 @Entity
 @Getter
@@ -14,7 +15,7 @@ import javax.persistence.*;
 public class FavFilter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private BigInteger id;
 
     @Column(length = 30)
     private String email;

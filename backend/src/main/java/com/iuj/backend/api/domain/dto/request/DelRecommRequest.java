@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Setter
@@ -21,6 +22,6 @@ import java.util.List;
 public class DelRecommRequest {
 
     @ApiModelProperty(value = "선호 필터 id", required = true)
-    private Long id;
+    private BigInteger id;
 
 }

@@ -3,14 +3,13 @@ package com.iuj.backend.api.service;
 import com.iuj.backend.api.domain.dto.request.DelRecommRequest;
 import com.iuj.backend.api.domain.dto.request.RecommRequest;
 import com.iuj.backend.api.domain.dto.response.MainSub;
-import com.iuj.backend.api.domain.dto.response.RecommDto;
 import com.iuj.backend.api.domain.entity.FavFilter;
 import com.iuj.backend.api.domain.enums.Recomm;
 import com.iuj.backend.api.repository.recomm.RecommRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.HtmlUtils;
 
+import java.math.BigInteger;
 import java.util.*;
 
 @Service
@@ -32,7 +31,7 @@ public class RecommService {
 
         for (FavFilter recomm : recomms) {
 
-            Long id = recomm.getId();
+            BigInteger id = recomm.getId();
 
             // [{main, sub}, {ms2},...]
             List<Object> list = new ArrayList<>();
@@ -71,7 +70,7 @@ public class RecommService {
         String[] recommArray = new String[5];
         for (int i = 0; i < recommList.size(); i++) {
             recommArray[i] = recommList.get(i);
-//            System.out.println(recommArray[i]);
+        // System.out.println(recommArray[i]);
         }
         String first = recommArray[0];
         String second = recommArray[1];
@@ -81,31 +80,25 @@ public class RecommService {
 
         // 생성 후 저장
         FavFilter searchRecomm = new FavFilter(null, email, first, second, third, fourth, fifth);
-        FavFilter savedRecomm = recommRepository.save(searchRecomm);
-
-//        Hibernate: insert into fav_filter (email, fifth, first, fourth, second, third) values (?, ?, ?, ?, ?, ?)
-//        2023-03-27 18:02:09.026  WARN 9608 --- [nio-5000-exec-2] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 1364, SQLState: HY000
-//        2023-03-27 18:02:09.027 ERROR 9608 --- [nio-5000-exec-2] o.h.engine.jdbc.spi.SqlExceptionHelper   : Field 'id' doesn't have a default value
+        recommRepository.save(searchRecomm);
 
     }
 
 
-
-
     // 선호 필터 삭제
-    public void delRecomm(DelRecommRequest request, String authToken) throws IllegalArgumentException {
+    public void delRecomm(DelRecommRequest request, String authToken) {
         // authToken으로 email 받아와야함
         String email = "qwer"; // 임시로 email 값을 설정
 
-        // id가 음수인 경우 예외 발생
-        if (request.getId() < 0 || request.getId() == null) {
-            throw new IllegalArgumentException("id must be a positive integer.");
-        }
-
         // 값을 찾아서
-        Object searchRecomm = recommRepository.findById(request.getId());
-        System.out.println(searchRecomm);
+        FavFilter searchRecomm = recommRepository.findById_(request.getId());
+        // System.out.println(searchRecomm);
+        // FavFilter(id=3, email=qwer, first=치안, second=지하철, third=마트, fourth=초등학교, fifth=null)
+
+        // email과 일치하면
+        if (searchRecomm.getEmail().equals(email)) {
         // 삭제
-//        recommRepository.delete(searchRecomm);
+            recommRepository.delete(searchRecomm);
+        }
     }
 }
