@@ -26,6 +26,7 @@ public class DetailController {
     private final SchoolService schoolService;
     private final AcademyService academyService;
     private final SafeService safeService;
+    private final ConviService conviService;
 
     @GetMapping("/apt/{id}")
     @ApiOperation(value="아파트 상세페이지 정보", notes="아파트 상세페이지 정보")
@@ -46,6 +47,9 @@ public class DetailController {
         List<CctvDto> cctvDto = safeService.findNearbyCctvs(apartDTO.getLat(), apartDTO.getLng());
         List<PoliceDto> policeDto = safeService.findNearbyPolices(apartDTO.getLat(), apartDTO.getLng());
 
+//        편의시설
+        List<ConviDto> conviDto = conviService.findNearbyConvi(apartDTO.getLat(), apartDTO.getLng());
+
         resultMap.put("apart", apartDTO);
         resultMap.put("deal", aptDealTypeDTO);
 //
@@ -59,6 +63,7 @@ public class DetailController {
         safeMap.put("CCTV", cctvDto);
         safeMap.put("Police", policeDto);
 
+        resultMap.put("편의점", conviDto);
 //        resultMap.put("safe", safeMap);
 
 
