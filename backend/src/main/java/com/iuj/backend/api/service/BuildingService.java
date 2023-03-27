@@ -46,11 +46,11 @@ public class BuildingService {
             List<LocationMapping> locList;
 
             if(buildingType.equals(BuildingType.APT)) {
-                locList = aptRepository.getByBound(bound.getSw()[0], bound.getSw()[1], bound.getNe()[0], bound.getNe()[1]);
+                locList = aptRepository.getByBound(Double.toString(bound.getSw()[0]), Double.toString(bound.getSw()[1]), Double.toString(bound.getNe()[0]), Double.toString(bound.getNe()[1]));
             } else if(buildingType.equals(BuildingType.OFFICETEL)){
-                locList = officetelRepository.getByBound(bound.getSw()[0], bound.getSw()[1], bound.getNe()[0], bound.getNe()[1]);
+                locList = officetelRepository.getByBound(Double.toString(bound.getSw()[0]), Double.toString(bound.getSw()[1]), Double.toString(bound.getNe()[0]), Double.toString(bound.getNe()[1]));
             } else {
-                locList = villaRepository.getByBound(bound.getSw()[0], bound.getSw()[1], bound.getNe()[0], bound.getNe()[1]);
+                locList = villaRepository.getByBound(Double.toString(bound.getSw()[0]), Double.toString(bound.getSw()[1]), Double.toString(bound.getNe()[0]), Double.toString(bound.getNe()[1]));
             }
 
             buildingList = locList.stream()
