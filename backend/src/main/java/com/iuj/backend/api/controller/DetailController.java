@@ -2,10 +2,8 @@ package com.iuj.backend.api.controller;
 
 import com.iuj.backend.api.domain.dto.response.*;
 
-import com.iuj.backend.api.domain.entity.infra.BusStop;
-import com.iuj.backend.api.domain.entity.infra.Subway;
 import com.iuj.backend.api.service.AptService;
-import com.iuj.backend.api.service.CctvService;
+import com.iuj.backend.api.service.SafeService;
 import com.iuj.backend.api.service.SchoolService;
 import com.iuj.backend.api.service.TrafficService;
 import io.swagger.annotations.ApiOperation;
@@ -30,13 +28,14 @@ public class DetailController {
     private final TrafficService trafficService;
     private final SchoolService schoolService;
 
-    private final CctvService cctvService;
+    private final SafeService safeService;
 
     @GetMapping("/apt/{id}")
     @ApiOperation(value="아파트 상세페이지 정보", notes="아파트 상세페이지 정보")
     public Map<String, Object> getApart(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         Map<String, Object> trafficMap = new HashMap<>();
+        Map<String, Object> safeMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
         List<AptDealTypeDto> aptDealTypeDTO = aptService.getDealByApartId(id);
 //      교통
@@ -47,19 +46,24 @@ public class DetailController {
         List<SchoolTypeDto> schoolDto = schoolService.findNearBySchool(apartDTO.getLat(), apartDTO.getLng());
 
 //       치안
-        List<CctvDto> cctvDto = cctvService.findNearbyCctvs(apartDTO.getLat(), apartDTO.getLng());
-
+        List<CctvDto> cctvDto = safeService.findNearbyCctvs(apartDTO.getLat(), apartDTO.getLng());
+        List<PoliceDto> policeDto = safeService.findNearbyPolices(apartDTO.getLat(), apartDTO.getLng());
 
         resultMap.put("apart", apartDTO);
         resultMap.put("deal", aptDealTypeDTO);
-
+//
         trafficMap.put("bus", busStopDTO);
         trafficMap.put("subway", subwayDTO);
 
         resultMap.put("school", schoolDto);
         resultMap.put("traffic", trafficMap);
 
-        resultMap.put("CCTV", cctvDto);
+        safeMap.put("CCTV", cctvDto);
+        safeMap.put("Police", policeDto);
+
+        resultMap.put("safe", safeMap);
+
+
         return resultMap;
     }
 
