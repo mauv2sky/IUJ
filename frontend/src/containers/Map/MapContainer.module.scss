@@ -61,7 +61,7 @@
         }
 
         .amount-content {
-          color: rgb(0, 106, 255);
+          color: rgb(57, 117, 201);
         }
       }
 
@@ -103,7 +103,7 @@
 
           &:hover {
             cursor: pointer;
-            background-color: $tc;
+            background-color: $fc;
           }
         }
       }
@@ -141,9 +141,14 @@
             }
           }
 
-          & #slider {
-            margin-top: 2rem;
-            background: $lfc;
+          #slider {
+            &__thumb[data-lower] {
+              background: red;
+            }
+
+            &__thumb[data-upper] {
+              /* Your styles for upper thumb */
+            }
           }
         }
       }
