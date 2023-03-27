@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.iuj.backend.api.domain.entity.LikeBuilding;
 import com.iuj.backend.api.repository.like.LikeRepository;
+import org.springframework.web.util.HtmlUtils;
 
 @Service
 public class LikeService {
@@ -101,23 +102,29 @@ public class LikeService {
     }
 
     // 관심 매물 등록
-    public void addLike(LikeBuildingRequest request, String authToken) {
+    public void addLike(LikeBuildingRequest request, String authToken) throws IllegalArgumentException {
         // authToken으로 email 받아와야함
         String email = "qwer"; // 임시로 email 값을 설정
 
-//        안써도 되는 기능인거같다
-//        // email을 사용하여 LikeBuilding 엔티티를 조회
-//        List<LikeBuilding> existingLikes = likeRepository.findByEmail(email);
+        // id와 type이 null인지 체크
+        if (request.getId() == null || request.getType() == null) {
+            throw new IllegalArgumentException("id and type are required.");
+        }
+
+        // id가 음수인 경우 예외 발생
+        if (request.getId() < 0) {
+            throw new IllegalArgumentException("id must be a positive integer.");
+        }
+
+        // XSS 공격 방어용 HTML 태그 제거
+        String type = HtmlUtils.htmlEscape(request.getType());
 
         // 생성 후 저장
-        LikeBuilding searchBuilding = new LikeBuilding(request.getId(), request.getType(), email);
-        likeRepository.save(searchBuilding);
+        LikeBuilding searchBuilding = new LikeBuilding(request.getId(), type, email);
+        likeRepository.saveQuery(searchBuilding.getId(), searchBuilding.getType(), email);
 
-//        안써도 되는 기능인거같다      
-//        if (!existingLikes.contains(searchBuilding)) {
-//            // searchBuilding 엔티티가 existingLikes에 존재하지 않으면 저장
-//            likeRepository.save(searchBuilding);
-        }
+    }
+
 
 
     
@@ -126,9 +133,11 @@ public class LikeService {
         // authToken으로 email 받아와야함
         String email = "qwer"; // 임시로 email 값을 설정
 
-        LikeBuilding searchBuilding = new LikeBuilding(request.getId(), request.getType(), email);
+        // XSS 공격 방어용 HTML 태그 제거
+        String type = HtmlUtils.htmlEscape(request.getType());
+
+        LikeBuilding searchBuilding = new LikeBuilding(request.getId(), type, email);
         // 삭제
         likeRepository.delete(searchBuilding);
     }
-
 }

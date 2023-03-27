@@ -23,16 +23,15 @@ public class LikeController {
 
     @PostMapping("")
     @ApiOperation(value = "관심매물 등록 api", notes = "관심매물 등록 api")
-    public ResponseEntity<Object> addLike(@RequestBody LikeBuildingRequest request,
-                                          @RequestHeader(value="X-Auth-Token") String authToken) {
-        try{
-            likeService.addLike(request, authToken);
+    public ResponseEntity<Object> addLike(@RequestBody LikeBuildingRequest request, @RequestHeader("X-Auth-Token") String authToken) {
+        try {
+            this.likeService.addLike(request, authToken);
             return ResponseEntity.ok().build();
-        } catch (Exception e){
-            // 예외 처리
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
         }
     }
+
 
 
     @DeleteMapping("")
@@ -42,8 +41,7 @@ public class LikeController {
         try{
             likeService.delLike(request, authToken);
             return ResponseEntity.ok().build();
-        } catch (Exception e){
-            // 예외 처리
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred: " + e.getMessage());
         }
     }
@@ -58,5 +56,4 @@ public class LikeController {
             throw new CustomException(ErrorCode.UNKNOWN_ERROR);
         }
     }
-
 }
