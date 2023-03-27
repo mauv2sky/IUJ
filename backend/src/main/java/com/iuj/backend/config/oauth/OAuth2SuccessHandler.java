@@ -26,6 +26,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final UserRequestMapper userRequestMapper;
     private final ObjectMapper objectMapper;
 
+    // DB에서 User 정보를 가져와서 토큰 생성 및 전달
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();

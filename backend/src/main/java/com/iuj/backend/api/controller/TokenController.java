@@ -2,6 +2,8 @@ package com.iuj.backend.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iuj.backend.api.domain.dto.response.TokenDto;
+import com.iuj.backend.api.domain.enums.ErrorCode;
+import com.iuj.backend.api.exception.CustomException;
 import com.iuj.backend.config.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,10 +21,12 @@ public class TokenController {
     private final JwtTokenProvider jwtTokenProvider;
     private final ObjectMapper objectMapper;
 
-    @GetMapping("/expired")
-    public String auth() {
-        throw new RuntimeException();
+
+    @GetMapping("/confirm")
+    public void confirm() {
+        System.out.println("===============================");
     }
+
 
     @GetMapping("/refresh")
     public void refreshAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {

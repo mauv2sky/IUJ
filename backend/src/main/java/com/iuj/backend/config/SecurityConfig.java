@@ -27,18 +27,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
-            .httpBasic().disable()
+        http.httpBasic().disable()
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
             .and()
-                .authorizeRequests()    // 관심 건물, 필터 추가시에는 로그인 필요
-                .antMatchers("/api/like").authenticated()
-                .anyRequest().permitAll()
+            .authorizeRequests()    // 관심 건물, 필터 추가시에는 로그인 필요
+            .antMatchers("/api/like").authenticated()
+            .anyRequest().permitAll()
+
             .and()
-                .oauth2Login().loginPage("/token/expired")
-                .successHandler(successHandler)
-                .userInfoEndpoint().userService(oAuth2UserService);
+            .oauth2Login()
+            .authorizationEndpoint().baseUri("/oauth2/authorize")
+
+            .and()
+            .successHandler(successHandler)
+            .userInfoEndpoint().userService(oAuth2UserService);
 
         http
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
