@@ -13,6 +13,7 @@ public class CctvDto {
     private String dir;
     private String type;
 
+
     public CctvDto(int id, String lat, String lng, int count, String dir, String type){
         this.id = id;
         this.lat=lat;

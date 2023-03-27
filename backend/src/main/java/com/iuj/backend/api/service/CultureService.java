@@ -52,11 +52,12 @@ public class CultureService {
         List<LibraryDto> libraryDtos = new ArrayList<>();
         for (Library library : librarys) {
             LibraryDto libraryDto = new LibraryDto(
-                    library.getId(),
-                    library.getName(),
-                    library.getLat(),
-                    library.getLng(),
-                    library.getAddr()
+                library.getId(),
+                library.getName(),
+                library.getLat(),
+                library.getLng(),
+                library.getAddr(),
+                library.getType()
             );
             libraryDtos.add(libraryDto);
         }
@@ -98,7 +99,8 @@ public class CultureService {
                     park.getName(),
                     park.getLat(),
                     park.getLng(),
-                    park.getType()
+                    park.getType(),
+                    park.getAddr()
             );
             parkDtos.add(parkDto);
         }

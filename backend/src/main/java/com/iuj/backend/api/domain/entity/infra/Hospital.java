@@ -1,5 +1,6 @@
 package com.iuj.backend.api.domain.entity.infra;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,14 +14,7 @@ import javax.persistence.Entity;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Library extends BaseInfra{
-    @Column(length=45)
-    private String name;
-
-    @Column(length=45)
-    private String addr;
-
+public class Hospital extends BaseInfra {
     @Column
-    private String type;
-
+    private String name;
 }

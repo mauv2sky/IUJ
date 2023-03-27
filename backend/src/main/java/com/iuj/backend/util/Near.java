@@ -15,7 +15,7 @@ public class Near {
         double latitude = Double.parseDouble(lat);
         double longitude = Double.parseDouble(lng);
 
-        double radius = 5;
+        double radius = 2;
         String minLatitude = String.valueOf(latitude - (radius / 111.319));
         String maxLatitude = String.valueOf(latitude + (radius / 111.319));
         String minLongitude = String.valueOf(longitude - (radius / (111.319 * Math.cos(Math.toRadians(latitude)))));
