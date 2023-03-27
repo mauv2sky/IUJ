@@ -19,7 +19,7 @@ public class CctvDto {
         this.lng = lng;
         this.count=count;
         this.dir=dir;
-        this.type=type
+        this.type=type;
     }
 
 }
