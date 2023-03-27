@@ -85,7 +85,7 @@ public class BuildingService {
     private HashMap<String, Integer> getScoreMap(List<Recomm> recomm){
         HashMap<String, Integer> score = new HashMap<>();
         for(Recomm r : recomm){
-            score.put(r.getName(), ((int) (Math.random() * 10))*10);
+            score.put(r.getSub(), ((int) (Math.random() * 10))*10);
         }
         return score;
     }
