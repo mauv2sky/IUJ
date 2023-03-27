@@ -1,12 +1,7 @@
 package com.iuj.backend.api.service;
 
 import com.iuj.backend.api.domain.dto.response.CctvDto;
-import com.iuj.backend.api.domain.dto.response.SchoolDto;
-import com.iuj.backend.api.domain.dto.response.SchoolTypeDto;
-import com.iuj.backend.api.domain.dto.response.SubwayDto;
 import com.iuj.backend.api.domain.entity.infra.Cctv;
-import com.iuj.backend.api.domain.entity.infra.School;
-import com.iuj.backend.api.domain.entity.infra.Subway;
 import com.iuj.backend.api.repository.infra.CctvRepository;
 import com.iuj.backend.util.Near;
 import lombok.RequiredArgsConstructor;

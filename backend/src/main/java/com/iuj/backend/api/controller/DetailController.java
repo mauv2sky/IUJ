@@ -5,6 +5,7 @@ import com.iuj.backend.api.domain.dto.response.*;
 import com.iuj.backend.api.domain.entity.infra.BusStop;
 import com.iuj.backend.api.domain.entity.infra.Subway;
 import com.iuj.backend.api.service.AptService;
+import com.iuj.backend.api.service.CctvService;
 import com.iuj.backend.api.service.SchoolService;
 import com.iuj.backend.api.service.TrafficService;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +30,7 @@ public class DetailController {
     private final TrafficService trafficService;
     private final SchoolService schoolService;
 
+    private final CctvService cctvService;
 
     @GetMapping("/apt/{id}")
     @ApiOperation(value="아파트 상세페이지 정보", notes="아파트 상세페이지 정보")
@@ -44,6 +46,9 @@ public class DetailController {
 //        학군
         List<SchoolTypeDto> schoolDto = schoolService.findNearBySchool(apartDTO.getLat(), apartDTO.getLng());
 
+//       치안
+        List<CctvDto> cctvDto = cctvService.findNearbyCctvs(apartDTO.getLat(), apartDTO.getLng());
+
 
         resultMap.put("apart", apartDTO);
         resultMap.put("deal", aptDealTypeDTO);
@@ -53,7 +58,8 @@ public class DetailController {
 
         resultMap.put("school", schoolDto);
         resultMap.put("traffic", trafficMap);
-        
+
+        resultMap.put("CCTV", cctvDto);
         return resultMap;
     }
 
