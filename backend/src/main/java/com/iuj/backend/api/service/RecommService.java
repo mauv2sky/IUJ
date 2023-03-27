@@ -18,7 +18,7 @@ public class RecommService {
 
     @Autowired
     private RecommRepository recommRepository;
-    
+
     // 선호 필터 조회
     public List<Object> getAllRecommsByEmail(String authToken) {
         // authToken으로 email 받아와야함
@@ -31,18 +31,17 @@ public class RecommService {
         List<FavFilter> recomms = recommRepository.findByEmail(email);
 
         for (FavFilter recomm : recomms) {
+
             Long id = recomm.getId();
 
             // [{main, sub}, {ms2},...]
             List<Object> list = new ArrayList<>();
 
             for (String value : Arrays.asList(recomm.getFirst(), recomm.getSecond(), recomm.getThird(), recomm.getFourth(), recomm.getFifth())) {
-                if (value == null) {
-                    // 예외 처리
-                    continue;
+                if (value != null) {
+                    Object obj = new MainSub(Recomm.findBySub(value).getMain(), value);
+                    list.add(obj);
                 }
-                Object obj = new MainSub(Recomm.findBySub(value).getMain(), value);
-                list.add(obj);
             }
 
             // {id:id, list: [ { main, sub }, {ms2}...] }
@@ -53,7 +52,9 @@ public class RecommService {
             // {recomm : [ {id:id, list: [ { main, sub }, {ms2}...]}, {객체2}... ] }
             resultList.add(recommMap);
         }
+
         return resultList;
+
     }
 
     // 선호 필터 등록
@@ -70,6 +71,7 @@ public class RecommService {
         String[] recommArray = new String[5];
         for (int i = 0; i < recommList.size(); i++) {
             recommArray[i] = recommList.get(i);
+//            System.out.println(recommArray[i]);
         }
         String first = recommArray[0];
         String second = recommArray[1];

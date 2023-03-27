@@ -21,7 +21,7 @@ public enum Recomm {
 
     // 교통
     SUBWAY("교통","지하철"),
-    BUS_STOP("교통","버스정류장"),
+    BUS_STOP("교통","버스"),
 
     // 편의
     CONVENIENCE_STORE("편의","편의점"),

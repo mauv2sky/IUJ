@@ -12,8 +12,11 @@ public interface RecommRepository extends JpaRepository<FavFilter, Long> {
     // 선호 조회
     // @Query("SELECT b FROM FavFilter b WHERE b.email = :email")
     List<FavFilter> findByEmail(String email);
+    List<FavFilter> findById(String id);
 
+    // 선호 등록
     FavFilter save(FavFilter favFilter);
 
-    List<FavFilter> findById(String id);
+
+
 }
