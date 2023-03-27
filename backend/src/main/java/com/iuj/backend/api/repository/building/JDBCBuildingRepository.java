@@ -44,7 +44,7 @@ public class JDBCBuildingRepository {
         return query;
     }
 
-    public List<BuildingDto> getBuildingList(String[] sw, String[] ne, DealType dealType, BuildingType buildingType, BasicFilter filter){
+    public List<BuildingDto> getBuildingList(Double[] sw, Double[] ne, DealType dealType, BuildingType buildingType, BasicFilter filter){
         try {
 
             String buildingTableName = buildingType.getName();
@@ -52,8 +52,13 @@ public class JDBCBuildingRepository {
             String FkId = buildingTableName + "_id";
 
             List<Object> queryArgs = new ArrayList<>();
-            queryArgs.addAll(Arrays.asList(sw));
-            queryArgs.addAll(Arrays.asList(ne));
+            queryArgs.add(Double.toString(sw[0]));
+            queryArgs.add(Double.toString(sw[1]));
+            queryArgs.add(Double.toString(ne[0]));
+            queryArgs.add(Double.toString(ne[1]));
+
+//            queryArgs.addAll(Arrays.asList(sw));
+//            queryArgs.addAll(Arrays.asList(ne));
             queryArgs.add(dealType.getName());
 
             StringBuilder query = initQuery(dealType);
@@ -118,6 +123,9 @@ public class JDBCBuildingRepository {
             queryArgs.addAll(Arrays.stream(filter.getExtent())
                     .mapToObj(Integer::valueOf)
                     .collect(Collectors.toList()));
+
+            System.out.println(query);
+            System.out.println(queryArgs);
 
             if(dealType.equals(DealType.BUY)){
                 return jdbcTemplate.query(query.toString(), rowBuyMapper, queryArgs.toArray());
