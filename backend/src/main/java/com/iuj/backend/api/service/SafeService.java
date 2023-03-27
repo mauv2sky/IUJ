@@ -1,22 +1,24 @@
 package com.iuj.backend.api.service;
 
 import com.iuj.backend.api.domain.dto.response.CctvDto;
+import com.iuj.backend.api.domain.dto.response.PoliceDto;
 import com.iuj.backend.api.domain.entity.infra.Cctv;
+import com.iuj.backend.api.domain.entity.infra.Police;
 import com.iuj.backend.api.repository.infra.CctvRepository;
+import com.iuj.backend.api.repository.infra.PoliceRepository;
 import com.iuj.backend.util.Near;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class CctvService {
+public class SafeService {
     private final CctvRepository cctvRepository;
 
+    private final PoliceRepository policeRepository;
 
     public List<CctvDto> findNearbyCctvs(String lat, String lng){
 
@@ -38,5 +40,26 @@ public class CctvService {
             cctvDtos.add(cctvDto);
         }
         return cctvDtos;
+    }
+
+    public List<PoliceDto> findNearbyPolices(String lat, String lng){
+
+        Near near = new Near();
+        String[] latlng = near.calLatLng(lat, lng);
+
+        List<Police> polices = policeRepository.findAllPoliceBtwlngAndlat(latlng[0],latlng[1], latlng[2],latlng[3]);
+
+        List<PoliceDto> policeDtos = new ArrayList<>();
+        for (Police police : polices) {
+            PoliceDto policeDto = new PoliceDto(
+                    police.getId(),
+                    police.getName(),
+                    police.getLat(),
+                    police.getLng(),
+                    police.getType()
+            );
+            policeDtos.add(policeDto);
+        }
+        return policeDtos;
     }
 }
