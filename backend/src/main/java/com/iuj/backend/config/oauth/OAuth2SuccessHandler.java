@@ -2,7 +2,9 @@ package com.iuj.backend.config.oauth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iuj.backend.api.domain.dto.common.UserDto;
-import com.iuj.backend.api.domain.dto.response.TokenDto;
+import com.iuj.backend.api.domain.dto.common.TokenDto;
+import com.iuj.backend.api.domain.entity.User;
+import com.iuj.backend.api.repository.UserRepository;
 import com.iuj.backend.config.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +28,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final JwtTokenProvider tokenProvider;
     private final UserRequestMapper userRequestMapper;
     private final ObjectMapper objectMapper;
+    private final UserRepository userRepository;
 
     // DB에서 User 정보를 가져와서 토큰 생성 및 전달
     @Override
@@ -32,21 +36,32 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         UserDto userDto = userRequestMapper.toDto(oAuth2User);
 
-        TokenDto tokenDto = tokenProvider.generateAllToken(userDto.getEmail(), "USER");
-        log.info("{}", tokenDto);
+        // DB에서 유저정보 가져오기
+        User user = userRepository.findByEmail(userDto.getEmail());
 
-        writeTokenResponse(response, tokenDto);
-    }
+        TokenDto tokenDto = null;
 
-    private void writeTokenResponse(HttpServletResponse response, TokenDto tokenDto) throws IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        if(user == null) { // 회원가입
+            // access token 과 refresh token 발급
+            tokenDto = tokenProvider.generateAllToken(userDto.getEmail(), "USER");
+            log.info("{}", tokenDto);
 
-        response.addHeader("Bearer", tokenDto.getAccessToken());
-        response.addHeader("Refresh", tokenDto.getRefreshToken());
-        response.setContentType("application/json;charset=UTF-8");
+            user.setEmail(userDto.getEmail());
+            user.setNickname(userDto.getNickname());
+            user.setRefreshToken(tokenDto.getRefreshToken());
+            userRepository.save(user);
+        } else {    // 로그인
+            // access token 발급
+            tokenDto = tokenProvider.generateToken(userDto.getEmail(), "USER");
+            log.info("{}", tokenDto);
+        }
 
-        PrintWriter writer = response.getWriter();
-        writer.println(objectMapper.writeValueAsString(tokenDto));
-        writer.flush();
+        // 구글에 등록된 redirect_uri으로 인가코드 전달받음
+        // 근데 이미 필요한 정보는 다 받았다. -> 받은 code로 access token을 요청할 필요 없다
+        // 프론트의 로그인 성공 후 이동할 페이지로 token을 전달한다.
+        String targetUrl = UriComponentsBuilder.fromUriString("/home")
+                .queryParam("token", tokenDto)
+                .build().toUriString();
+
     }
 }

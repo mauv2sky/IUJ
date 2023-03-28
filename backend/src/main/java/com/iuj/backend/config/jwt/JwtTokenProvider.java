@@ -1,6 +1,6 @@
 package com.iuj.backend.config.jwt;
 
-import com.iuj.backend.api.domain.dto.response.TokenDto;
+import com.iuj.backend.api.domain.dto.common.TokenDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +21,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -65,7 +63,7 @@ public class JwtTokenProvider {
     /**
      * accessToken만 발급
      * */
-    public TokenDto generateToken(String userEmail) {
+    public TokenDto generateToken(String userEmail, String role) {
         LOGGER.info("[createToken] 토큰 생성 시작 !");
         Claims claims = Jwts.claims().setSubject(userEmail);
 

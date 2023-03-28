@@ -1,5 +1,6 @@
 package com.iuj.backend.api.domain.entity;
 
+import com.iuj.backend.api.domain.dto.common.BaseTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +16,7 @@ import javax.persistence.Id;
 @Getter
 @NoArgsConstructor
 @ToString
-public class User {
+public class User extends BaseTime {
 
     @Id
     @Column
@@ -24,6 +25,7 @@ public class User {
     @Column
     private String nickname;
 
-
+    @Column(name = "refresh_token")
+    private String refreshToken;
 
 }

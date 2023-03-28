@@ -38,9 +38,6 @@ public class SecurityConfig {
 
             .and()
             .oauth2Login()
-            .authorizationEndpoint().baseUri("/oauth2/authorize")
-
-            .and()
             .successHandler(successHandler)
             .userInfoEndpoint().userService(oAuth2UserService);
 
