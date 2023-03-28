@@ -31,9 +31,9 @@ import styles from './FacilityList.module.scss';
 
 export type FacilityType = {
   [key: string]: string | string | number[];
-  name: string;
-  address: string;
-  latlng: number[];
+  // name: string;
+  // address: string;
+  // latlng: number[];
 };
 
 type FacilityPropsType = {

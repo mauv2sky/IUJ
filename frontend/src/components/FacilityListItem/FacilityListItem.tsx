@@ -2,9 +2,7 @@ import React from 'react';
 import styles from './FacilityListItem.module.scss';
 
 export type FacilityListItemType = {
-  name: string;
-  address: string;
-  latlng: number[];
+  [key: string]: string | string | number[];
 };
 
 type FacilityListItemPropsType = {

@@ -166,7 +166,7 @@ export type DetailType = {
     [infra: string]: {}[];
   };
   facility: {
-    [infra: string]: { [key: string]: string | number[] | number }[];
+    [infra: string]: { [key: string]: string | string | number[] }[];
   };
 };
 
