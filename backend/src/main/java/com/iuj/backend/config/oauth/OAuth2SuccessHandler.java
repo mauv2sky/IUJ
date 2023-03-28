@@ -10,7 +10,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,12 +30,14 @@ import java.io.PrintWriter;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
+    private RequestCache requestCache = new HttpSessionRequestCache();
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     private final JwtTokenProvider tokenProvider;
     private final UserRequestMapper userRequestMapper;
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
 
-    // DB에서 User 정보를 가져와서 토큰 생성 및 전달
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
@@ -63,5 +70,20 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .queryParam("token", tokenDto)
                 .build().toUriString();
 
+        resultRedirectStrategy(request, response, authentication);
+
+    }
+
+    private void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+
+        if(savedRequest != null) {
+            String targetUrl = savedRequest.getRedirectUrl();
+
+            redirectStrategy.sendRedirect(request, response, targetUrl);
+        } else {
+            redirectStrategy.sendRedirect(request, response, "/home");
+        }
     }
 }
