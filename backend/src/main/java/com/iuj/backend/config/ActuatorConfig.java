@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /*
-*   actuator와 swagger의 end point 찾는 방법이 달라 발생하는 충돌을 해결하기 위한 설정입니다.
-*/
+ *   actuator와 swagger의 end point 찾는 방법이 달라 발생하는 충돌을 해결하기 위한 설정입니다.
+ */
 @Configuration
 public class ActuatorConfig {
     @Bean
