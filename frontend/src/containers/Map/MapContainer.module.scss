@@ -12,7 +12,7 @@
     position: absolute;
     display: flex;
     z-index: 10;
-    top: 11%;
+    top: 10.5%;
     left: 27%;
 
     .option-item {
@@ -25,7 +25,7 @@
         justify-content: space-around;
         align-items: center;
         background-color: white;
-        border: 1px solid $lfc;
+        border: 2px solid $tc;
         border-radius: 5px;
         font-size: 17px;
         color: $ffc;
@@ -42,7 +42,6 @@
       }
 
       .selected-btn {
-        border: 1px solid $tc;
         color: $tc;
       }
 
@@ -140,16 +139,6 @@
               margin: 0 1rem 0 0;
             }
           }
-
-          #slider {
-            &__thumb[data-lower] {
-              background: red;
-            }
-
-            &__thumb[data-upper] {
-              /* Your styles for upper thumb */
-            }
-          }
         }
       }
 
@@ -164,6 +153,17 @@
       .extent-div {
         width: 300px;
       }
+
+      .floor-div {
+        width: 220px;
+      }
     }
+  }
+
+  .applied-priority {
+    position: absolute;
+    z-index: 10;
+    top: 10.5%;
+    right: 1%;
   }
 }
