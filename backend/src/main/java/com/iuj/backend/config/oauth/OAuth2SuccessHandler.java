@@ -46,44 +46,40 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         // DB에서 유저정보 가져오기
         User user = userRepository.findByEmail(userDto.getEmail());
 
-        TokenDto tokenDto = null;
+        // access token 과 refresh token 발급
+        TokenDto tokenDto = tokenProvider.generateAllToken(userDto.getEmail(), "USER");
+        log.info("{}", tokenDto);
 
-        if(user == null) { // 회원가입
-            // access token 과 refresh token 발급
-            tokenDto = tokenProvider.generateAllToken(userDto.getEmail(), "USER");
-            log.info("{}", tokenDto);
-
-            user.setEmail(userDto.getEmail());
-            user.setNickname(userDto.getNickname());
-            user.setRefreshToken(tokenDto.getRefreshToken());
-            userRepository.save(user);
-        } else {    // 로그인
-            // access token 발급
-            tokenDto = tokenProvider.generateToken(userDto.getEmail(), "USER");
-            log.info("{}", tokenDto);
+        if(user == null) { // user DB 저장
+            User newUser = new User();
+            newUser.setEmail(userDto.getEmail());
+            newUser.setNickname(userDto.getNickname());
+            newUser.setRefreshToken(tokenDto.getRefreshToken());
+            userRepository.save(newUser);
         }
 
-        // 구글에 등록된 redirect_uri으로 인가코드 전달받음
-        // 근데 이미 필요한 정보는 다 받았다. -> 받은 code로 access token을 요청할 필요 없다
-        // 프론트의 로그인 성공 후 이동할 페이지로 token을 전달한다.
-        String targetUrl = UriComponentsBuilder.fromUriString("/home")
-                .queryParam("token", tokenDto)
-                .build().toUriString();
-
-        resultRedirectStrategy(request, response, authentication);
-
+        resultRedirectStrategy(request, response, tokenDto);
     }
 
-    private void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    private void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response, TokenDto tokenDto) throws IOException, ServletException {
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
-        if(savedRequest != null) {
-            String targetUrl = savedRequest.getRedirectUrl();
-
+        if(savedRequest != null) { // 권한없는 페이지 요청했을 경우
+            String savedUrl = savedRequest.getRedirectUrl();
+            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5000" + savedUrl)
+                    .queryParam("access_token", tokenDto.getAccessToken())
+                    .queryParam("refresh_token", tokenDto.getRefreshToken())
+                    .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
+                    .build().toUriString();
             redirectStrategy.sendRedirect(request, response, targetUrl);
-        } else {
-            redirectStrategy.sendRedirect(request, response, "/home");
+        } else { // 소셜로그인 요청일 경우
+            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5000")
+                    .queryParam("access_token", tokenDto.getAccessToken())
+                    .queryParam("refresh_token", tokenDto.getRefreshToken())
+                    .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
+                    .build().toUriString();
+            redirectStrategy.sendRedirect(request, response, targetUrl);
         }
     }
 }

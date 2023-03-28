@@ -31,6 +31,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
                 Authentication authentication = jwtTokenProvider.getAuthentication(jwtToken);
                 // SecurityContext 에 Authentication 객체를 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                System.out.println("++++++++++++++++++++++++++ 토큰 인증 완료");
             }
         } else {
             log.debug("JWT Token does not begin with Bearer String");
