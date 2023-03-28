@@ -51,7 +51,6 @@ public class LikeService {
         // 반환값을 담을 리스트
         List<LikeBuildingDto> result = new ArrayList<>();
 
-        //
         List<LikeBuilding> likeBuildings = likeRepository.findByEmail(email);
         //System.out.println(likeRepository.findByEmail(email));
 
