@@ -3,24 +3,30 @@ import styles from './InfraIconamenities.module.scss';
 import { MdLocalHospital } from 'react-icons/md';
 import { BsFillBasket3Fill } from 'react-icons/bs';
 import { MdLocalConvenienceStore } from 'react-icons/md';
+import { BsFillBuildingFill } from 'react-icons/bs';
 
 function InfraIconamenities() {
   const [selectedBtn, setSelectedBtn] = useState('');
 
-  /** 어린이집 버튼 클릭 시 */
+  /** 병원 버튼 클릭 시 */
   const onClickHospitalBtn = () => {
     console.log('병원 위치 요청');
     setSelectedBtn(selectedBtn === 'hospital' ? '' : 'hospital');
   };
-  /** 유치원 버튼 클릭 시 */
+  /** 마트 버튼 클릭 시 */
   const onClickMartBtn = () => {
     console.log('마트 위치 요청');
     setSelectedBtn(selectedBtn === 'mart' ? '' : 'mart');
   };
-  /** 초등학교 버튼 클릭 시 */
+  /** 편의점 버튼 클릭 시 */
   const onClickConvenienceStoreBtn = () => {
     console.log('편의점 위치 요청');
     setSelectedBtn(selectedBtn === 'conveniencestore' ? '' : 'conveniencestore');
+  };
+  /** 백화점 버튼 클릭 시 */
+  const onClickDepartmentStoreBtn = () => {
+    console.log('편의점 위치 요청');
+    setSelectedBtn(selectedBtn === 'departmentstore' ? '' : 'departmentstore');
   };
   return (
     <div className={styles.component}>
@@ -47,6 +53,14 @@ function InfraIconamenities() {
           </span>
         </div>
         <p>편의점</p>
+      </div>
+      <div className={styles.iconall}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'departmentstore' ? styles.selected : ''}`} onClick={onClickDepartmentStoreBtn}>
+          <span className={styles.icon}>
+            <BsFillBuildingFill />
+          </span>
+        </div>
+        <p>백화점</p>
       </div>
     </div>
   );
