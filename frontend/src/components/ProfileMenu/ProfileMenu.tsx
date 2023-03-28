@@ -1,11 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ProfileMenuType } from '../../types/MainType';
 import styles from './ProfileMenu.module.scss';
-
-export type ProfileMenuType = {
-  title: string;
-  url: string;
-};
 
 type ProfileMenuPropsType = {
   menuList: ProfileMenuType[];

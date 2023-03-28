@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { NoticeType } from '../../types/MainType';
 import styles from './Notice.module.scss';
-
-export type NoticeType = {
-  title: string;
-  content: string;
-  url: string;
-};
 
 type NoticePropsType = {
   noticeList: NoticeType[];

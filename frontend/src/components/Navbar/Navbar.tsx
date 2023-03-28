@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ProfileMenu, { ProfileMenuType } from '../ProfileMenu/ProfileMenu';
+import ProfileMenu from '../ProfileMenu/ProfileMenu';
+import { ProfileMenuType } from '../../types/MainType';
 import logo from '../../assets/logo.png';
 import styles from './Navbar.module.scss';
 

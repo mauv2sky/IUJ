@@ -6,11 +6,11 @@ import storage from 'redux-persist/lib/storage';
 import userSlice from './slices/userSlice';
 import prioritySlice from './slices/prioritySlice';
 
-/** blackList 대신 사용, priority는 유지되면 안됨 */
+/** blackList 대신 사용, prioritySlice와 realEstateSlice는 유지되면 안됨 */
 const filterPriorityTransform = createTransform(
   (inboundState, key) => {
     if (key === 'prioritySlice') {
-      return {}; // filter out prioritySlice
+      return {};
     }
     return inboundState;
   },

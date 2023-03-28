@@ -19,8 +19,8 @@
 
     .icon-div {
       padding: 3px;
-      width: 50px;
-      height: 50px;
+      width: 45px;
+      height: 45px;
       border-radius: 100%;
       display: flex;
       justify-content: center;
@@ -43,6 +43,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      animation: fade-in 0.1s ease-in-out;
     }
   }
 
@@ -86,5 +87,14 @@
         background-color: rgb(100, 100, 100);
       }
     }
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
