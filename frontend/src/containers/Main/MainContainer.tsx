@@ -71,7 +71,6 @@ function MainContainer() {
     };
   }, []);
 
-  /**  */
   useEffect(() => {
     console.log(scrollY);
 
