@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import PriorityCard, { ResponsedPriorityItemType } from '../PriorityCard/PriorityCard';
+import PriorityCard from '../PriorityCard/PriorityCard';
+import { ResponsedPriorityItemType } from '../../types/MapType';
 import styles from './PriorityList.module.scss';
 
 type ResponsedPriorityType = {

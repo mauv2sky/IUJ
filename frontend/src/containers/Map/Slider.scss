@@ -13,7 +13,7 @@
     height: 20px;
     background: white;
     box-shadow: 1px 1px 5px rgb(153, 153, 153);
-    transition: all 0.1s;
+    transition: scale 0.1s;
   }
 
   .range-slider__thumb[data-active] {

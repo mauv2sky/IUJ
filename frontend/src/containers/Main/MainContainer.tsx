@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import Notice from '../../components/Notice/Notice';
-import { NoticeType } from '../../components/Notice/Notice';
+import { NoticeType } from '../../types/MainType';
 import styles from './MainContainer.module.scss';
 
 const noticeList: NoticeType[] = [

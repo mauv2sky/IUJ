@@ -1,4 +1,4 @@
-import { requestRealEstateListType } from '../types/Map';
+import { requestRealEstateListType } from '../types/MapType';
 import { http } from './axios';
 
 export const requestRealEstateList = async (requestRealEstateListInfo: requestRealEstateListType) => {

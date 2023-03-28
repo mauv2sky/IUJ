@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import MapSidebar from '../../components/MapSidebar/MapSidebar';
 import { pretreatAmount } from '../../utils/PretreatAmount';
-import { boundType, filterType } from '../../types/Map';
+import { filterType, RealEstateType, TypeMappingType } from '../../types/MapType';
 import { requestRealEstateList } from '../../api/map';
 import styles from './MapContainer.module.scss';
 import './Slider.scss';
+import AppliedPriority from '../../components/AppliedPriority/AppliedPriority';
 
 /** 매물 목록 API 요청
  * 선호 순위 적용
@@ -19,20 +20,15 @@ import './Slider.scss';
  * 드래그 끝날 때
  * 지도 레벨 변경 시 */
 
-/** 매매가 105000일 때는 2000000으로 바꿔서 보내기 */
-
-type MapType = {
-  [key: string]: string;
-};
-
 function MapContainer() {
   /** ================================================= useState, useRef, 변수 ================================================= */
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<kakao.maps.Map | null>(null);
   const [clusterer, setClusterer] = useState<kakao.maps.MarkerClusterer | null>(null);
+  const dispatch = useAppDispatch();
   const priority = useAppSelector((state) => state.prioritySlice.priority);
   const [showOption, setShowOption] = useState<number>(-1);
-  const typeMap: MapType = {
+  const typeMap: TypeMappingType = {
     APT: '아파트',
     OFFICETEL: '오피스텔',
     VILLA: '연립다세대',
@@ -46,6 +42,140 @@ function MapContainer() {
   const [extent, setExtent] = useState<number[]>([0, 662]);
   const [extent2, setExtent2] = useState<number[]>([0, 200]);
   const [floor, setFloor] = useState<number[]>([0, 100]);
+  const tmpRElist: RealEstateType[] = [
+    {
+      id: 1,
+      name: '명지 더 웨스턴',
+      type: '아파트',
+      address: ['', '부산시 강서구 명지동 3399'],
+      total_score: 82.56,
+      score: {
+        병원: 90,
+        초등학교: 70,
+        치안: 80,
+        공원: 60,
+        정류장: 90,
+      },
+      average_deal: {
+        deal_type: '전세',
+        price: 0,
+        guarantee: 35000,
+        monthly: 0,
+      },
+      range_extent: [52.56, 84.61],
+      range_floor: [1, 21],
+    },
+    {
+      id: 2,
+      name: '명지 퀸덤 1차 에디슨타운 아파트',
+      type: '아파트',
+      address: ['', '부산시 강서구 명지동 3230'],
+      total_score: 93.56,
+      score: {
+        병원: 97,
+        초등학교: 90,
+        치안: 80,
+        공원: 90,
+        정류장: 90,
+      },
+      average_deal: {
+        deal_type: '월세',
+        price: 0,
+        guarantee: 20000,
+        monthly: 50,
+      },
+      range_extent: [52.56, 84.61],
+      range_floor: [1, 21],
+    },
+    {
+      id: 3,
+      name: 'e편한세상 명지',
+      type: '아파트',
+      address: ['', '부산시 강서구 명지동 3230'],
+      total_score: 50.56,
+      score: {
+        병원: 70,
+        초등학교: 50,
+        치안: 40,
+        공원: 90,
+        정류장: 60,
+      },
+      average_deal: {
+        deal_type: '매매',
+        price: 55000,
+        guarantee: 0,
+        monthly: 0,
+      },
+      range_extent: [52.56, 84.61],
+      range_floor: [1, 21],
+    },
+    {
+      id: 4,
+      name: '명지 더 웨스턴',
+      type: '아파트',
+      address: ['', '부산시 강서구 명지동 3399'],
+      total_score: 82.56,
+      score: {
+        병원: 90,
+        초등학교: 70,
+        치안: 80,
+        공원: 60,
+        정류장: 90,
+      },
+      average_deal: {
+        deal_type: '전세',
+        price: 0,
+        guarantee: 35000,
+        monthly: 0,
+      },
+      range_extent: [52.56, 84.61],
+      range_floor: [1, 21],
+    },
+    {
+      id: 5,
+      name: '명지 퀸덤 1차 에디슨타운 아파트',
+      type: '아파트',
+      address: ['', '부산시 강서구 명지동 3230'],
+      total_score: 93.56,
+      score: {
+        병원: 97,
+        초등학교: 90,
+        치안: 80,
+        공원: 90,
+        정류장: 90,
+      },
+      average_deal: {
+        deal_type: '월세',
+        price: 0,
+        guarantee: 20000,
+        monthly: 50,
+      },
+      range_extent: [52.56, 84.61],
+      range_floor: [1, 21],
+    },
+    {
+      id: 6,
+      name: 'e편한세상 명지',
+      type: '아파트',
+      address: ['', '부산시 강서구 명지동 3230'],
+      total_score: 50.56,
+      score: {
+        병원: 70,
+        초등학교: 50,
+        치안: 40,
+        공원: 90,
+        정류장: 60,
+      },
+      average_deal: {
+        deal_type: '매매',
+        price: 55000,
+        guarantee: 0,
+        monthly: 0,
+      },
+      range_extent: [52.56, 84.61],
+      range_floor: [1, 21],
+    },
+  ];
 
   /** ================================================= useEffect ================================================= */
   /** 맵 생성 useEffect */
@@ -63,7 +193,7 @@ function MapContainer() {
   /** state에 있는 priority 변경 시 */
   useEffect(() => {
     requestRealEstateForMap();
-  }, [priority]);
+  }, [priority, type]);
 
   /** ================================================= 함수 ================================================= */
   /** 현재 위치 가져오기 */
@@ -90,7 +220,7 @@ function MapContainer() {
         const position = await getCurrentPosition();
         lat = position.coords.latitude;
         lng = position.coords.longitude;
-        console.log(lat, lng);
+        console.log('현재 위치: ', lat, lng);
 
         const options = {
           center: new window.kakao.maps.LatLng(lat, lng),
@@ -114,15 +244,7 @@ function MapContainer() {
           /** 바깥에서 clusterer 쓸 수 있게 */
           setClusterer(clusterer);
 
-          /** 마커 표시 */
-          // for (let i = 0; i < markers.length; i++) {
-          //   const marker = new kakao.maps.Marker({
-          //     map,
-          //     position: markers[i].latlng,
-          //   });
-
-          //   clusterer.addMarker(marker);
-          // }
+          requestRealEstateForMap();
         }
       } catch (error) {
         console.error(error);
@@ -174,25 +296,31 @@ function MapContainer() {
       floor: [floor[0], floor[1] === 10 ? 100 : floor[1]],
     };
 
-    console.log('아래 정보로 매물 요청', { bound, deal_type: dealType, filter, level, recomm: priority, type });
+    console.log('매물 요청 정보: ', { bound, deal_type: dealType, filter, level, recomm: priority, type });
 
     /** 백엔드에 매물 요청 */
     try {
       const res = await requestRealEstateList({ bound, deal_type: dealType, filter, level, recomm: priority, type });
-      console.log(res);
+      console.log('매물 요청 결과: ', res);
     } catch (err) {
-      console.error(err);
+      console.error('매물 요청 에러: ', err);
     }
 
-    /** 마커 표시 */
-    // for (let i = 0; i < markers.length; i++) {
-    //   const marker = new kakao.maps.Marker({
-    //     map,
-    //     position: markers[i].latlng,
-    //   });
+    const markers = [
+      {
+        latlng: new kakao.maps.LatLng(35.0978048, 128.8536064),
+      },
+    ];
 
-    //   clusterer.addMarker(marker);
-    // }
+    /** 마커 표시 */
+    for (let i = 0; i < markers.length; i++) {
+      const marker = new kakao.maps.Marker({
+        map,
+        position: markers[i].latlng,
+      });
+
+      clusterer.addMarker(marker);
+    }
   };
 
   /** ================================================= event handler ================================================= */
@@ -279,28 +407,20 @@ function MapContainer() {
   /** 지도 레벨이 변경되면 새로운 매물 요청 */
   if (map) {
     kakao.maps.event.addListener(map, 'zoom_changed', () => {
-      const bound = map.getBounds();
-      console.log(bound);
-      console.log('레벨 변경 - 매물 요청');
-
-      // requestRealEstateForMap();
+      requestRealEstateForMap();
     });
   }
 
   /** 드래그가 끝나면 새로운 매물 요청 */
   if (map) {
     kakao.maps.event.addListener(map, 'dragend', () => {
-      const bound = map.getBounds();
-      console.log(bound);
-      console.log('드래그 이동 - 매물 요청');
-
-      // requestRealEstateForMap();
+      requestRealEstateForMap();
     });
   }
 
   return (
     <div className={styles.container}>
-      <MapSidebar />
+      <MapSidebar realEstateList={tmpRElist} />
       <div className={styles.option}>
         <div className={styles['option-item']}>
           <button id="0" className={showOption === 0 ? `${styles['type-btn']} ${styles['selected-btn']}` : styles['type-btn']} onClick={onClickOption}>
@@ -451,7 +571,7 @@ function MapContainer() {
             {showOption !== 3 && <SlArrowDown id="3" onClick={onClickOption} />} {showOption === 3 && <SlArrowUp id="3" onClick={onClickOption} />}
           </button>
           {showOption === 3 && (
-            <div className={styles['extent-div']}>
+            <div className={styles['floor-div']}>
               <p className={styles['option-title']}>층수</p>
               <p style={{ margin: '0 0 2rem 0' }}>
                 {floor[0] === 10 && <span className={styles['amount-content']}>10층 이상</span>}
@@ -469,6 +589,11 @@ function MapContainer() {
           )}
         </div>
       </div>
+      {priority && (
+        <div className={styles['applied-priority']}>
+          <AppliedPriority />
+        </div>
+      )}
       <div ref={mapRef} style={{ width: 'calc(100% - 500px)' }} />
     </div>
   );
