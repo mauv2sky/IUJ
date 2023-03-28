@@ -31,7 +31,10 @@ public class Score{
     private int safe;
 
     @Column
-    private int transport;
+    private int subway;
+
+    @Column(name="bus_stop")
+    private int busStop;
 
     @Column
     private int cinema;
