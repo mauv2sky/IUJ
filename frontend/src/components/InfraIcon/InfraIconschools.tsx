@@ -56,7 +56,7 @@ function InfraIconschools(props: Props) {
             <FaSchool />
           </span>
         </div>
-        <p>어린이짐</p>
+        <p>어린이집</p>
       </div>
       <div className={styles.iconall}>
         <div className={`${styles.iconborder} ${selectedBtn === 'kid' ? styles.selected : ''}`} onClick={onClickKidBtn}>

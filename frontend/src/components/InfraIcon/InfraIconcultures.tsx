@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import styles from './InfraIconcultures.module.scss';
 import { MdMovie } from 'react-icons/md';
 import { MdOutlinePark } from 'react-icons/md';
+import { RiGalleryFill } from 'react-icons/ri';
+import { BsBook } from 'react-icons/bs';
 
 function InfraIconcultures() {
   const [selectedBtn, setSelectedBtn] = useState('');
@@ -15,6 +17,16 @@ function InfraIconcultures() {
   const onClickMovieBtn = () => {
     console.log('영화관 위치 요청');
     setSelectedBtn(selectedBtn === 'movie' ? '' : 'movie');
+  };
+  /** 미술관 버튼 클릭 시 */
+  const onClickArtBtn = () => {
+    console.log('공원 위치 요청');
+    setSelectedBtn(selectedBtn === 'art' ? '' : 'art');
+  };
+  /** 도서관 버튼 클릭 시 */
+  const onClickbookBtn = () => {
+    console.log('영화관 위치 요청');
+    setSelectedBtn(selectedBtn === 'book' ? '' : 'book');
   };
   return (
     <div className={styles.component}>
@@ -33,6 +45,22 @@ function InfraIconcultures() {
           </span>
         </div>
         <p>영화관</p>
+      </div>
+      <div className={styles.iconall}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'art' ? styles.selected : ''}`} onClick={onClickArtBtn}>
+          <span className={styles.icon}>
+            <RiGalleryFill />
+          </span>
+        </div>
+        <p>미술관</p>
+      </div>
+      <div className={styles.iconall}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'book' ? styles.selected : ''}`} onClick={onClickbookBtn}>
+          <span className={styles.icon}>
+            <BsBook />
+          </span>
+        </div>
+        <p>도서관</p>
       </div>
     </div>
   );
