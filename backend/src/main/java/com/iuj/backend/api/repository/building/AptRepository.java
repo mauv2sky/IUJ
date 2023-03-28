@@ -3,6 +3,7 @@ package com.iuj.backend.api.repository.building;
 
 import com.iuj.backend.api.domain.dto.common.BoundDto;
 import com.iuj.backend.api.domain.dto.mapping.LocationMapping;
+import com.iuj.backend.api.domain.dto.response.AptDto;
 import com.iuj.backend.api.domain.dto.response.BuildingDto;
 import com.iuj.backend.api.domain.entity.building.Apt;
 import org.springframework.data.jpa.repository.JpaRepository;

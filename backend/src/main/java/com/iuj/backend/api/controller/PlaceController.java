@@ -2,8 +2,6 @@ package com.iuj.backend.api.controller;
 
 import com.iuj.backend.api.domain.dto.request.PlaceMainRequest;
 import com.iuj.backend.api.domain.dto.response.BuildingDto;
-import com.iuj.backend.api.domain.dto.response.PlaceMainResponse;
-import com.iuj.backend.api.domain.enums.BuildingType;
 import com.iuj.backend.api.domain.enums.ErrorCode;
 import com.iuj.backend.api.exception.CustomException;
 import com.iuj.backend.api.service.AptService;

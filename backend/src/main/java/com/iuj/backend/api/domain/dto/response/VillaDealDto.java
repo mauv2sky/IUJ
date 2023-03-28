@@ -1,5 +1,6 @@
 package com.iuj.backend.api.domain.dto.response;
 
+import com.iuj.backend.api.domain.entity.building.VillaDeal;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

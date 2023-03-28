@@ -16,8 +16,8 @@ import lombok.ToString;
 
 public class BoundDto {
     @ApiModelProperty(value = "좌하 위경도 좌표", required = true)
-    private String[] sw;
+    private Double[] sw;
 
     @ApiModelProperty(value = "우상 위경도 좌표", required = true)
-    private String[] ne;
+    private Double[] ne;
 }

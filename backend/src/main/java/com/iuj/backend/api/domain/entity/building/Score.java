@@ -9,28 +9,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @ToString
+@IdClass(ScoreId.class)
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Score{
 
     @Id
-    @GeneratedValue
     private Long id;
+
+    @Id
+    @Column(length=10)
+    private String type;
 
     @Column
     private int safe;
 
     @Column
-    private int transport;
+    private int subway;
+
+    @Column(name="bus_stop")
+    private int busStop;
 
     @Column
     private int cinema;

@@ -12,3 +12,4 @@ public interface AptDealRepository extends JpaRepository<AptDeal,Long> {
     List<AptDeal> findByAptId(Long apt_id);
 
 }
+

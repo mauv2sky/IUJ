@@ -44,8 +44,4 @@ public class BuildingDto {
     @JsonProperty("range_floor")
     private int[] rangeFloor;
 
-    // 지도에 표시
-    private MapDto map;
-    private FacilityDto facility;
-
 }
