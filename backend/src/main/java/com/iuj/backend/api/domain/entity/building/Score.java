@@ -78,4 +78,21 @@ public class Score{
     @Column(name = "high_school")
     private int highSchool;
 
+    @Column(name = "special_school")
+    private int specialSchool;
+
+    @Column(name = "edu_academy")
+    private int eduAcademy;
+
+    @Column(name = "entertainment_academy")
+    private int entertainmentAcademy;
+
+//    @Column
+//    private int cctv;
+
+    @Column
+    private int police;
+
+
+
 }
