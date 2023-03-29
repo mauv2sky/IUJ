@@ -19,3 +19,15 @@ export type requestRealEstateListType = {
   recomm: string[];
   type: string;
 };
+
+export type detailTransport = {
+  name: string;
+  id: number;
+  lat: number;
+  lng: number;
+};
+
+export type transport = {
+  bus: detailTransport;
+  subway: detailTransport;
+};
