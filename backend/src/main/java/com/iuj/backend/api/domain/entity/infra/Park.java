@@ -19,4 +19,6 @@ public class Park extends BaseInfra{
 
     @Column(length=45)
     private String type;
+    @Column
+    private String addr;
 }

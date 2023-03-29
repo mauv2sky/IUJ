@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { FaSchool, FaBus, FaHospitalUser } from 'react-icons/fa';
-import { MdSecurity, MdMovie } from 'react-icons/md';
+import { useAppDispatch } from '../../store/hooks';
+import { setPriority } from '../../store/slices/prioritySlice';
+import { CategoryStyleType, ResponsedPriorityItemType } from '../../types/MapType';
 import { amenities, cultures, schools, securities, transports } from '../SetPriority/SetPriority';
+import { pretreatPriority } from '../../utils/PretreatPriority';
 import styles from './PriorityCard.module.scss';
 
-type CategoryStyleType = {
-  [category: string]: {
-    color: string;
-    icon: React.ReactNode;
-  };
-};
-
 /** 카테고리 명에 따라 아이콘과 색을 매핑하기위한 object */
-const categoryStyle: CategoryStyleType = {
+export const categoryStyle: CategoryStyleType = {
   학군: { color: schools.color, icon: schools.icon },
   교통: { color: transports.color, icon: transports.icon },
   편의: { color: amenities.color, icon: amenities.icon },
   치안: { color: securities.color, icon: securities.icon },
   문화: { color: cultures.color, icon: cultures.icon },
-};
-
-export type ResponsedPriorityItemType = {
-  main: string;
-  sub: string;
 };
 
 type ResponsedPriorityItemPropsType = {
@@ -32,25 +22,14 @@ type ResponsedPriorityItemPropsType = {
 
 function PriorityCard({ priorityId, priority }: ResponsedPriorityItemPropsType) {
   /** ========================= 변수 및 useState ========================= */
-  /** 적용할 때 필요한 리스트 */
-  const [priorityForRequest, setPriorityForRequest] = useState<string[]>([]);
-
-  /** ========================= useEffect ========================= */
-
-  /** 인프라(ex 유치원, 병원 ...)만 가져와서 리스트에 담음 */
-  useEffect(() => {
-    const newPriority = priority.map((priorityItem) => {
-      return priorityItem.sub;
-    });
-
-    setPriorityForRequest(newPriority);
-  }, []);
+  const dispatch = useAppDispatch();
+  /** 적용할 때 필요한 리스트, 인프라(ex 유치원, 병원 ...)만 가져와서 영어로 바꾼 뒤에 리스트에 담음 */
+  const priorityForRequest: string[] = pretreatPriority(priority);
 
   /** ========================= event handler ========================= */
-
   /** 적용 버튼 클릭 시 */
   const onClickApplyBtn = () => {
-    console.log(priorityForRequest, '로 선호 순위 적용 요청');
+    dispatch(setPriority({ priority: priorityForRequest, appliedPriority: priority }));
   };
 
   /** 삭제 버튼 클릭 시 */
