@@ -5,33 +5,25 @@ import { BsFillBasket3Fill } from 'react-icons/bs';
 import { MdLocalConvenienceStore } from 'react-icons/md';
 import { BsFillBuildingFill } from 'react-icons/bs';
 
-function InfraIconamenities() {
-  const [selectedBtn, setSelectedBtn] = useState('');
+type Props = {
+  selectedBtn: string;
+  setSelectedBtn: (btnName: string) => void;
+};
 
-  /** 병원 버튼 클릭 시 */
-  const onClickHospitalBtn = () => {
-    console.log('병원 위치 요청');
-    setSelectedBtn(selectedBtn === 'hospital' ? '' : 'hospital');
-  };
-  /** 마트 버튼 클릭 시 */
-  const onClickMartBtn = () => {
-    console.log('마트 위치 요청');
-    setSelectedBtn(selectedBtn === 'mart' ? '' : 'mart');
-  };
-  /** 편의점 버튼 클릭 시 */
-  const onClickConvenienceStoreBtn = () => {
-    console.log('편의점 위치 요청');
-    setSelectedBtn(selectedBtn === 'conveniencestore' ? '' : 'conveniencestore');
-  };
-  /** 백화점 버튼 클릭 시 */
-  const onClickDepartmentStoreBtn = () => {
-    console.log('편의점 위치 요청');
-    setSelectedBtn(selectedBtn === 'departmentstore' ? '' : 'departmentstore');
+function InfraIconamenities(props: Props) {
+  const { selectedBtn, setSelectedBtn } = props;
+  const [onoffBtn, setOnoffBtn] = useState('');
+
+  /** 버튼 클릭 시 */
+  const onClickBtn = (type: string) => {
+    console.log(`${type} 위치 요청`);
+    setSelectedBtn(onoffBtn === type ? '' : type);
+    setOnoffBtn(onoffBtn === type ? '' : type);
   };
   return (
     <div className={styles.component}>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'hospital' ? styles.selected : ''}`} onClick={onClickHospitalBtn}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'hospital' ? styles.selected : ''}`} onClick={() => onClickBtn('bus')}>
           <span className={styles.icon}>
             <MdLocalHospital />
           </span>
@@ -39,7 +31,7 @@ function InfraIconamenities() {
         <p>병원</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'mart' ? styles.selected : ''}`} onClick={onClickMartBtn}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'mart' ? styles.selected : ''}`} onClick={() => onClickBtn('mart')}>
           <span className={styles.icon}>
             <BsFillBasket3Fill />
           </span>
@@ -47,7 +39,7 @@ function InfraIconamenities() {
         <p>마트</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'conveniencestore' ? styles.selected : ''}`} onClick={onClickConvenienceStoreBtn}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'convi' ? styles.selected : ''}`} onClick={() => onClickBtn('convi')}>
           <span className={styles.icon}>
             <MdLocalConvenienceStore />
           </span>
@@ -55,7 +47,7 @@ function InfraIconamenities() {
         <p>편의점</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'departmentstore' ? styles.selected : ''}`} onClick={onClickDepartmentStoreBtn}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'shopping' ? styles.selected : ''}`} onClick={() => onClickBtn('shopping')}>
           <span className={styles.icon}>
             <BsFillBuildingFill />
           </span>

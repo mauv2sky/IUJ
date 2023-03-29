@@ -186,9 +186,9 @@ function Detailcontainer(props: Props) {
         </div>
         {tabIndex === 0 && <InfraIconschools />}
         {tabIndex === 1 && <InfraIcontransports selectedBtn={''} setSelectedBtn={handleBtnClick} />}
-        {tabIndex === 2 && <InfraIconamenities />}
+        {tabIndex === 2 && <InfraIconamenities selectedBtn={''} setSelectedBtn={handleBtnClick} />}
         {tabIndex === 3 && <InfraIconsecurities selectedBtn={''} setSelectedBtn={handleBtnClick} />}
-        {tabIndex === 4 && <InfraIconcultures />}
+        {tabIndex === 4 && <InfraIconcultures selectedBtn={''} setSelectedBtn={handleBtnClick} />}
       </div>
       <DetailInformation detailRelist={detailRelist} />
     </div>

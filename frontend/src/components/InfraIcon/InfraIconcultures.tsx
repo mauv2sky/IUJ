@@ -5,33 +5,25 @@ import { MdOutlinePark } from 'react-icons/md';
 import { RiGalleryFill } from 'react-icons/ri';
 import { BsBook } from 'react-icons/bs';
 
-function InfraIconcultures() {
-  const [selectedBtn, setSelectedBtn] = useState('');
+type Props = {
+  selectedBtn: string;
+  setSelectedBtn: (btnName: string) => void;
+};
 
-  /** 공원 버튼 클릭 시 */
-  const onClickParkBtn = () => {
-    console.log('공원 위치 요청');
-    setSelectedBtn(selectedBtn === 'park' ? '' : 'park');
-  };
-  /** 영화관 버튼 클릭 시 */
-  const onClickMovieBtn = () => {
-    console.log('영화관 위치 요청');
-    setSelectedBtn(selectedBtn === 'movie' ? '' : 'movie');
-  };
-  /** 미술관 버튼 클릭 시 */
-  const onClickArtBtn = () => {
-    console.log('공원 위치 요청');
-    setSelectedBtn(selectedBtn === 'art' ? '' : 'art');
-  };
-  /** 도서관 버튼 클릭 시 */
-  const onClickbookBtn = () => {
-    console.log('영화관 위치 요청');
-    setSelectedBtn(selectedBtn === 'book' ? '' : 'book');
+function InfraIconcultures(props: Props) {
+  const { selectedBtn, setSelectedBtn } = props;
+  const [onoffBtn, setOnoffBtn] = useState('');
+
+  /** 버튼 클릭 시 */
+  const onClickBtn = (type: string) => {
+    console.log(`${type} 위치 요청`);
+    setSelectedBtn(onoffBtn === type ? '' : type);
+    setOnoffBtn(onoffBtn === type ? '' : type);
   };
   return (
     <div className={styles.component}>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'park' ? styles.selected : ''}`} onClick={onClickParkBtn}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'park' ? styles.selected : ''}`} onClick={() => onClickBtn('bus')}>
           <span className={styles.icon}>
             <MdOutlinePark />
           </span>
@@ -39,7 +31,7 @@ function InfraIconcultures() {
         <p>공원</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'movie' ? styles.selected : ''}`} onClick={onClickMovieBtn}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'cinema' ? styles.selected : ''}`} onClick={() => onClickBtn('cinema')}>
           <span className={styles.icon}>
             <MdMovie />
           </span>
@@ -47,7 +39,7 @@ function InfraIconcultures() {
         <p>영화관</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'art' ? styles.selected : ''}`} onClick={onClickArtBtn}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'gallery' ? styles.selected : ''}`} onClick={() => onClickBtn('gallery')}>
           <span className={styles.icon}>
             <RiGalleryFill />
           </span>
@@ -55,7 +47,7 @@ function InfraIconcultures() {
         <p>미술관</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'book' ? styles.selected : ''}`} onClick={onClickbookBtn}>
+        <div className={`${styles.iconborder} ${selectedBtn === 'lib' ? styles.selected : ''}`} onClick={() => onClickBtn('lib')}>
           <span className={styles.icon}>
             <BsBook />
           </span>
