@@ -17,4 +17,11 @@ public class AptDealTypeDto {
         this.aptDeals = aptDeals;
     }
 
+    public int getMinPrice() {
+        return aptDeals.stream().mapToInt(AptDealDto::getPrice).min().orElse(0);
+    }
+
+    public int getMaxPrice() {
+        return aptDeals.stream().mapToInt(AptDealDto::getPrice).max().orElse(0);
+    }
 }

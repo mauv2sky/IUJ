@@ -47,52 +47,36 @@ public class DetailController {
         AptDto apartDTO = aptService.getApartById(id);
         List<AptDealTypeDto> aptDealTypeDTO = aptService.getDealByApartId(id);
 
-//      교통
-        List<BusStopDto> busStopDTO = trafficService.findNearbyBusStops(apartDTO.getLat(), apartDTO.getLng());
-        List<SubwayDto> subwayDTO = trafficService.findNearbySubways(apartDTO.getLat(), apartDTO.getLng());
-
-//        학군
-        List<SchoolTypeDto> schoolDto = schoolService.findNearBySchool(apartDTO.getLat(), apartDTO.getLng());
-        List<AcademyTypeDto> academyDto = academyService.findNearByAcademy(apartDTO.getLat(), apartDTO.getLng());
-//       치안
-        List<CctvDto> cctvDto = safeService.findNearbyCctvs(apartDTO.getLat(), apartDTO.getLng());
-        List<PoliceDto> policeDto = safeService.findNearbyPolices(apartDTO.getLat(), apartDTO.getLng());
-
-//        편의시설
-        List<ConviDto> conviDto = conviService.findNearbyConvi(apartDTO.getLat(), apartDTO.getLng());
-        List<HospitalDto> hospitalDto = conviService.findNearbyHospital(apartDTO.getLat(), apartDTO.getLng());
-
-//        문화시설
-        List<CinemaDto> cinemaDto = cultureService.findNearbyCinemas(apartDTO.getLat(), apartDTO.getLng());
-        List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(apartDTO.getLat(), apartDTO.getLng());
-        List<GalleryDto> galleryDto = cultureService.findNearbyGallerys(apartDTO.getLat(), apartDTO.getLng());
-        List<ParkDto> parkDto = cultureService.findNearbyParks(apartDTO.getLat(), apartDTO.getLng());
-
-
-
         resultMap.put("apart", apartDTO);
-        resultMap.put("deal", aptDealTypeDTO);
+        int maxPrice = aptDealTypeDTO.stream().mapToInt(AptDealTypeDto::getMaxPrice).max().orElse(0) +5000;
+        int minPrice = aptDealTypeDTO.stream().mapToInt(AptDealTypeDto::getMinPrice).min().orElse(0) -5000;
+
+        Map<String, Object> dealInfo = new HashMap<>();
+        dealInfo.put("maxPrice", maxPrice);
+        dealInfo.put("minPrice", minPrice);
+        resultMap.put("dealPrice", dealInfo);
+        resultMap.put("Deal", aptDealTypeDTO);
 //      교통 추가
-        trafficMap.put("bus", busStopDTO);
-        trafficMap.put("subway", subwayDTO);
-        resultMap.put("traffic", trafficMap);
-//      학군 추가
-        resultMap.put("school", schoolDto);
-        resultMap.put("academy", academyDto);
-//      치안 추가
-        safeMap.put("CCTV", cctvDto);
-        safeMap.put("Police", policeDto);
-        resultMap.put("safe", safeMap);
-//      편의 시설 추가
-        resultMap.put("편의점", conviDto);
-        resultMap.put("병원", hospitalDto);
-
-
-        cultureMap.put("영화관", cinemaDto);
-        cultureMap.put("도서관", libraryDto);
-        cultureMap.put("곻원", parkDto);
-        cultureMap.put("미술관", galleryDto);
-        resultMap.put("문화시설", cultureMap);
+//        trafficMap.put("bus", busStopDTO);
+//        trafficMap.put("subway", subwayDTO);
+//        resultMap.put("traffic", trafficMap);
+////      학군 추가
+//        resultMap.put("school", schoolDto);
+//        resultMap.put("academy", academyDto);
+////      치안 추가
+//        safeMap.put("CCTV", cctvDto);
+//        safeMap.put("Police", policeDto);
+//        resultMap.put("safe", safeMap);
+////      편의 시설 추가
+//        resultMap.put("편의점", conviDto);
+//        resultMap.put("병원", hospitalDto);
+//
+//
+//        cultureMap.put("영화관", cinemaDto);
+//        cultureMap.put("도서관", libraryDto);
+//        cultureMap.put("곻원", parkDto);
+//        cultureMap.put("미술관", galleryDto);
+//        resultMap.put("문화시설", cultureMap);
 
         return resultMap;
     }
