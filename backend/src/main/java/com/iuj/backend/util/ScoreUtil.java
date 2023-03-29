@@ -69,12 +69,14 @@ public class ScoreUtil {
         return 1;
     }
     public static double getTotalScoreByRecomm(LinkedHashMap<String, Integer> linkedHashMap, Score scoreData){
-        int denum = linkedHashMap.size();
-        int factor = denum;
+        int recommSize = linkedHashMap.size();
+        int denum = (int) ((recommSize+1)*(recommSize/2.0));
+        int factor = recommSize;
         int sum = 0;
 
         for(String key : linkedHashMap.keySet()){
             sum += factor * linkedHashMap.get(key);
+            factor--;
         }
 
         System.out.println(denum);
