@@ -31,8 +31,8 @@ public class JwtTokenProvider {
 
     @Value("${spring.jwt.secret}")
     private String secretKey = "secretKey";
-    private final long ACCESS_TOKEN_EXPIRE_TIME = 10L * 60 * 60; // 1시간
-    private final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 60 * 24 * 14; // 2주
+    private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 30 * 60;
+    private final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 24 * 14 * 60 * 60;
 
     @PostConstruct
     protected void init() {
@@ -79,7 +79,7 @@ public class JwtTokenProvider {
     }
 
     private String doGenerateToken(Claims claims, long tokenValidTime) {
-        System.out.println(new Date(System.currentTimeMillis() + tokenValidTime));
+        LOGGER.info("[doGenerateToken] " + new Date(System.currentTimeMillis() + tokenValidTime));
         String token = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))

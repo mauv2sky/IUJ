@@ -19,13 +19,6 @@ public class TokenController {
     private final JwtTokenProvider jwtTokenProvider;
     private final ObjectMapper objectMapper;
 
-
-    @GetMapping("/confirm")
-    public void confirm() {
-        System.out.println("===============================");
-    }
-
-
     @GetMapping("/refresh")
     public void refreshAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String token = jwtTokenProvider.resolveToken(request);

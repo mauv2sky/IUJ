@@ -56,6 +56,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             newUser.setNickname(userDto.getNickname());
             newUser.setRefreshToken(tokenDto.getRefreshToken());
             userRepository.save(newUser);
+        } else { // refresh token 수정 -> 마지막 로그인 시간 체크
+            user.setRefreshToken(tokenDto.getRefreshToken());
+            userRepository.save(user);
         }
 
         resultRedirectStrategy(request, response, tokenDto);
