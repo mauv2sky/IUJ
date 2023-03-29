@@ -1,6 +1,5 @@
 package com.iuj.backend.config.oauth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iuj.backend.api.domain.dto.common.UserDto;
 import com.iuj.backend.api.domain.dto.common.TokenDto;
 import com.iuj.backend.api.domain.entity.User;
@@ -23,7 +22,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @Slf4j
 @Component
@@ -34,9 +32,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     private final JwtTokenProvider tokenProvider;
     private final UserRequestMapper userRequestMapper;
-    private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
-
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
