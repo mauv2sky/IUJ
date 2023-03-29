@@ -229,7 +229,7 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
           {tabIndex2 === 1 && <FacilityList facilitylist={detailRelist.facility.예체능학원 ? detailRelist.facility.예체능학원 : []} />}
         </div> */}
       </div>
-      {/* <div className={styles.title}>
+      <div className={styles.title}>
         <div className={styles.type}>{detailRelist.home.built_year}</div>
         <div className={styles.name}>{detailRelist.home.name}</div>
         <div className={styles.address}>
@@ -239,7 +239,7 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
         <button className={styles.interestbutton} onClick={onClickInterestBtn}>
           관심 매물 등록
         </button>
-      </div> */}
+      </div>
     </div>
   );
 }
