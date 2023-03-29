@@ -18,4 +18,18 @@ public class VillaDealTypeDto {
         this.villaDeals = villaDeals;
     }
 
+    public int getMaxPrice() {
+        if("매매".equals(type)){
+            return villaDeals.stream().mapToInt(VillaDealDto::getPrice).max().orElse(0);
+        }else{
+            return villaDeals.stream().mapToInt(VillaDealDto::getGuarantee).max().orElse(0);
+        }
+    }
+    public int getMinPrice() {
+        if("매매".equals(type)){
+            return villaDeals.stream().mapToInt(VillaDealDto::getPrice).min().orElse(0);
+        }else{
+            return villaDeals.stream().mapToInt(VillaDealDto::getGuarantee).min().orElse(0);
+        }
+    }
 }

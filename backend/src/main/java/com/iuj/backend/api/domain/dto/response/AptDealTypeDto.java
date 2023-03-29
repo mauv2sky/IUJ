@@ -18,10 +18,18 @@ public class AptDealTypeDto {
     }
 
     public int getMinPrice() {
-        return aptDeals.stream().mapToInt(AptDealDto::getPrice).min().orElse(0);
+        if("매매".equals(type)){
+            return aptDeals.stream().mapToInt(AptDealDto::getPrice).min().orElse(0);
+        }else{
+            return aptDeals.stream().mapToInt(AptDealDto::getGuarantee).min().orElse(0);
+        }
     }
 
     public int getMaxPrice() {
-        return aptDeals.stream().mapToInt(AptDealDto::getPrice).max().orElse(0);
+        if("매매".equals(type)){
+            return aptDeals.stream().mapToInt(AptDealDto::getPrice).max().orElse(0);
+        }else{
+            return aptDeals.stream().mapToInt(AptDealDto::getGuarantee).max().orElse(0);
+        }
     }
 }
