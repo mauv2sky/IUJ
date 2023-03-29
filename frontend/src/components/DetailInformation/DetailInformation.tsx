@@ -5,7 +5,7 @@
 // // import DealData, { DealType } from '../../components/DealData/DealData';
 
 // export type DetailType = {
-//   place: {
+//   home: {
 //     id: number;
 //     name: string;
 //     type: string;
@@ -72,7 +72,7 @@
 //         <div className={styles.costgraph}>여긴 실거래가 그래프</div>
 //         <div className={styles.school}>최근 1년간 실거래</div>
 //         <div className={styles.costdata}>여긴 실거래가 데이터</div>
-//         {/* <DealData deallist={detailRelist.place.deal ? detailRelist.place.deal : []} /> */}
+//         {/* <DealData deallist={detailRelist.home.deal ? detailRelist.home.deal : []} /> */}
 //         <div className={styles.school}>인근 학교 정보</div>
 //         <div className={styles.schooltap}>
 //           <div className={styles.tab}>
@@ -117,10 +117,10 @@
 //         </div>
 //       </div>
 //       <div className={styles.title}>
-//         <div className={styles.type}>{detailRelist.place.type}</div>
-//         <div className={styles.name}>{detailRelist.place.name}</div>
-//         <div className={styles.address}>{detailRelist.place.address[0]}</div>
-//         <div className={styles.address}>{detailRelist.place.address[1]}</div>
+//         <div className={styles.type}>{detailRelist.home.type}</div>
+//         <div className={styles.name}>{detailRelist.home.name}</div>
+//         <div className={styles.address}>{detailRelist.home.address[0]}</div>
+//         <div className={styles.address}>{detailRelist.home.address[1]}</div>
 //         <button className={styles.interestbutton} onClick={onClickInterestBtn}>
 //           관심 매물 등록
 //         </button>
@@ -135,39 +135,13 @@ import React, { useState } from 'react';
 import styles from './DetailInformation.module.scss';
 import FacilityList, { FacilityType } from '../../components/FacilityList/FacilityList';
 import axios from 'axios';
-// import DealData, { DealType } from '../../components/DealData/DealData';
+import DealData, { DealType } from '../../components/DealData/DealData';
+// import DealData from '../../components/DealData/DealData';
 
 export type DetailType = {
-  place: {
-    id: number;
-    name: string;
-    type: string;
-    latlng: number[];
-    address: string[];
-    deal: {
-      type: string;
-      aptDeals: {
-        id: number;
-        area: string;
-        contract_ym: string;
-        contract_day: string;
-        dealType: string;
-        guarantee: number;
-        price: number;
-        floor: number;
-        monthly: number;
-        aptId: number;
-        author: string | null;
-      }[];
-    }[];
-  };
-  total_score: number;
-  map: {
-    [infra: string]: {}[];
-  };
-  facility: {
-    [infra: string]: { [key: string]: string | string | number[] }[];
-  };
+  dealPrice: { minPrice: number; maxPrice: number };
+  Deal: never[];
+  home: { id: number; lat: number; lng: number; sigungu: string; bungi: string; name: string; built_year: string; road_addr: string };
 };
 
 type DetailPropsType = {
@@ -211,10 +185,9 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
       <div className={styles.information}>
         <div className={styles.costgraph}>여긴 실거래가 그래프</div>
         <div className={styles.school}>최근 1년간 실거래</div>
-        <div className={styles.costdata}>여긴 실거래가 데이터</div>
-        {/* <DealData deallist={detailRelist.place.deal ? detailRelist.place.deal : []} /> */}
+        <div className={styles.costdata}>{/* <DealData Deal={detailRelist.Deal} /> */}</div>
         <div className={styles.school}>인근 학교 정보</div>
-        <div className={styles.schooltap}>
+        {/* <div className={styles.schooltap}>
           <div className={styles.tab}>
             <div onClick={() => onClickTab(0)} className={tabIndex === 0 ? styles.selected : styles['not-selected']}>
               어린이집
@@ -254,17 +227,19 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
           </div>
           {tabIndex2 === 0 && <FacilityList facilitylist={detailRelist.facility.입시학원 ? detailRelist.facility.입시학원 : []} />}
           {tabIndex2 === 1 && <FacilityList facilitylist={detailRelist.facility.예체능학원 ? detailRelist.facility.예체능학원 : []} />}
-        </div>
+        </div> */}
       </div>
-      <div className={styles.title}>
-        <div className={styles.type}>{detailRelist.place.type}</div>
-        <div className={styles.name}>{detailRelist.place.name}</div>
-        <div className={styles.address}>{detailRelist.place.address[0]}</div>
-        <div className={styles.address}>{detailRelist.place.address[1]}</div>
+      {/* <div className={styles.title}>
+        <div className={styles.type}>{detailRelist.home.built_year}</div>
+        <div className={styles.name}>{detailRelist.home.name}</div>
+        <div className={styles.address}>
+          {detailRelist.home.sigungu} {detailRelist.home.bungi}
+        </div>
+        <div className={styles.address}>{detailRelist.home.road_addr}</div>
         <button className={styles.interestbutton} onClick={onClickInterestBtn}>
           관심 매물 등록
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }
