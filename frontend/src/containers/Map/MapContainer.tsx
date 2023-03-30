@@ -20,18 +20,18 @@ import AppliedPriority from '../../components/AppliedPriority/AppliedPriority';
  * 드래그 끝날 때
  * 지도 레벨 변경 시 */
 
+export const typeMap: TypeMappingType = {
+  APT: '아파트',
+  OFFICETEL: '오피스텔',
+  VILLA: '연립다세대',
+};
+
 function MapContainer() {
   /** ================================================= useState, useRef, 변수 ================================================= */
   const mapRef = useRef<HTMLDivElement>(null);
-  const [map, setMap] = useState<kakao.maps.Map | null>(null);
-  const [clusterer, setClusterer] = useState<kakao.maps.MarkerClusterer | null>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
   const priority = useAppSelector((state) => state.prioritySlice.priority);
   const [showOption, setShowOption] = useState<number>(-1);
-  const typeMap: TypeMappingType = {
-    APT: '아파트',
-    OFFICETEL: '오피스텔',
-    VILLA: '연립다세대',
-  };
   const [type, setType] = useState<string>('APT');
   const [dealType, setDealType] = useState<string>('BUY');
   const [price, setPrice] = useState<number[]>([0, 2000000]);
@@ -41,82 +41,74 @@ function MapContainer() {
   const [extent, setExtent] = useState<number[]>([0, 662]);
   const [extent2, setExtent2] = useState<number[]>([0, 200]);
   const [floor, setFloor] = useState<number[]>([0, 100]);
-  const [level, setLevel] = useState<number>(3);
-  const [realEstateList, setRealEstateList] = useState<RealEstateType[]>([]);
+  const [mapOptions, setMapOptions] = useState<kakao.maps.MapOptions | undefined>(undefined);
+  const [level, setLevel] = useState<number>(4);
+  const [realEstateList, setRealEstateList] = useState<RealEstateType[]>([]); // 사이드 바 매물 목록에 사용
 
   /** ================================================= useEffect ================================================= */
-  /** 맵 생성 useEffect */
   useEffect(() => {
-    createMap();
+    getMapOptions();
   }, []);
 
-  /** map, clusterer 등록되면 초기 매물 요청 */
   useEffect(() => {
-    if (map && clusterer) {
-      requestRealEstateForMap();
-    }
-  }, [map, clusterer]);
+    if (mapOptions) {
+      const map = new window.kakao.maps.Map(mapRef.current as HTMLElement, mapOptions as kakao.maps.MapOptions);
 
-  /** state에 있는 priority 변경 시 */
-  useEffect(() => {
-    requestRealEstateForMap();
-  }, [priority, type]);
+      const clusterer = new kakao.maps.MarkerClusterer({
+        map,
+        averageCenter: true,
+        minLevel: 5,
+      });
+
+      /** 드래그 및 지도 레벨 변경 시 API 요청 보내기 */
+      kakao.maps.event.addListener(map, 'dragend', () => {
+        requestRealEstateForMap(map, clusterer);
+      });
+      kakao.maps.event.addListener(map, 'zoom_changed', () => {
+        requestRealEstateForMap(map, clusterer);
+      });
+      if (btnRef.current) {
+        btnRef.current.addEventListener('click', () => {
+          requestRealEstateForMap(map, clusterer);
+        });
+      }
+
+      /** 컴포넌트 언마운트 시 이벤트 리스너 제거하기 */
+      return () => {
+        kakao.maps.event.removeListener(map, 'dragend', () => {
+          requestRealEstateForMap(map, clusterer);
+        });
+        kakao.maps.event.removeListener(map, 'zoom_changed', () => {
+          requestRealEstateForMap(map, clusterer);
+        });
+        if (btnRef.current) {
+          btnRef.current.removeEventListener('click', () => {
+            requestRealEstateForMap(map, clusterer);
+          });
+        }
+      };
+    }
+  }, [mapOptions, btnRef.current]);
 
   /** ================================================= 함수 ================================================= */
-  /** 현재 위치 가져오기 */
-  const getCurrentPosition = (): Promise<GeolocationPosition> => {
+  /** 현재 위치를 기반으로 지도 옵션 설정하기 */
+  const getMapOptions = (): Promise<GeolocationPosition> => {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          resolve(position);
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+
+          setMapOptions({
+            center: new window.kakao.maps.LatLng(lat, lng),
+            level: 4,
+          });
         },
         (error) => {
           reject(error);
         },
       );
     });
-  };
-
-  /** 현재 위치를 기반으로 지도 생성 */
-  const createMap = async () => {
-    if (window.kakao && window.kakao.maps) {
-      let lat;
-      let lng;
-
-      try {
-        const position = await getCurrentPosition();
-        lat = position.coords.latitude;
-        lng = position.coords.longitude;
-        console.log('현재 위치: ', lat, lng);
-
-        const options = {
-          center: new window.kakao.maps.LatLng(lat, lng),
-          level: 3,
-        };
-
-        if (mapRef.current) {
-          /** map */
-          const map = new window.kakao.maps.Map(mapRef.current, options);
-
-          /** clusterer */
-          const clusterer = new kakao.maps.MarkerClusterer({
-            map,
-            averageCenter: true,
-            minLevel: 4,
-          });
-
-          /** useState, 바깥에서 map 쓸 수 있게 */
-          setMap(map);
-
-          /** 바깥에서 clusterer 쓸 수 있게 */
-          setClusterer(clusterer);
-
-          requestRealEstateForMap();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
   };
 
   /** bound 전처리 */
@@ -128,17 +120,18 @@ function MapContainer() {
   };
 
   /** 현재 영역 매물 요청 */
-  const requestRealEstateForMap = async () => {
-    if (!clusterer || !map) {
-      return;
-    }
-
+  const requestRealEstateForMap = async (map: kakao.maps.Map, clusterer: kakao.maps.MarkerClusterer) => {
     /** 기존 맵, 클러스터러 초기화 */
     clusterer.clear();
 
     /** 지도의 영역과 레벨 불러오기 */
     const bound = pretreatBound(map.getBounds());
-    const level = map.getLevel();
+    const mapLevel = map.getLevel();
+    setLevel(mapLevel);
+
+    if (mapLevel > 7) {
+      return;
+    }
 
     /** 전세, 월세에 따른 보증금 전처리 */
     let guarantee;
@@ -163,29 +156,30 @@ function MapContainer() {
       floor: [floor[0], floor[1] === 10 ? 100 : floor[1]],
     };
 
-    console.log('매물 request: ', { bound, deal_type: dealType, filter, level, recomm: priority, type });
+    console.log('매물 request: ', { bound, deal_type: dealType, filter, level: mapLevel, recomm: priority, type });
 
     /** 백엔드에 매물 요청 */
     try {
-      const res = await requestRealEstateList({ bound, deal_type: dealType, filter, level, recomm: priority, type });
+      const res = await requestRealEstateList({ bound, deal_type: dealType, filter, level: mapLevel, recomm: priority, type });
       console.log('매물 response: ', res);
+
       setRealEstateList(res.data);
-    } catch (err) {
-      console.error('매물 요청 에러: ', err);
-    }
 
-    const markers = realEstateList.map((realEstate) => {
-      return { name: realEstate.name, score: realEstate.score, latlng: new kakao.maps.LatLng(realEstate.latlng[0], realEstate.latlng[1]) };
-    });
-
-    /** 마커 표시 */
-    for (let i = 0; i < markers.length; i++) {
-      const marker = new kakao.maps.Marker({
-        map,
-        position: markers[i].latlng,
+      const markers = res.data.map((realEstate: RealEstateType) => {
+        return { name: realEstate.name, score: realEstate.score, latlng: new kakao.maps.LatLng(realEstate.latlng[0], realEstate.latlng[1]) };
       });
 
-      clusterer.addMarker(marker);
+      /** 마커 표시 */
+      for (let i = 0; i < markers.length; i++) {
+        const marker = new kakao.maps.Marker({
+          map,
+          position: markers[i].latlng,
+        });
+
+        clusterer.addMarker(marker);
+      }
+    } catch (err) {
+      console.error('매물 요청 에러: ', err);
     }
   };
 
@@ -204,13 +198,13 @@ function MapContainer() {
 
   /** 매물 타입 변경 시 */
   const onChangeType = (changedType: string) => {
+    console.log(changedType);
     setType(changedType);
     setShowOption(-1);
   };
 
   /** 거래 유형 변경 시 */
   const onChangeDealType = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(e.target);
     const target = e.target as HTMLFormElement;
     setDealType(target.value);
   };
@@ -263,26 +257,6 @@ function MapContainer() {
   const onChangeFloor = (floorRange: number[]) => {
     setFloor(floorRange);
   };
-
-  /** 적용 버튼 클릭 시 */
-  const onClickApply = () => {
-    requestRealEstateForMap();
-  };
-
-  /** ================================================= Axios ================================================= */
-  /** 지도 레벨이 변경되면 새로운 매물 요청 */
-  if (map) {
-    kakao.maps.event.addListener(map, 'zoom_changed', () => {
-      setTimeout(() => requestRealEstateForMap(), 500);
-    });
-  }
-
-  /** 드래그가 끝나면 새로운 매물 요청 */
-  if (map) {
-    kakao.maps.event.addListener(map, 'dragend', () => {
-      setTimeout(() => requestRealEstateForMap(), 500);
-    });
-  }
 
   return (
     <div className={styles.container}>
@@ -398,8 +372,8 @@ function MapContainer() {
                   <RangeSlider id="slider" min={0} max={350} step={50} defaultValue={[0, 350]} value={monthly} onInput={onChangeMonthly} />
                 </div>
               )}
-              <div className={styles['option-btn-div']} onClick={onClickApply}>
-                <button>적용</button>
+              <div className={styles['option-btn-div']}>
+                <button ref={btnRef}>적용</button>
               </div>
             </div>
           )}
@@ -420,8 +394,8 @@ function MapContainer() {
                 </span>
               </p>
               <RangeSlider id="slider" min={0} max={200} step={1} defaultValue={[0, 200]} value={extent2} onInput={onChangeExtent} />
-              <div className={styles['option-btn-div']} onClick={onClickApply}>
-                <button>적용</button>
+              <div className={styles['option-btn-div']}>
+                <button ref={btnRef}>적용</button>
               </div>
             </div>
           )}
@@ -448,8 +422,8 @@ function MapContainer() {
                 )}
               </p>
               <RangeSlider id="slider" min={0} max={10} step={1} defaultValue={[0, 10]} value={floor} onInput={onChangeFloor} />
-              <div className={styles['option-btn-div']} onClick={onClickApply}>
-                <button>적용</button>
+              <div className={styles['option-btn-div']}>
+                <button ref={btnRef}>적용</button>
               </div>
             </div>
           )}
