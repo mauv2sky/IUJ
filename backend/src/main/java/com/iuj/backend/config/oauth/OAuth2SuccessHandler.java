@@ -73,7 +73,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                     .build().toUriString();
             redirectStrategy.sendRedirect(request, response, targetUrl);
         } else { // 소셜로그인 요청일 경우
-            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173/main")
+            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173")
                     .queryParam("access_token", tokenDto.getAccessToken())
                     .queryParam("refresh_token", tokenDto.getRefreshToken())
                     .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
