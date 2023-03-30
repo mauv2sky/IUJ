@@ -1,10 +1,7 @@
 package com.iuj.backend.api.controller;
 
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -21,7 +18,7 @@ public class TestController {
 
     }
 
-    @GetMapping("/")
+    @GetMapping("/main")
     public void home() {
         System.out.println("👋 home");
     }
