@@ -19,10 +19,7 @@ public class RecommService {
     private RecommRepository recommRepository;
 
     // 선호 필터 조회
-    public List<Object> getAllRecommsByEmail(String authToken) {
-        // authToken으로 email 받아와야함
-        String email = "qwer"; // 임시로 email 값을 설정
-
+    public List<Object> getAllRecommsByEmail(String email) {
         // 반환값을 담을 리스트
         // {recomm : [ {id:id, list: [ { main, sub }, {ms2}...]}, {객체2}... ] }
         List<Object> resultList = new ArrayList<>();
@@ -57,7 +54,7 @@ public class RecommService {
     }
 
     // 선호 필터 등록
-    public void addRecomm(RecommRequest request, String authToken) throws IllegalArgumentException {
+    public void addRecomm(RecommRequest request, String email) throws IllegalArgumentException {
         // 입력값이 없는지 체크
         if (request.getRecomm().isEmpty()) {
             throw new IllegalArgumentException("recomm is required.");
@@ -87,9 +84,6 @@ public class RecommService {
                 !allowedValues.contains(fifth)) {
             throw new IllegalArgumentException("Invalid value for recomm.");
         }
-
-        // authToken으로 email 받아와야함
-        String email = "qwer"; // 임시로 email 값을 설정
 
         // 해당 이메일을 가진 모든 선호 필터 데이터 검색
         List<FavFilter> existingRecomms = recommRepository.findByEmail(email);
@@ -127,10 +121,7 @@ public class RecommService {
 
 
     // 선호 필터 삭제
-    public void delRecomm(DelRecommRequest request, String authToken) {
-        // authToken으로 email 받아와야함
-        String email = "qwer"; // 임시로 email 값을 설정
-
+    public void delRecomm(DelRecommRequest request, String email) {
         // 값을 찾아서
         FavFilter searchRecomm = recommRepository.findById_(request.getId());
         // System.out.println(searchRecomm);
