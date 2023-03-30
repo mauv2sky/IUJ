@@ -23,7 +23,7 @@ function InfraIconamenities(props: Props) {
   return (
     <div className={styles.component}>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'hospital' ? styles.selected : ''}`} onClick={() => onClickBtn('bus')}>
+        <div className={`${styles.iconborder} ${onoffBtn === 'hospital' ? styles.selected : ''}`} onClick={() => onClickBtn('hospital')}>
           <span className={styles.icon}>
             <MdLocalHospital />
           </span>
@@ -31,7 +31,7 @@ function InfraIconamenities(props: Props) {
         <p>병원</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'mart' ? styles.selected : ''}`} onClick={() => onClickBtn('mart')}>
+        <div className={`${styles.iconborder} ${onoffBtn === 'mart' ? styles.selected : ''}`} onClick={() => onClickBtn('mart')}>
           <span className={styles.icon}>
             <BsFillBasket3Fill />
           </span>
@@ -39,7 +39,7 @@ function InfraIconamenities(props: Props) {
         <p>마트</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'convi' ? styles.selected : ''}`} onClick={() => onClickBtn('convi')}>
+        <div className={`${styles.iconborder} ${onoffBtn === 'convi' ? styles.selected : ''}`} onClick={() => onClickBtn('convi')}>
           <span className={styles.icon}>
             <MdLocalConvenienceStore />
           </span>
@@ -47,12 +47,12 @@ function InfraIconamenities(props: Props) {
         <p>편의점</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'shopping' ? styles.selected : ''}`} onClick={() => onClickBtn('shopping')}>
+        <div className={`${styles.iconborder} ${onoffBtn === 'shopping' ? styles.selected : ''}`} onClick={() => onClickBtn('shopping')}>
           <span className={styles.icon}>
             <BsFillBuildingFill />
           </span>
         </div>
-        <p>백화점</p>
+        <p>대형매장</p>
       </div>
     </div>
   );

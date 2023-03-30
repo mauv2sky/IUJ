@@ -23,7 +23,7 @@ function InfraIconcultures(props: Props) {
   return (
     <div className={styles.component}>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'park' ? styles.selected : ''}`} onClick={() => onClickBtn('bus')}>
+        <div className={`${styles.iconborder} ${onoffBtn === 'park' ? styles.selected : ''}`} onClick={() => onClickBtn('park')}>
           <span className={styles.icon}>
             <MdOutlinePark />
           </span>
@@ -31,7 +31,7 @@ function InfraIconcultures(props: Props) {
         <p>공원</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'cinema' ? styles.selected : ''}`} onClick={() => onClickBtn('cinema')}>
+        <div className={`${styles.iconborder} ${onoffBtn === 'cinema' ? styles.selected : ''}`} onClick={() => onClickBtn('cinema')}>
           <span className={styles.icon}>
             <MdMovie />
           </span>
@@ -39,7 +39,7 @@ function InfraIconcultures(props: Props) {
         <p>영화관</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'gallery' ? styles.selected : ''}`} onClick={() => onClickBtn('gallery')}>
+        <div className={`${styles.iconborder} ${onoffBtn === 'gallery' ? styles.selected : ''}`} onClick={() => onClickBtn('gallery')}>
           <span className={styles.icon}>
             <RiGalleryFill />
           </span>
@@ -47,7 +47,7 @@ function InfraIconcultures(props: Props) {
         <p>미술관</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'lib' ? styles.selected : ''}`} onClick={() => onClickBtn('lib')}>
+        <div className={`${styles.iconborder} ${onoffBtn === 'lib' ? styles.selected : ''}`} onClick={() => onClickBtn('lib')}>
           <span className={styles.icon}>
             <BsBook />
           </span>

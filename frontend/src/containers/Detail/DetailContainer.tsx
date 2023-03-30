@@ -28,10 +28,10 @@ function Detailcontainer(props: Props) {
 
   /** 매물 상세 정보 더미 데이터 */
   const [detailRelist, setDetailRelist] = useState<DetailType>({
-    dealPrice: {
-      minPrice: 0,
-      maxPrice: 0,
-    },
+    // dealPrice: {
+    //   minPrice: 0,
+    //   maxPrice: 0,
+    // },
     Deal: [],
     home: {
       id: 0,
