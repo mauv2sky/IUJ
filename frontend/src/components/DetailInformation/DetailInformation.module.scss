@@ -46,7 +46,7 @@
   // border: 1px solid black;
 }
 .title {
-  margin-top: 300px;
+  margin-top: 0px;
   border: 1px solid $lfc;
   float: right;
   width: 350px;
@@ -63,7 +63,7 @@
 }
 .costdata {
   width: 100%;
-  height: 300px;
+  height: 800px;
   border-bottom: 1px solid $lfc;
 }
 .study {
@@ -118,9 +118,15 @@
     border: 1px solid black;
   }
 }
+.deal {
+  font-size: 30px;
+  font-weight: 700;
+  margin-left: 35px;
+  margin-bottom: 20px;
+}
 .school {
-  font-size: 40px;
-  font-weight: 500;
+  font-size: 30px;
+  font-weight: 700;
   margin: 35px;
   margin-top: 100px;
 }

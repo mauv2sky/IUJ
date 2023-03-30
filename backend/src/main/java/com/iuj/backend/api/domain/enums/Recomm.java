@@ -27,6 +27,7 @@ public enum Recomm {
     CONVENIENCE_STORE("편의","편의점"),
     SHOPPING("편의","마트"),
     HOSPITAL("편의","병원"),
+    PUBLIC_OFFICE("편의", "관공서"),
 
     // 치안
     SAFETY("치안","치안"),
@@ -35,10 +36,11 @@ public enum Recomm {
     PARK("문화","공원"),
     CINEMA("문화","영화관"),
     BOOKSTORE("문화","서점"),
+    LIBRARY("문화","도서관"),
     GALLERY("문화","미술관");
 
-    private String main;
-    private String sub;
+    private final String main;
+    private final String sub;
 
     public static Recomm findBySub(String sub){
         return EnumSet.allOf(Recomm.class).stream()

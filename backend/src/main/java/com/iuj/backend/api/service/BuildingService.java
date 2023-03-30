@@ -2,20 +2,22 @@ package com.iuj.backend.api.service;
 
 import com.iuj.backend.api.domain.dto.common.BoundDto;
 import com.iuj.backend.api.domain.dto.mapping.LocationMapping;
-import com.iuj.backend.api.domain.dto.request.BasicFilter;
 import com.iuj.backend.api.domain.dto.request.PlaceMainRequest;
 import com.iuj.backend.api.domain.dto.response.BuildingDto;
+import com.iuj.backend.api.domain.entity.building.Score;
+import com.iuj.backend.api.domain.entity.building.ScoreId;
 import com.iuj.backend.api.domain.enums.BuildingType;
-import com.iuj.backend.api.domain.enums.Recomm;
 import com.iuj.backend.api.repository.building.AptRepository;
 import com.iuj.backend.api.repository.building.JDBCBuildingRepository;
 import com.iuj.backend.api.repository.building.OfficetelRepository;
 import com.iuj.backend.api.repository.building.VillaRepository;
+import com.iuj.backend.api.repository.score.ScoreRepository;
+import com.iuj.backend.util.ScoreUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Basic;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ public class BuildingService {
     private final AptRepository aptRepository;
     private final OfficetelRepository officetelRepository;
     private final VillaRepository villaRepository;
+    private final ScoreRepository scoreRepository;
 
     private final JDBCBuildingRepository jdbcBuildingRepository;
 
@@ -32,11 +35,6 @@ public class BuildingService {
         BuildingType buildingType = request.getType();
         BoundDto bound = request.getBound();
         int level = request.getLevel();
-
-        // 평수 -> 제곱미터 변환
-//        BasicFilter filter = request.getFilter();
-//        int[] extent = filter.getExtent();
-//        filter.setExtent(new int[]{(int)Math.ceil(extent[0] * 3.3058), (int) ((extent[1]+1) * 3.3058)});
 
         List<BuildingDto> buildingList;
 
@@ -67,26 +65,27 @@ public class BuildingService {
                     .collect(Collectors.toList());
         }
 
-        System.out.println(buildingList);
-
-        if(buildingList != null){
+        // 점수 추가
+        if(!buildingList.isEmpty()){
             for(BuildingDto building : buildingList){
                 building.setType(buildingType);
-                if(request.getLevel() <= 3 && request.getRecomm() != null){
-                    building.setScore(getScoreMap(request.getRecomm()));
+                if(request.getLevel() < 9) {
+                    if (request.getRecomm() == null){
+                        ScoreId id = new ScoreId(building.getId(), building.getType().getName().toUpperCase());
+                        Score score = scoreRepository.findById(id).orElse(new Score());
+                        building.setTotalScore(ScoreUtil.getBasicScore(score));
+                    } else {
+                        ScoreId id = new ScoreId(building.getId(), building.getType().getName().toUpperCase());
+                        Score score = scoreRepository.findById(id).orElse(new Score());
+                        LinkedHashMap<String, Integer> scoreMap = ScoreUtil.getScoreMap(request.getRecomm(), score);
+                        building.setScore(scoreMap);
+                        building.setTotalScore(ScoreUtil.getTotalScoreByRecomm(scoreMap, score));
+                    }
                 }
-                double random = Math.random();
-                building.setTotalScore( Math.round(random * 10000.0) / 100.0);
             }
         }
+        Collections.sort( buildingList, (o1, o2) -> (int) (o2.getTotalScore()*10 - o1.getTotalScore()*10));
         return buildingList;
     }
 
-    private HashMap<String, Integer> getScoreMap(List<Recomm> recomm){
-        HashMap<String, Integer> score = new HashMap<>();
-        for(Recomm r : recomm){
-            score.put(r.getSub(), ((int) (Math.random() * 10))*10);
-        }
-        return score;
-    }
 }
