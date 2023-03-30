@@ -30,20 +30,20 @@ export type RealEstateType = {
   id: number;
   name: string;
   type: string;
-  address: string[];
   latlng: number[];
   total_score: number;
-  score: {
+  address?: string[];
+  score?: {
     [kind: string]: number | undefined;
   };
-  average_deal: {
+  average_deal?: {
     deal_type: string;
     price: number;
     guarantee: number;
     monthly: number;
   };
-  range_extent: number[];
-  range_floor: number[];
+  range_extent?: number[];
+  range_floor?: number[];
 };
 
 /** 매물 타입 영어 매핑용 오브젝트의 타입 */
