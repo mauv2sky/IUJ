@@ -66,14 +66,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         if(savedRequest != null) { // 권한없는 페이지 요청했을 경우
             String savedUrl = savedRequest.getRedirectUrl();
-            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5000" + savedUrl)
+            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173" + savedUrl)
                     .queryParam("access_token", tokenDto.getAccessToken())
                     .queryParam("refresh_token", tokenDto.getRefreshToken())
                     .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
                     .build().toUriString();
             redirectStrategy.sendRedirect(request, response, targetUrl);
         } else { // 소셜로그인 요청일 경우
-            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5000/main")
+            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173/main")
                     .queryParam("access_token", tokenDto.getAccessToken())
                     .queryParam("refresh_token", tokenDto.getRefreshToken())
                     .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
