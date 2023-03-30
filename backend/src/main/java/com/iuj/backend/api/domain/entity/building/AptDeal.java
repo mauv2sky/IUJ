@@ -36,8 +36,5 @@ public class AptDeal {
     @Column(name="apt_id")
     private Long aptId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "apt_id")
-//    private Apt apt;
 
 }

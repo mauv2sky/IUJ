@@ -44,10 +44,7 @@ public class LikeService {
 //    @Autowired
 //    private OfficetelDealRepository officetelDealRepository;
 
-    public List<LikeBuildingDto> getAllLikesByEmail(String authToken) {
-        // authToken으로 email 받아와야함
-        String email = "qwer"; // 임시로 email 값을 설정
-
+    public List<LikeBuildingDto> getAllLikesByEmail(String email) {
         // 반환값을 담을 리스트
         List<LikeBuildingDto> result = new ArrayList<>();
 
@@ -101,10 +98,7 @@ public class LikeService {
     }
 
     // 관심 매물 등록
-    public void addLike(LikeBuildingRequest request, String authToken) throws IllegalArgumentException {
-        // authToken으로 email 받아와야함
-        String email = "qwer"; // 임시로 email 값을 설정
-
+    public void addLike(LikeBuildingRequest request, String email) throws IllegalArgumentException {
         // id와 type이 null인지 체크
         if (request.getId() == null || request.getType() == null) {
             throw new IllegalArgumentException("id and type are required.");
@@ -128,10 +122,7 @@ public class LikeService {
 
     
     // 관심 매물 삭제
-    public void delLike(LikeBuildingRequest request, String authToken) {
-        // authToken으로 email 받아와야함
-        String email = "qwer"; // 임시로 email 값을 설정
-
+    public void delLike(LikeBuildingRequest request, String email) {
         // XSS 공격 방어용 HTML 태그 제거
         String type = HtmlUtils.htmlEscape(request.getType());
 
