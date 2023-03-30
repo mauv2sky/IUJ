@@ -40,7 +40,7 @@ public class BuildingService {
 
         if(level > 9) {
             throw new IllegalArgumentException();
-        } else if(level > 3){
+        } else if(level > 4){
             List<LocationMapping> locList;
 
             if(buildingType.equals(BuildingType.APT)) {
@@ -69,7 +69,7 @@ public class BuildingService {
         if(!buildingList.isEmpty()){
             for(BuildingDto building : buildingList){
                 building.setType(buildingType);
-                if(request.getLevel() < 9) {
+                if(request.getLevel() <= 4) {
                     if (request.getRecomm() == null){
                         ScoreId id = new ScoreId(building.getId(), building.getType().getName().toUpperCase());
                         Score score = scoreRepository.findById(id).orElse(new Score());
