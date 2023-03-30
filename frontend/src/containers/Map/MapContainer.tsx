@@ -42,8 +42,11 @@ function MapContainer() {
   const [extent2, setExtent2] = useState<number[]>([0, 200]);
   const [floor, setFloor] = useState<number[]>([0, 100]);
   const [mapOptions, setMapOptions] = useState<kakao.maps.MapOptions | undefined>(undefined);
-  const [level, setLevel] = useState<number>(4);
+  const [stateLevel, setStateLevel] = useState<number>(4);
   const [realEstateList, setRealEstateList] = useState<RealEstateType[]>([]); // 사이드 바 매물 목록에 사용
+  const [firstMapLoaded, setFirstMapLoaded] = useState<boolean>(false);
+  const [stateMap, setStateMap] = useState<kakao.maps.Map | undefined>(undefined);
+  const [stateClusterer, setStateClusterer] = useState<kakao.maps.MarkerClusterer | undefined>(undefined);
 
   /** ================================================= useEffect ================================================= */
   useEffect(() => {
@@ -53,6 +56,53 @@ function MapContainer() {
   useEffect(() => {
     if (mapOptions) {
       const map = new window.kakao.maps.Map(mapRef.current as HTMLElement, mapOptions as kakao.maps.MapOptions);
+      setStateMap(map);
+
+      const clusterer = new kakao.maps.MarkerClusterer({
+        map,
+        averageCenter: true,
+        minLevel: 5,
+      });
+      setStateClusterer(clusterer);
+
+      /** 드래그 및 지도 레벨 변경 시 API 요청 보내기 */
+      kakao.maps.event.addListener(map, 'dragend', () => {
+        requestRealEstateForMap(map, clusterer);
+      });
+      kakao.maps.event.addListener(map, 'zoom_changed', () => {
+        requestRealEstateForMap(map, clusterer);
+      });
+      if (btnRef.current) {
+        btnRef.current.addEventListener('click', () => {
+          requestRealEstateForMap(map, clusterer);
+        });
+      }
+
+      /** 컴포넌트 언마운트 시 이벤트 리스너 제거하기 */
+      return () => {
+        kakao.maps.event.removeListener(map, 'dragend', () => {
+          requestRealEstateForMap(map, clusterer);
+        });
+        kakao.maps.event.removeListener(map, 'zoom_changed', () => {
+          requestRealEstateForMap(map, clusterer);
+        });
+        if (btnRef.current) {
+          btnRef.current.removeEventListener('click', () => {
+            requestRealEstateForMap(map, clusterer);
+          });
+        }
+      };
+    }
+  }, [mapOptions, btnRef.current]);
+
+  useEffect(() => {
+    if (firstMapLoaded) {
+      const options = {
+        center: stateMap?.getCenter(),
+        level: stateLevel,
+      };
+
+      const map = new window.kakao.maps.Map(mapRef.current as HTMLElement, options as kakao.maps.MapOptions);
 
       const clusterer = new kakao.maps.MarkerClusterer({
         map,
@@ -88,7 +138,7 @@ function MapContainer() {
         }
       };
     }
-  }, [mapOptions, btnRef.current]);
+  }, [btnRef.current, type, dealType, price, guarantee1, guarantee2, monthly, extent, extent2, floor]);
 
   /** ================================================= 함수 ================================================= */
   /** 현재 위치를 기반으로 지도 옵션 설정하기 */
@@ -127,7 +177,7 @@ function MapContainer() {
     /** 지도의 영역과 레벨 불러오기 */
     const bound = pretreatBound(map.getBounds());
     const mapLevel = map.getLevel();
-    setLevel(mapLevel);
+    setStateLevel(mapLevel);
 
     if (mapLevel > 7) {
       return;
@@ -260,7 +310,7 @@ function MapContainer() {
 
   return (
     <div className={styles.container}>
-      <MapSidebar realEstateList={realEstateList} level={level} />
+      <MapSidebar realEstateList={realEstateList} level={stateLevel} />
       <div className={styles.option}>
         <div className={styles['option-item']}>
           <button id="0" className={showOption === 0 ? `${styles['type-btn']} ${styles['selected-btn']}` : styles['type-btn']} onClick={onClickOption}>
@@ -284,150 +334,156 @@ function MapContainer() {
             </div>
           )}
         </div>
-        <div className={styles['option-item']}>
-          <button id="1" className={showOption === 1 ? `${styles['deal-type-btn']} ${styles['selected-btn']}` : styles['deal-type-btn']} onClick={onClickOption}>
-            {dealType === 'BUY' && (
-              <p>
-                <span>매매: </span>
-                <span>
-                  {pretreatAmount(price[0])} ~ {price[1] === 105000 || price[1] === 2000000 ? '무제한' : pretreatAmount(price[1])}
-                </span>
-              </p>
-            )}
-            {dealType === 'LONG_TERM_RENT' && (
-              <p>
-                <span>전세: </span>
-                <span>
-                  {pretreatAmount(guarantee1[0])} ~ {guarantee1[1] === 105000 || guarantee1[1] === 2000000 ? '무제한' : pretreatAmount(guarantee1[1])}
-                </span>
-              </p>
-            )}
-            {dealType === 'MONTHLY_RENT' && (
-              <p>
-                <span>월세: </span>
-                <span>
-                  {pretreatAmount(guarantee2[0])} ~ {guarantee2[1] === 105000 || guarantee2[1] === 2000000 ? '무제한' : pretreatAmount(guarantee2[1])}
-                </span>
-                <span style={{ margin: '0 0.5rem' }}> / </span>
-                <span>
-                  {pretreatAmount(monthly[0])} ~ {monthly[1] === 350 || monthly[1] === 5000 ? '무제한' : pretreatAmount(monthly[1])}
-                </span>
-              </p>
-            )}
-            {showOption !== 1 && <SlArrowDown id="1" onClick={onClickOption} />}
-            {showOption === 1 && <SlArrowUp id="1" onClick={onClickOption} />}
-          </button>
-          {showOption === 1 && (
-            <div className={styles['deal-type-div']}>
-              <p className={styles['option-title']}>거래 유형</p>
-              <form className={styles['deal-type']} onChange={onChangeDealType}>
-                <label htmlFor="BUY">
-                  <input id="BUY" name="deal-type" type="radio" value="BUY" defaultChecked={dealType === 'BUY' ? true : false} /> 매매
-                </label>
-                <label htmlFor="LONG_TERM_RENT">
-                  <input id="LONG_TERM_RENT" name="deal-type" type="radio" value="LONG_TERM_RENT" defaultChecked={dealType === 'LONG_TERM_RENT' ? true : false} /> 전세
-                </label>
-                <label htmlFor="MONTHLY_RENT">
-                  <input id="MONTHLY_RENT" name="deal-type" type="radio" value="MONTHLY_RENT" defaultChecked={dealType === 'MONTHLY_RENT' ? true : false} /> 월세
-                </label>
-              </form>
-              <p className={styles['option-title']}>가격</p>
-              {dealType == 'BUY' && (
-                <div>
-                  <p>
-                    <span className={styles['amount-title']}>매매가 : </span>
-                    <span className={styles['amount-content']}>
-                      {pretreatAmount(price[0])} ~ {price[1] === 105000 || price[1] === 2000000 ? '무제한' : pretreatAmount(price[1])}
-                    </span>
-                  </p>
-                  <RangeSlider id="slider" min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={price} onInput={onChangePrice} />
-                </div>
-              )}
-              {dealType == 'LONG_TERM_RENT' && (
-                <div>
-                  <p>
-                    <span className={styles['amount-title']}>보증금 : </span>
-                    <span className={styles['amount-content']}>
-                      {pretreatAmount(guarantee1[0])} ~ {guarantee1[1] === 105000 || guarantee1[1] === 2000000 ? '무제한' : pretreatAmount(guarantee1[1])}
-                    </span>
-                  </p>
-                  <RangeSlider id="slider" min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={guarantee1} onInput={onChangeGuarantee1} />
-                </div>
-              )}
-              {dealType == 'MONTHLY_RENT' && (
-                <div>
-                  <p>
-                    <span className={styles['amount-title']}>보증금 : </span>
-                    <span className={styles['amount-content']}>
-                      {pretreatAmount(guarantee2[0])} ~ {guarantee2[1] === 105000 || guarantee2[1] === 2000000 ? '무제한' : pretreatAmount(guarantee2[1])}
-                    </span>
-                  </p>
-                  <RangeSlider id="slider" min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={guarantee2} onInput={onChangeGuarantee2} />
-                  <p style={{ margin: '3rem 0 0 0' }}>
-                    <span className={styles['amount-title']}>월세 : </span>
-                    <span className={styles['amount-content']}>
-                      {pretreatAmount(monthly[0])} ~ {monthly[1] === 350 || monthly[1] === 5000 ? '무제한' : pretreatAmount(monthly[1])}
-                    </span>
-                  </p>
-                  <RangeSlider id="slider" min={0} max={350} step={50} defaultValue={[0, 350]} value={monthly} onInput={onChangeMonthly} />
-                </div>
-              )}
-              <div className={styles['option-btn-div']}>
-                <button ref={btnRef}>적용</button>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className={styles['option-item']}>
-          <button id="2" className={showOption === 2 ? `${styles['extent-btn']} ${styles['selected-btn']}` : styles['extent-btn']} onClick={onClickOption}>
-            <span>
-              방 크기: {extent2[0]} 평 ~ {extent2[1]} 평
-            </span>
-            {showOption !== 2 && <SlArrowDown id="2" onClick={onClickOption} />} {showOption === 2 && <SlArrowUp id="2" onClick={onClickOption} />}
-          </button>
-          {showOption === 2 && (
-            <div className={styles['extent-div']}>
-              <p className={styles['option-title']}>방 크기(전용 면적)</p>
-              <p style={{ margin: '0 0 2rem 0' }}>
-                <span className={styles['amount-content']}>
-                  {extent[0]}㎡ ({extent2[0]}평) ~ {extent[1]}㎡ ({extent2[1]}평)
-                </span>
-              </p>
-              <RangeSlider id="slider" min={0} max={200} step={1} defaultValue={[0, 200]} value={extent2} onInput={onChangeExtent} />
-              <div className={styles['option-btn-div']}>
-                <button ref={btnRef}>적용</button>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className={styles['option-item']}>
-          <button id="3" className={showOption === 3 ? `${styles['extent-btn']} ${styles['selected-btn']}` : styles['extent-btn']} onClick={onClickOption}>
-            {floor[0] === 10 && <span>10층 이상</span>}
-            {floor[0] !== 10 && (
-              <span>
-                층수: {floor[0]} 층 ~ {floor[1] === 10 || floor[1] === 100 ? '10층 이상' : floor[1] + ' 층'}
-              </span>
-            )}
-            {showOption !== 3 && <SlArrowDown id="3" onClick={onClickOption} />} {showOption === 3 && <SlArrowUp id="3" onClick={onClickOption} />}
-          </button>
-          {showOption === 3 && (
-            <div className={styles['floor-div']}>
-              <p className={styles['option-title']}>층수</p>
-              <p style={{ margin: '0 0 2rem 0' }}>
-                {floor[0] === 10 && <span className={styles['amount-content']}>10층 이상</span>}
-                {floor[0] !== 10 && (
-                  <span className={styles['amount-content']}>
-                    {floor[0]} 층 ~ {floor[1] === 10 || floor[1] === 100 ? '10층 이상' : floor[1] + ' 층'}
+        {stateLevel <= 4 && (
+          <div className={styles['option-item']}>
+            <button id="1" className={showOption === 1 ? `${styles['deal-type-btn']} ${styles['selected-btn']}` : styles['deal-type-btn']} onClick={onClickOption}>
+              {dealType === 'BUY' && (
+                <p>
+                  <span>매매: </span>
+                  <span>
+                    {pretreatAmount(price[0])} ~ {price[1] === 105000 || price[1] === 2000000 ? '무제한' : pretreatAmount(price[1])}
                   </span>
+                </p>
+              )}
+              {dealType === 'LONG_TERM_RENT' && (
+                <p>
+                  <span>전세: </span>
+                  <span>
+                    {pretreatAmount(guarantee1[0])} ~ {guarantee1[1] === 105000 || guarantee1[1] === 2000000 ? '무제한' : pretreatAmount(guarantee1[1])}
+                  </span>
+                </p>
+              )}
+              {dealType === 'MONTHLY_RENT' && (
+                <p>
+                  <span>월세: </span>
+                  <span>
+                    {pretreatAmount(guarantee2[0])} ~ {guarantee2[1] === 105000 || guarantee2[1] === 2000000 ? '무제한' : pretreatAmount(guarantee2[1])}
+                  </span>
+                  <span style={{ margin: '0 0.5rem' }}> / </span>
+                  <span>
+                    {pretreatAmount(monthly[0])} ~ {monthly[1] === 350 || monthly[1] === 5000 ? '무제한' : pretreatAmount(monthly[1])}
+                  </span>
+                </p>
+              )}
+              {showOption !== 1 && <SlArrowDown id="1" onClick={onClickOption} />}
+              {showOption === 1 && <SlArrowUp id="1" onClick={onClickOption} />}
+            </button>
+            {showOption === 1 && (
+              <div className={styles['deal-type-div']}>
+                <p className={styles['option-title']}>거래 유형</p>
+                <form className={styles['deal-type']} onChange={onChangeDealType}>
+                  <label htmlFor="BUY">
+                    <input id="BUY" name="deal-type" type="radio" value="BUY" defaultChecked={dealType === 'BUY' ? true : false} /> 매매
+                  </label>
+                  <label htmlFor="LONG_TERM_RENT">
+                    <input id="LONG_TERM_RENT" name="deal-type" type="radio" value="LONG_TERM_RENT" defaultChecked={dealType === 'LONG_TERM_RENT' ? true : false} /> 전세
+                  </label>
+                  <label htmlFor="MONTHLY_RENT">
+                    <input id="MONTHLY_RENT" name="deal-type" type="radio" value="MONTHLY_RENT" defaultChecked={dealType === 'MONTHLY_RENT' ? true : false} /> 월세
+                  </label>
+                </form>
+                <p className={styles['option-title']}>가격</p>
+                {dealType == 'BUY' && (
+                  <div>
+                    <p>
+                      <span className={styles['amount-title']}>매매가 : </span>
+                      <span className={styles['amount-content']}>
+                        {pretreatAmount(price[0])} ~ {price[1] === 105000 || price[1] === 2000000 ? '무제한' : pretreatAmount(price[1])}
+                      </span>
+                    </p>
+                    <RangeSlider id="slider" min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={price} onInput={onChangePrice} />
+                  </div>
                 )}
-              </p>
-              <RangeSlider id="slider" min={0} max={10} step={1} defaultValue={[0, 10]} value={floor} onInput={onChangeFloor} />
-              <div className={styles['option-btn-div']}>
-                <button ref={btnRef}>적용</button>
+                {dealType == 'LONG_TERM_RENT' && (
+                  <div>
+                    <p>
+                      <span className={styles['amount-title']}>보증금 : </span>
+                      <span className={styles['amount-content']}>
+                        {pretreatAmount(guarantee1[0])} ~ {guarantee1[1] === 105000 || guarantee1[1] === 2000000 ? '무제한' : pretreatAmount(guarantee1[1])}
+                      </span>
+                    </p>
+                    <RangeSlider id="slider" min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={guarantee1} onInput={onChangeGuarantee1} />
+                  </div>
+                )}
+                {dealType == 'MONTHLY_RENT' && (
+                  <div>
+                    <p>
+                      <span className={styles['amount-title']}>보증금 : </span>
+                      <span className={styles['amount-content']}>
+                        {pretreatAmount(guarantee2[0])} ~ {guarantee2[1] === 105000 || guarantee2[1] === 2000000 ? '무제한' : pretreatAmount(guarantee2[1])}
+                      </span>
+                    </p>
+                    <RangeSlider id="slider" min={0} max={105000} step={5000} defaultValue={[0, 105000]} value={guarantee2} onInput={onChangeGuarantee2} />
+                    <p style={{ margin: '3rem 0 0 0' }}>
+                      <span className={styles['amount-title']}>월세 : </span>
+                      <span className={styles['amount-content']}>
+                        {pretreatAmount(monthly[0])} ~ {monthly[1] === 350 || monthly[1] === 5000 ? '무제한' : pretreatAmount(monthly[1])}
+                      </span>
+                    </p>
+                    <RangeSlider id="slider" min={0} max={350} step={50} defaultValue={[0, 350]} value={monthly} onInput={onChangeMonthly} />
+                  </div>
+                )}
+                <div className={styles['option-btn-div']}>
+                  <button ref={btnRef}>적용</button>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
+        {stateLevel <= 4 && (
+          <div className={styles['option-item']}>
+            <button id="2" className={showOption === 2 ? `${styles['extent-btn']} ${styles['selected-btn']}` : styles['extent-btn']} onClick={onClickOption}>
+              <span>
+                방 크기: {extent2[0]} 평 ~ {extent2[1]} 평
+              </span>
+              {showOption !== 2 && <SlArrowDown id="2" onClick={onClickOption} />} {showOption === 2 && <SlArrowUp id="2" onClick={onClickOption} />}
+            </button>
+            {showOption === 2 && (
+              <div className={styles['extent-div']}>
+                <p className={styles['option-title']}>방 크기(전용 면적)</p>
+                <p style={{ margin: '0 0 2rem 0' }}>
+                  <span className={styles['amount-content']}>
+                    {extent[0]}㎡ ({extent2[0]}평) ~ {extent[1]}㎡ ({extent2[1]}평)
+                  </span>
+                </p>
+                <RangeSlider id="slider" min={0} max={200} step={1} defaultValue={[0, 200]} value={extent2} onInput={onChangeExtent} />
+                <div className={styles['option-btn-div']}>
+                  <button ref={btnRef}>적용</button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        {stateLevel <= 4 && (
+          <div className={styles['option-item']}>
+            <button id="3" className={showOption === 3 ? `${styles['extent-btn']} ${styles['selected-btn']}` : styles['extent-btn']} onClick={onClickOption}>
+              {floor[0] === 10 && <span>10층 이상</span>}
+              {floor[0] !== 10 && (
+                <span>
+                  층수: {floor[0]} 층 ~ {floor[1] === 10 || floor[1] === 100 ? '10층 이상' : floor[1] + ' 층'}
+                </span>
+              )}
+              {showOption !== 3 && <SlArrowDown id="3" onClick={onClickOption} />} {showOption === 3 && <SlArrowUp id="3" onClick={onClickOption} />}
+            </button>
+            {showOption === 3 && (
+              <div className={styles['floor-div']}>
+                <p className={styles['option-title']}>층수</p>
+                <p style={{ margin: '0 0 2rem 0' }}>
+                  {floor[0] === 10 && <span className={styles['amount-content']}>10층 이상</span>}
+                  {floor[0] !== 10 && (
+                    <span className={styles['amount-content']}>
+                      {floor[0]} 층 ~ {floor[1] === 10 || floor[1] === 100 ? '10층 이상' : floor[1] + ' 층'}
+                    </span>
+                  )}
+                </p>
+                <RangeSlider id="slider" min={0} max={10} step={1} defaultValue={[0, 10]} value={floor} onInput={onChangeFloor} />
+                <div className={styles['option-btn-div']}>
+                  <button ref={btnRef}>적용</button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
       {priority && (
         <div className={styles['applied-priority']}>
