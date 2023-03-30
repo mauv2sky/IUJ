@@ -1,9 +1,7 @@
 package com.iuj.backend.api.domain.entity.building;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.iuj.backend.api.domain.entity.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -87,12 +85,11 @@ public class Score{
     @Column(name = "entertainment_academy")
     private int entertainmentAcademy;
 
-//    @Column
-//    private int cctv;
+    @Column
+    private int cctv;
 
     @Column
     private int police;
-
 
 
 }

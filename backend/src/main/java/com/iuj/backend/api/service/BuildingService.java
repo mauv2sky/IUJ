@@ -65,8 +65,6 @@ public class BuildingService {
                     .collect(Collectors.toList());
         }
 
-        System.out.println(buildingList);
-
         // 점수 추가
         if(!buildingList.isEmpty()){
             for(BuildingDto building : buildingList){
@@ -74,11 +72,11 @@ public class BuildingService {
                 if(request.getLevel() < 9) {
                     if (request.getRecomm() == null){
                         ScoreId id = new ScoreId(building.getId(), building.getType().getName().toUpperCase());
-                        Score score = scoreRepository.findById(id).get();
-                        building.setTotalScore(ScoreUtil.getTotalScore(score));
+                        Score score = scoreRepository.findById(id).orElse(new Score());
+                        building.setTotalScore(ScoreUtil.getBasicScore(score));
                     } else {
                         ScoreId id = new ScoreId(building.getId(), building.getType().getName().toUpperCase());
-                        Score score = scoreRepository.findById(id).get();
+                        Score score = scoreRepository.findById(id).orElse(new Score());
                         LinkedHashMap<String, Integer> scoreMap = ScoreUtil.getScoreMap(request.getRecomm(), score);
                         building.setScore(scoreMap);
                         building.setTotalScore(ScoreUtil.getTotalScoreByRecomm(scoreMap, score));
