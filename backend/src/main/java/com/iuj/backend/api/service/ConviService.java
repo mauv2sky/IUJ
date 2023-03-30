@@ -2,10 +2,13 @@ package com.iuj.backend.api.service;
 
 import com.iuj.backend.api.domain.dto.response.ConviDto;
 import com.iuj.backend.api.domain.dto.response.HospitalDto;
+import com.iuj.backend.api.domain.dto.response.ShoppingDto;
 import com.iuj.backend.api.domain.entity.infra.Convi;
 import com.iuj.backend.api.domain.entity.infra.Hospital;
+import com.iuj.backend.api.domain.entity.infra.Shopping;
 import com.iuj.backend.api.repository.infra.ConviRepository;
 import com.iuj.backend.api.repository.infra.HospitalRepository;
+import com.iuj.backend.api.repository.infra.ShoppingRepository;
 import com.iuj.backend.util.Near;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import java.util.List;
 public class ConviService {
     private final ConviRepository conviRepository;
     private final HospitalRepository hospitalRepository;
+    private final ShoppingRepository shoppingRepository;
 //    편의점
     public List<ConviDto> findNearbyConvi(String lat, String lng){
         Near near = new Near();
@@ -40,23 +44,44 @@ public class ConviService {
     }
 
 //    병원
-public List<HospitalDto> findNearbyHospital(String lat, String lng){
-    Near near = new Near();
-    String[] latlng = near.calLatLng(lat, lng);
+    public List<HospitalDto> findNearbyHospital(String lat, String lng){
+        Near near = new Near();
+        String[] latlng = near.calLatLng(lat, lng);
 
-    List<Hospital> hospitals = hospitalRepository.findAllHospitalBtwlngAndlat(latlng[0], latlng[1], latlng[2], latlng[3]);
+        List<Hospital> hospitals = hospitalRepository.findAllHospitalBtwlngAndlat(latlng[0], latlng[1], latlng[2], latlng[3]);
 
-    List<HospitalDto> hospitalDtos = new ArrayList<>();
-    for(Hospital hospital : hospitals){
-        HospitalDto hospitalDto = new HospitalDto(
-                hospital.getId(),
-                hospital.getName(),
-                hospital.getLat(),
-                hospital.getLng()
+        List<HospitalDto> hospitalDtos = new ArrayList<>();
+        for(Hospital hospital : hospitals){
+            HospitalDto hospitalDto = new HospitalDto(
+                    hospital.getId(),
+                    hospital.getName(),
+                    hospital.getLat(),
+                    hospital.getLng()
 
-        );
-        hospitalDtos.add(hospitalDto);
+            );
+            hospitalDtos.add(hospitalDto);
+        }
+        return hospitalDtos;
     }
-    return hospitalDtos;
-}
+
+    public List<ShoppingDto> findNearbyShopping(String lat, String lng){
+        Near near = new Near();
+        String[] latlng = near.calLatLng(lat, lng);
+
+        List<Shopping> shoppings = shoppingRepository.findAllShoppingBtwlngAndlat(latlng[0], latlng[1], latlng[2], latlng[3]);
+
+        List<ShoppingDto> shoppingDtos = new ArrayList<>();
+        for(Shopping shopping : shoppings){
+            ShoppingDto shoppingDto = new ShoppingDto(
+                    shopping.getId(),
+                    shopping.getName(),
+                    shopping.getLat(),
+                    shopping.getLng(),
+                    shopping.getAddr(),
+                    shopping.getType()
+            );
+            shoppingDtos.add(shoppingDto);
+        }
+        return shoppingDtos;
+    }
 }

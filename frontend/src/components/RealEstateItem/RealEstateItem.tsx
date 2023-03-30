@@ -2,9 +2,17 @@ import React, { useEffect, useRef, useState } from 'react';
 import CountUp from 'react-countup';
 import { RiQuestionnaireFill } from 'react-icons/ri';
 import { pretreatAmount } from '../../utils/PretreatAmount';
+import { RealEstateType } from '../../types/MapType';
+import { TypeMappingType } from '../../types/MapType';
+import { typeMap } from '../../containers/Map/MapContainer';
 import test from '../../assets/test.jpg';
 import styles from './RealEstateItem.module.scss';
-import { RealEstateType } from '../../types/MapType';
+
+const dealTypeMap: TypeMappingType = {
+  BUY: '매매',
+  LONG_TERM_RENT: '전세',
+  MONTHLY: '월세',
+};
 
 type RealEstatePropsType = {
   realEstate: RealEstateType;
@@ -71,6 +79,12 @@ function RealEstateItem({ realEstate, scrollY }: RealEstatePropsType) {
     }, 500);
   };
 
+  /** 주소 전처리 */
+  const pretreatAddress = (address: string) => {
+    const addressList = address.split(' ').slice(0, 3);
+    return addressList[0] + ' ' + addressList[1] + ' ' + addressList[2];
+  };
+
   return (
     <div id={'component' + realEstate.type + realEstate.id.toString()} className={styles.component}>
       <p className={styles.name}>{realEstate.name}</p>
@@ -78,25 +92,29 @@ function RealEstateItem({ realEstate, scrollY }: RealEstatePropsType) {
         <div className={styles.left}>
           <div className={styles.img} style={{ backgroundImage: `url(${test})` }}>
             <p className={styles.type}>
-              <span>{realEstate.type}</span> <span>{realEstate.average_deal.deal_type}</span>
+              <span>{typeMap[realEstate.type]}</span> <span>{dealTypeMap[realEstate.average_deal?.deal_type as string]}</span>
             </p>
           </div>
         </div>
         <div className={styles['content']}>
-          {realEstate.average_deal.deal_type === '월세' && (
+          {realEstate.average_deal?.deal_type === 'MONTHLY' && (
             <p className={styles.price}>
               평균 {pretreatAmount(realEstate.average_deal.guarantee)} / {pretreatAmount(realEstate.average_deal.monthly)}
             </p>
           )}
-          {realEstate.average_deal.deal_type === '전세' && <p className={styles.price}>평균 {pretreatAmount(realEstate.average_deal.guarantee)}</p>}
-          {realEstate.average_deal.deal_type === '매매' && <p className={styles.price}>평균 {pretreatAmount(realEstate.average_deal.price)}</p>}
-          <p className={styles.address}>{realEstate.address}</p>
-          <p className={styles.extent}>
-            전용면적(㎡): {realEstate.range_extent[0]} ~ {realEstate.range_extent[1]}
-          </p>
-          <p className={styles.floor}>
-            층수: {realEstate.range_floor[0]} ~ {realEstate.range_floor[1]}
-          </p>
+          {realEstate.average_deal?.deal_type === 'LONG_TERM_RENT' && <p className={styles.price}>평균 {pretreatAmount(realEstate.average_deal.guarantee)}</p>}
+          {realEstate.average_deal?.deal_type === 'BUY' && <p className={styles.price}>평균 {pretreatAmount(realEstate.average_deal.price)}</p>}
+          {realEstate.address && <p className={styles.address}>{pretreatAddress(realEstate.address[1])}</p>}
+          {realEstate.range_extent && (
+            <p className={styles.extent}>
+              전용면적(㎡): {Math.round(realEstate.range_extent[0] * 100) / 100} ~ {Math.round(realEstate.range_extent[1] * 100) / 100}
+            </p>
+          )}
+          {realEstate.range_floor && (
+            <p className={styles.floor}>
+              층수: {realEstate.range_floor[0]} ~ {realEstate.range_floor[1]}
+            </p>
+          )}
           <div className={styles.score}>
             <span>추천 점수: </span>
             <div>
@@ -114,15 +132,16 @@ function RealEstateItem({ realEstate, scrollY }: RealEstatePropsType) {
       </div>
       <div ref={graphRef} id={'graph' + realEstate.type + realEstate.id.toString()} className={showGraph ? styles['graph-show'] : styles['graph-no-show']}>
         <div ref={graphInnerRef} className={styles['graph-inner']}>
-          {Object.entries(realEstate.score).map((data) => (
-            <div key={data[0]} className={styles['graph-item']} style={{ height: `${data[1]}%` }}>
-              <p className={styles['graph-item-kind']}>{data[0]}</p>
-              <p className={styles['graph-item-kind']} style={{ color: 'skyblue' }}>
-                {data[1]}
-              </p>
-              <div className={styles['graph-item-stick']} />
-            </div>
-          ))}
+          {realEstate.score &&
+            Object.entries(realEstate.score).map((data) => (
+              <div key={data[0]} className={styles['graph-item']} style={{ height: `${data[1]}%` }}>
+                <p className={styles['graph-item-kind']}>{data[0]}</p>
+                <p className={styles['graph-item-kind']} style={{ color: 'skyblue' }}>
+                  {data[1]}
+                </p>
+                <div className={styles['graph-item-stick']} />
+              </div>
+            ))}
         </div>
       </div>
     </div>

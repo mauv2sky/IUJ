@@ -9,10 +9,7 @@ import com.iuj.backend.util.Near;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +37,6 @@ public class SchoolService {
             List<SchoolDto> schoolList = schoolMap.getOrDefault(schoolType, new ArrayList<>());
             schoolList.add(schoolDto);
             schoolMap.put(schoolType, schoolList);
-
         }
 
         List<SchoolTypeDto> schoolTypeDtos = new ArrayList<>();
@@ -50,7 +46,7 @@ public class SchoolService {
             SchoolTypeDto schoolTypeDto = new SchoolTypeDto(schoolType, schoolList);
             schoolTypeDtos.add(schoolTypeDto);
         }
-
+        System.out.println(schoolTypeDtos);
         return schoolTypeDtos;
     }
 }

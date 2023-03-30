@@ -26,7 +26,7 @@ export const transports = {
 
 export const amenities = {
   main: '편의',
-  subList: ['병원', '마트', '편의점'],
+  subList: ['병원', '마트', '편의점', '관공서'],
   icon: <FaHospitalUser />,
   color: '#DBCEAF',
 };
@@ -40,7 +40,7 @@ export const securities = {
 
 export const cultures = {
   main: '문화',
-  subList: ['공원', '영화관', '서점', '미술관'],
+  subList: ['공원', '영화관', '서점', '미술관', '도서관'],
   icon: <MdMovie />,
   color: '#A4D8C5',
 };
