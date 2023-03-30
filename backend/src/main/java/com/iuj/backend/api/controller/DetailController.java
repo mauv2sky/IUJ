@@ -111,7 +111,7 @@ public class DetailController {
         List<ConviDto> conviDto = conviService.findNearbyConvi(apartDTO.getLat(), apartDTO.getLng());
 
 //      편의 시설 추가
-        resultMap.put("편의점", conviDto);
+        resultMap.put("convi", conviDto);
         return resultMap;
     }
     @GetMapping("/APT/{id}/hospital")
@@ -125,7 +125,7 @@ public class DetailController {
         List<HospitalDto> hospitalDto = conviService.findNearbyHospital(apartDTO.getLat(), apartDTO.getLng());
 
 //      편의 시설 추가
-        resultMap.put("병원", hospitalDto);
+        resultMap.put("hospital", hospitalDto);
         return resultMap;
     }
     @GetMapping("/APT/{id}/shopping")
@@ -139,7 +139,7 @@ public class DetailController {
         List<ShoppingDto> shoppingDto = conviService.findNearbyShopping(apartDTO.getLat(), apartDTO.getLng());
 
 //      편의 시설 추가
-        resultMap.put("대형점포", shoppingDto);
+        resultMap.put("shopping", shoppingDto);
         return resultMap;
     }
 
@@ -153,7 +153,7 @@ public class DetailController {
 //       치안
         List<CctvDto> cctvDto = safeService.findNearbyCctvs(apartDTO.getLat(), apartDTO.getLng());
 //      치안 추가
-        resultMap.put("CCTV", cctvDto);
+        resultMap.put("cctv", cctvDto);
 
         return resultMap;
     }
@@ -167,7 +167,7 @@ public class DetailController {
 //       치안
         List<PoliceDto> policeDto = safeService.findNearbyPolices(apartDTO.getLat(), apartDTO.getLng());
 //      치안 추가
-        resultMap.put("Police", policeDto);
+        resultMap.put("police", policeDto);
 
         return resultMap;
     }
@@ -181,7 +181,7 @@ public class DetailController {
 //        문화시설
         List<CinemaDto> cinemaDto = cultureService.findNearbyCinemas(apartDTO.getLat(), apartDTO.getLng());
 
-        resultMap.put("영화관", cinemaDto);
+        resultMap.put("cinema", cinemaDto);
         return resultMap;
     }
     @GetMapping("/APT/{id}/lib")
@@ -193,7 +193,7 @@ public class DetailController {
 //        문화시설
         List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(apartDTO.getLat(), apartDTO.getLng());
 
-        resultMap.put("도서관", libraryDto);
+        resultMap.put("library", libraryDto);
         return resultMap;
     }
     @GetMapping("/APT/{id}/gallery")
@@ -205,7 +205,7 @@ public class DetailController {
 //        문화시설
         List<GalleryDto> galleryDto = cultureService.findNearbyGallerys(apartDTO.getLat(), apartDTO.getLng());
 
-        resultMap.put("미술관", galleryDto);
+        resultMap.put("gallery", galleryDto);
         return resultMap;
     }
     @GetMapping("/APT/{id}/park")
@@ -217,7 +217,7 @@ public class DetailController {
 //        문화시설
         List<ParkDto> parkDto = cultureService.findNearbyParks(apartDTO.getLat(), apartDTO.getLng());
 
-        resultMap.put("곻원", parkDto);
+        resultMap.put("park", parkDto);
         return resultMap;
     }
 
@@ -296,7 +296,7 @@ public class DetailController {
         List<ConviDto> conviDto = conviService.findNearbyConvi(officetelDto.getLat(), officetelDto.getLng());
 
 //      편의 시설 추가
-        resultMap.put("편의점", conviDto);
+        resultMap.put("convi", conviDto);
         return resultMap;
     }
     @GetMapping("/OFFICETEL/{id}/hospital")
@@ -309,7 +309,7 @@ public class DetailController {
 //        편의시설
         List<HospitalDto> hospitalDto = conviService.findNearbyHospital(officetelDto.getLat(), officetelDto.getLng());
 //      편의 시설 추가
-        resultMap.put("병원", hospitalDto);
+        resultMap.put("hospital", hospitalDto);
         return resultMap;
     }
     @GetMapping("/OFFICETEL/{id}/shopping")
@@ -320,7 +320,7 @@ public class DetailController {
 //        편의시설
         List<ShoppingDto> shoppingDto = conviService.findNearbyShopping(officetelDto.getLat(), officetelDto.getLng());
 //      편의 시설 추가
-        resultMap.put("대형점포", shoppingDto);
+        resultMap.put("shopping", shoppingDto);
         return resultMap;
     }
 
@@ -332,7 +332,7 @@ public class DetailController {
         OfficetelDto officetelDto = officetelService.getOfficetelById(id);
 //       치안
         List<CctvDto> cctvDto = safeService.findNearbyCctvs(officetelDto.getLat(), officetelDto.getLng());
-        resultMap.put("CCTV", cctvDto);
+        resultMap.put("cctv", cctvDto);
 
         return resultMap;
     }
@@ -346,7 +346,7 @@ public class DetailController {
 //       치안
         List<PoliceDto> policeDto = safeService.findNearbyPolices(officetelDto.getLat(), officetelDto.getLng());
 //      치안 추가
-        resultMap.put("Police", policeDto);
+        resultMap.put("police", policeDto);
 
         return resultMap;
     }
@@ -359,7 +359,7 @@ public class DetailController {
 
 //        문화시설
         List<CinemaDto> cinemaDto = cultureService.findNearbyCinemas(officetelDto.getLat(), officetelDto.getLng());
-        resultMap.put("영화관", cinemaDto);
+        resultMap.put("cinema", cinemaDto);
         return resultMap;
     }
     @GetMapping("/OFFICETEL/{id}/lib")
@@ -371,7 +371,7 @@ public class DetailController {
 //        문화시설
         List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(officetelDto.getLat(), officetelDto.getLng());
 
-        resultMap.put("도서관", libraryDto);
+        resultMap.put("library", libraryDto);
         return resultMap;
     }
     @GetMapping("/OFFICETEL/{id}/gallery")
@@ -383,7 +383,7 @@ public class DetailController {
 //        문화시설
         List<GalleryDto> galleryDto = cultureService.findNearbyGallerys(officetelDto.getLat(), officetelDto.getLng());
 
-        resultMap.put("미술관", galleryDto);
+        resultMap.put("gallery", galleryDto);
         return resultMap;
     }
     @GetMapping("/OFFICETEL/{id}/park")
@@ -395,7 +395,7 @@ public class DetailController {
 //        문화시설
         List<ParkDto> parkDto = cultureService.findNearbyParks(officetelDto.getLat(), officetelDto.getLng());
 
-        resultMap.put("곻원", parkDto);
+        resultMap.put("park", parkDto);
         return resultMap;
     }
 
@@ -457,6 +457,7 @@ public class DetailController {
 //      교통
         List<SubwayDto> subwayDTO = trafficService.findNearbySubways(villaDto.getLat(), villaDto.getLng());resultMap.put("subway", subwayDTO);
 
+        resultMap.put("subway", subwayDTO);
         return resultMap;
     }
 
@@ -471,7 +472,7 @@ public class DetailController {
 //        편의시설
         List<ConviDto> conviDto = conviService.findNearbyConvi(villaDto.getLat(), villaDto.getLng());
 //      편의 시설 추가
-        resultMap.put("편의점", conviDto);
+        resultMap.put("convi", conviDto);
         return resultMap;
     }
     @GetMapping("/VILLA/{id}/hospital")
@@ -483,7 +484,7 @@ public class DetailController {
 //        편의시설
         List<HospitalDto> hospitalDto = conviService.findNearbyHospital(villaDto.getLat(), villaDto.getLng());
 
-        resultMap.put("병원", hospitalDto);
+        resultMap.put("hospital", hospitalDto);
         return resultMap;
     }
 
@@ -497,7 +498,7 @@ public class DetailController {
 //        편의시설
         List<ShoppingDto> shoppingDto = conviService.findNearbyShopping(villaDto.getLat(), villaDto.getLng());
 //      편의 시설 추가
-        resultMap.put("대형점포", shoppingDto);
+        resultMap.put("shopping", shoppingDto);
         return resultMap;
     }
     @GetMapping("/VILLA/{id}/cctv")
@@ -508,7 +509,7 @@ public class DetailController {
         VillaDto villaDto = villaService.getVillaById(id);
 //       치안
         List<CctvDto> cctvDto = safeService.findNearbyCctvs(villaDto.getLat(), villaDto.getLng());
-        resultMap.put("CCTV", cctvDto);
+        resultMap.put("cctv", cctvDto);
 
         return resultMap;
     }
@@ -522,7 +523,7 @@ public class DetailController {
 //       치안
         List<PoliceDto> policeDto = safeService.findNearbyPolices(villaDto.getLat(), villaDto.getLng());
 //      치안 추가
-        resultMap.put("Police", policeDto);
+        resultMap.put("police", policeDto);
 
         return resultMap;
     }
@@ -536,7 +537,7 @@ public class DetailController {
 //        문화시설
         List<CinemaDto> cinemaDto = cultureService.findNearbyCinemas(villaDto.getLat(), villaDto.getLng());
 
-        resultMap.put("영화관", cinemaDto);
+        resultMap.put("cinema", cinemaDto);
         return resultMap;
     }
     @GetMapping("/VILLA/{id}/lib")
@@ -548,7 +549,7 @@ public class DetailController {
 //        문화시설
         List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(villaDto.getLat(), villaDto.getLng());
 
-        resultMap.put("도서관", libraryDto);
+        resultMap.put("library", libraryDto);
         return resultMap;
     }
     @GetMapping("/VILLA/{id}/gallery")
@@ -560,7 +561,7 @@ public class DetailController {
 //        문화시설
         List<GalleryDto> galleryDto = cultureService.findNearbyGallerys(villaDto.getLat(), villaDto.getLng());
 
-        resultMap.put("미술관", galleryDto);
+        resultMap.put("gallery", galleryDto);
         return resultMap;
     }
     @GetMapping("/VILLA/{id}/park")
@@ -572,7 +573,7 @@ public class DetailController {
 //        문화시설
         List<ParkDto> parkDto = cultureService.findNearbyParks(villaDto.getLat(), villaDto.getLng());
 
-        resultMap.put("곻원", parkDto);
+        resultMap.put("park", parkDto);
         return resultMap;
     }
 
