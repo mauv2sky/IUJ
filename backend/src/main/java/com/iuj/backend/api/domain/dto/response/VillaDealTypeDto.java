@@ -11,25 +11,25 @@ import java.util.List;
 @ToString
 public class VillaDealTypeDto {
     private String type;
-    private List<VillaDealDto> villaDeals;
+    private List<VillaDealDto> Deals;
 
     public VillaDealTypeDto(String type, List<VillaDealDto> villaDeals){
         this.type=type;
-        this.villaDeals = villaDeals;
+        this.Deals = villaDeals;
     }
 
     public int getMaxPrice() {
         if("매매".equals(type)){
-            return villaDeals.stream().mapToInt(VillaDealDto::getPrice).max().orElse(0);
+            return Deals.stream().mapToInt(VillaDealDto::getPrice).max().orElse(0);
         }else{
-            return villaDeals.stream().mapToInt(VillaDealDto::getGuarantee).max().orElse(0);
+            return Deals.stream().mapToInt(VillaDealDto::getGuarantee).max().orElse(0);
         }
     }
     public int getMinPrice() {
         if("매매".equals(type)){
-            return villaDeals.stream().mapToInt(VillaDealDto::getPrice).min().orElse(0);
+            return Deals.stream().mapToInt(VillaDealDto::getPrice).min().orElse(0);
         }else{
-            return villaDeals.stream().mapToInt(VillaDealDto::getGuarantee).min().orElse(0);
+            return Deals.stream().mapToInt(VillaDealDto::getGuarantee).min().orElse(0);
         }
     }
 }
