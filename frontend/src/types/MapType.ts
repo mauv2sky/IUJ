@@ -31,6 +31,7 @@ export type RealEstateType = {
   name: string;
   type: string;
   address: string[];
+  latlng: number[];
   total_score: number;
   score: {
     [kind: string]: number | undefined;
