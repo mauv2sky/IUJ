@@ -11,6 +11,9 @@ import InfraIcontransports from '../../components/InfraIcon/InfraIcontransports'
 import axios from 'axios';
 import icon from '../../assets/icon.png';
 
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setdetailContainerState } from '../../store/slices/detailContainerSlice';
+
 interface DetailContainerProps {
   detailRelist: DetailType;
 }
@@ -26,13 +29,29 @@ function Detailcontainer(props: Props) {
   const [map, setMap] = useState<any>(null);
   const [clusterer, setClusterer] = useState<any>(null);
 
+  const dispatch = useAppDispatch();
   /** 매물 상세 정보 더미 데이터 */
   const [detailRelist, setDetailRelist] = useState<DetailType>({
-    // dealPrice: {
-    //   minPrice: 0,
-    //   maxPrice: 0,
-    // },
-    Deal: [],
+    Deal: {
+      type: '',
+      maxPrice: 0,
+      minPrice: 0,
+      deals: [
+        {
+          aptId: 0,
+          area: '',
+          author: '',
+          contract_day: '',
+          contract_ym: '',
+          dealType: '',
+          floor: 0,
+          guarantee: 0,
+          id: 0,
+          monthly: 0,
+          price: 0,
+        },
+      ],
+    },
     home: {
       id: 0,
       lat: 0,
@@ -50,11 +69,12 @@ function Detailcontainer(props: Props) {
     axios({
       method: 'get',
       // url: APIURL + `/api/place/${props.type}/${props.id}`,
-      url: APIURL + `/api/place/APT/1`,
+      url: APIURL + `/api/place/APT/9`,
     })
       .then((response) => {
         // console.log('데이터 전송 성공이냐옹');
         // console.log(response.data);
+        dispatch(setdetailContainerState({ status: true, detailRelist: response.data }));
         setDetailRelist(response.data);
       })
       .catch((error) => {
@@ -62,6 +82,8 @@ function Detailcontainer(props: Props) {
         console.error(error);
       });
   }, []);
+
+  const detailContainer = useAppSelector((state) => state.detailContainerSlice.detailContainer);
 
   /** 매물 위치를 기반으로 지도 생성 */
   const createMap = async () => {

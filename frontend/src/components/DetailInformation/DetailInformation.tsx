@@ -113,7 +113,7 @@
 
 // export default DetailInformation;
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './DetailInformation.module.scss';
 import FacilityList, { FacilityType } from '../../components/FacilityList/FacilityList';
 import axios from 'axios';
@@ -121,8 +121,24 @@ import DealData, { DealType } from '../../components/DealData/DealData';
 // import DealData from '../../components/DealData/DealData';
 
 export type DetailType = {
-  // dealPrice: { minPrice: number; maxPrice: number };
-  Deal: never[];
+  Deal: {
+    type: string;
+    maxPrice: number;
+    minPrice: number;
+    deals: {
+      aptId: number;
+      area: string;
+      author: string;
+      contract_day: string;
+      contract_ym: string;
+      dealType: string;
+      floor: number;
+      guarantee: number;
+      id: number;
+      monthly: number;
+      price: number;
+    }[];
+  };
   home: { id: number; lat: number; lng: number; sigungu: string; bungi: string; name: string; built_year: string; road_addr: string };
 };
 
@@ -163,14 +179,17 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
         console.error(error);
       });
   };
+  // console.log(detailRelist.Deal, '여기 잘 있니?');
 
   const facilitylist: FacilityType[] = [];
   return (
     <div className={styles.component}>
       <div className={styles.information}>
-        <div className={styles.costgraph}>여긴 실거래가 그래프</div>
-        <div className={styles.school}>최근 1년간 실거래</div>
-        <div className={styles.costdata}>{/* <DealData Deal={detailRelist.Deal} /> */}</div>
+        <div className={styles.deal}>최근 1년간 실거래</div>
+        <div className={styles.costdata}>
+          <DealData dealRelist={detailRelist.Deal} />
+        </div>
+
         <div className={styles.school}>인근 학교 정보</div>
         {/* <div className={styles.schooltap}>
           <div className={styles.tab}>

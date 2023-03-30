@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './InfraIconamenities.module.scss';
 import { MdLocalHospital } from 'react-icons/md';
-import { BsFillBasket3Fill } from 'react-icons/bs';
 import { MdLocalConvenienceStore } from 'react-icons/md';
 import { BsFillBuildingFill } from 'react-icons/bs';
 
@@ -29,14 +28,6 @@ function InfraIconamenities(props: Props) {
           </span>
         </div>
         <p>병원</p>
-      </div>
-      <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${onoffBtn === 'mart' ? styles.selected : ''}`} onClick={() => onClickBtn('mart')}>
-          <span className={styles.icon}>
-            <BsFillBasket3Fill />
-          </span>
-        </div>
-        <p>마트</p>
       </div>
       <div className={styles.iconall}>
         <div className={`${styles.iconborder} ${onoffBtn === 'convi' ? styles.selected : ''}`} onClick={() => onClickBtn('convi')}>
