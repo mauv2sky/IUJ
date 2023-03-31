@@ -69,7 +69,7 @@ function Detailcontainer(props: Props) {
     axios({
       method: 'get',
       // url: APIURL + `/api/place/${props.type}/${props.id}`,
-      url: APIURL + `/api/place/APT/9`,
+      url: APIURL + `/api/place/APT/2`,
     })
       .then((response) => {
         // console.log('데이터 전송 성공이냐옹');
