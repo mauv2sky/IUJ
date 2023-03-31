@@ -57,10 +57,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             userRepository.save(user);
         }
 
-        resultRedirectStrategy(request, response, tokenDto);
+        resultRedirectStrategy(request, response, tokenDto, userDto);
     }
 
-    private void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response, TokenDto tokenDto) throws IOException, ServletException {
+    private void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response, TokenDto tokenDto, UserDto userDto) throws IOException, ServletException {
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
@@ -70,6 +70,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                     .queryParam("access_token", tokenDto.getAccessToken())
                     .queryParam("refresh_token", tokenDto.getRefreshToken())
                     .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
+                    .queryParam("user_name", userDto.getNickname())
                     .build().toUriString();
             redirectStrategy.sendRedirect(request, response, targetUrl);
         } else { // 소셜로그인 요청일 경우
@@ -77,6 +78,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                     .queryParam("access_token", tokenDto.getAccessToken())
                     .queryParam("refresh_token", tokenDto.getRefreshToken())
                     .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
+                    .queryParam("user_name", userDto.getNickname())
                     .build().toUriString();
             redirectStrategy.sendRedirect(request, response, targetUrl);
         }
