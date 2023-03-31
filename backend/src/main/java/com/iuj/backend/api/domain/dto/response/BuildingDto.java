@@ -26,9 +26,6 @@ public class BuildingDto {
     private Double[] latlng;
     private String[] address;
 
-    // 거래 관련
-    private List<AptDealDto> deal;
-
     // 점수 관련
     @JsonProperty("total_score")
     private Double totalScore;
