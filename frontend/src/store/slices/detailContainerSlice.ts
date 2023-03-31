@@ -74,11 +74,15 @@ export const detailContainerSlice = createSlice({
       // console.log('담기나요?ㅠㅠ', state.detailRelist);
       // console.log('담기나요?ㅠㅠ', state.status);
     },
+    getdetailContainerState: (state) => {
+      // console.log('담긴거 뱉나요?', state.detailRelist);
+    },
+
     // detailContainerState: (state) => {
     //   return state.detailRelist;
     // },
   },
 });
-export const { setdetailContainerState } = detailContainerSlice.actions;
+export const { setdetailContainerState, getdetailContainerState } = detailContainerSlice.actions;
 
 export default detailContainerSlice.reducer;
