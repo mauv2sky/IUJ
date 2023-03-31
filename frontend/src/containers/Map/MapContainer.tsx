@@ -2,15 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { useAppSelector } from '../../store/hooks';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
+import { AiOutlineSearch } from 'react-icons/ai';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import MapSidebar from '../../components/MapSidebar/MapSidebar';
 import { pretreatAmount } from '../../utils/PretreatAmount';
-import { filterType, RealEstateType, TypeMappingType } from '../../types/MapType';
+import { filterType, RealEstateType, requestRealEstateListType, TypeMappingType } from '../../types/MapType';
 import { requestRealEstateList } from '../../api/map';
+import AppliedPriority from '../../components/AppliedPriority/AppliedPriority';
 import styles from './MapContainer.module.scss';
 import './Slider.scss';
-import AppliedPriority from '../../components/AppliedPriority/AppliedPriority';
 
 /** ============= 매물 목록 API 요청 필요 =============
  * 선호 순위 적용 시
@@ -44,9 +45,10 @@ function MapContainer() {
   const [mapOptions, setMapOptions] = useState<kakao.maps.MapOptions | undefined>(undefined);
   const [stateLevel, setStateLevel] = useState<number>(4);
   const [realEstateList, setRealEstateList] = useState<RealEstateType[]>([]); // 사이드 바 매물 목록에 사용
-  const [firstMapLoaded, setFirstMapLoaded] = useState<boolean>(false);
   const [stateMap, setStateMap] = useState<kakao.maps.Map | undefined>(undefined);
   const [stateClusterer, setStateClusterer] = useState<kakao.maps.MarkerClusterer | undefined>(undefined);
+  const [mapSetted, setMapSetted] = useState<boolean>(false);
+  let timeOutId: number | undefined;
 
   /** ================================================= useEffect ================================================= */
   useEffect(() => {
@@ -65,80 +67,47 @@ function MapContainer() {
       });
       setStateClusterer(clusterer);
 
-      /** 드래그 및 지도 레벨 변경 시 API 요청 보내기 */
-      kakao.maps.event.addListener(map, 'dragend', () => {
-        requestRealEstateForMap(map, clusterer);
-      });
-      kakao.maps.event.addListener(map, 'zoom_changed', () => {
-        requestRealEstateForMap(map, clusterer);
-      });
-      if (btnRef.current) {
-        btnRef.current.addEventListener('click', () => {
-          requestRealEstateForMap(map, clusterer);
-        });
-      }
-
-      /** 컴포넌트 언마운트 시 이벤트 리스너 제거하기 */
-      return () => {
-        kakao.maps.event.removeListener(map, 'dragend', () => {
-          requestRealEstateForMap(map, clusterer);
-        });
-        kakao.maps.event.removeListener(map, 'zoom_changed', () => {
-          requestRealEstateForMap(map, clusterer);
-        });
-        if (btnRef.current) {
-          btnRef.current.removeEventListener('click', () => {
-            requestRealEstateForMap(map, clusterer);
-          });
-        }
-      };
+      setMapSetted(true);
     }
-  }, [mapOptions, btnRef.current]);
+  }, [mapOptions]);
 
   useEffect(() => {
-    if (firstMapLoaded) {
-      const options = {
-        center: stateMap?.getCenter(),
-        level: stateLevel,
-      };
-
-      const map = new window.kakao.maps.Map(mapRef.current as HTMLElement, options as kakao.maps.MapOptions);
-
-      const clusterer = new kakao.maps.MarkerClusterer({
-        map,
-        averageCenter: true,
-        minLevel: 5,
-      });
-
-      /** 드래그 및 지도 레벨 변경 시 API 요청 보내기 */
-      kakao.maps.event.addListener(map, 'dragend', () => {
-        requestRealEstateForMap(map, clusterer);
-      });
-      kakao.maps.event.addListener(map, 'zoom_changed', () => {
-        requestRealEstateForMap(map, clusterer);
-      });
-      if (btnRef.current) {
-        btnRef.current.addEventListener('click', () => {
-          requestRealEstateForMap(map, clusterer);
-        });
-      }
-
-      /** 컴포넌트 언마운트 시 이벤트 리스너 제거하기 */
-      return () => {
-        kakao.maps.event.removeListener(map, 'dragend', () => {
-          requestRealEstateForMap(map, clusterer);
-        });
-        kakao.maps.event.removeListener(map, 'zoom_changed', () => {
-          requestRealEstateForMap(map, clusterer);
-        });
-        if (btnRef.current) {
-          btnRef.current.removeEventListener('click', () => {
-            requestRealEstateForMap(map, clusterer);
-          });
-        }
-      };
+    if (!mapSetted || !stateMap || !stateClusterer) {
+      return;
     }
-  }, [btnRef.current, type, dealType, price, guarantee1, guarantee2, monthly, extent, extent2, floor]);
+
+    kakao.maps.event.addListener(stateMap, 'dragend', () => {
+      requestRealEstateFromMapEvent(stateMap, stateClusterer);
+    });
+    kakao.maps.event.addListener(stateMap, 'zoom_changed', () => {
+      requestRealEstateFromMapEvent(stateMap, stateClusterer);
+    });
+
+    return () => {
+      kakao.maps.event.removeListener(stateMap, 'dragend', () => {
+        requestRealEstateFromMapEvent(stateMap, stateClusterer);
+      });
+      kakao.maps.event.removeListener(stateMap, 'zoom_changed', () => {
+        requestRealEstateFromMapEvent(stateMap, stateClusterer);
+      });
+    };
+  }, [mapSetted]);
+
+  useEffect(() => {
+    if (!mapSetted || !stateMap || !stateClusterer) {
+      return;
+    }
+
+    requestRealEstateForMap(stateMap, stateClusterer, type, dealType, price, guarantee1, guarantee2, monthly, extent2, floor, priority);
+  }, [type, dealType, priority]);
+
+  useEffect(() => {
+    if (!mapSetted || !stateMap || !stateClusterer) {
+      return;
+    }
+
+    requestRealEstateForMap(stateMap, stateClusterer, type, dealType, price, guarantee1, guarantee2, monthly, extent2, floor, priority);
+  }, [price, guarantee1, guarantee2, monthly, extent2, floor]);
 
   /** ================================================= 함수 ================================================= */
   /** 현재 위치를 기반으로 지도 옵션 설정하기 */
@@ -170,7 +139,11 @@ function MapContainer() {
   };
 
   /** 현재 영역 매물 요청 */
-  const requestRealEstateForMap = async (map: kakao.maps.Map, clusterer: kakao.maps.MarkerClusterer) => {
+  const requestRealEstateFromMapEvent = async (map: kakao.maps.Map | undefined, clusterer: kakao.maps.MarkerClusterer | undefined) => {
+    if (!map || !clusterer) {
+      return;
+    }
+
     /** 기존 맵, 클러스터러 초기화 */
     clusterer.clear();
 
@@ -202,15 +175,99 @@ function MapContainer() {
       price: [price[0], price[1] === 105000 ? 2000000 : price[1]],
       guarantee,
       monthly: monthlyForRequest ? monthlyForRequest : monthly,
-      extent: extent2,
+      extent,
       floor: [floor[0], floor[1] === 10 ? 100 : floor[1]],
     };
 
-    console.log('매물 request: ', { bound, deal_type: dealType, filter, level: mapLevel, recomm: priority, type });
+    const requestInfo: requestRealEstateListType = { bound, deal_type: dealType, filter, level: mapLevel, recomm: priority, type };
+
+    console.log('매물 request: ', requestInfo);
 
     /** 백엔드에 매물 요청 */
     try {
-      const res = await requestRealEstateList({ bound, deal_type: dealType, filter, level: mapLevel, recomm: priority, type });
+      const res = await requestRealEstateList(requestInfo);
+      console.log('매물 response: ', res);
+
+      setRealEstateList(res.data);
+
+      const markers = res.data.map((realEstate: RealEstateType) => {
+        return { name: realEstate.name, score: realEstate.score, latlng: new kakao.maps.LatLng(realEstate.latlng[0], realEstate.latlng[1]) };
+      });
+
+      /** 마커 표시 */
+      for (let i = 0; i < markers.length; i++) {
+        const marker = new kakao.maps.Marker({
+          map,
+          position: markers[i].latlng,
+        });
+
+        clusterer.addMarker(marker);
+      }
+    } catch (err) {
+      console.error('매물 요청 에러: ', err);
+    }
+  };
+
+  /** 현재 영역 매물 요청 */
+  const requestRealEstateForMap = async (
+    map: kakao.maps.Map | undefined,
+    clusterer: kakao.maps.MarkerClusterer | undefined,
+    requestType: string,
+    requestDealType: string,
+    requestPrice: number[],
+    requestGuarantee1: number[],
+    requestGuarantee2: number[],
+    requestMonthly: number[],
+    requestExtent: number[],
+    requestFloor: number[],
+    priority: string[],
+  ) => {
+    if (!map || !clusterer) {
+      return;
+    }
+
+    /** 기존 맵, 클러스터러 초기화 */
+    clusterer.clear();
+
+    /** 지도의 영역과 레벨 불러오기 */
+    const bound = pretreatBound(map.getBounds());
+    const mapLevel = map.getLevel();
+    setStateLevel(mapLevel);
+
+    if (mapLevel > 7) {
+      return;
+    }
+
+    /** 전세, 월세에 따른 보증금 전처리 */
+    let requestGuarantee;
+    if (requestDealType === 'LONG_TERM_RENT') {
+      requestGuarantee = [requestGuarantee1[0], requestGuarantee1[1] === 105000 ? 2000000 : requestGuarantee1[1]];
+    } else {
+      requestGuarantee = [requestGuarantee2[0], requestGuarantee2[1] === 105000 ? 2000000 : requestGuarantee2[1]];
+    }
+
+    /** 월세 전처리 */
+    let monthlyForRequest;
+    if (requestDealType === 'MONTHLY') {
+      monthlyForRequest = [requestMonthly[0], requestMonthly[1] === 350 ? 5000 : requestMonthly[1]];
+    }
+
+    /** 전처리 */
+    const filter: filterType = {
+      price: [requestPrice[0], requestPrice[1] === 105000 ? 2000000 : requestPrice[1]],
+      guarantee: requestGuarantee,
+      monthly: monthlyForRequest ? monthlyForRequest : requestMonthly,
+      extent: requestExtent,
+      floor: [requestFloor[0], requestFloor[1] === 10 ? 100 : requestFloor[1]],
+    };
+
+    const requestInfo: requestRealEstateListType = { bound, deal_type: requestDealType, filter, level: mapLevel, recomm: priority, type: requestType };
+
+    console.log('매물 request: ', requestInfo);
+
+    /** 백엔드에 매물 요청 */
+    try {
+      const res = await requestRealEstateList(requestInfo);
       console.log('매물 response: ', res);
 
       setRealEstateList(res.data);
@@ -234,7 +291,7 @@ function MapContainer() {
   };
 
   /** ================================================= event handler ================================================= */
-  /** 지도의 옵션 버튼 클릭 시 */
+  /** 지도의 필터 버튼 클릭 시 */
   const onClickOption = (e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGElement>) => {
     const target = e.target as HTMLElement;
     const id = parseInt(target.id, 10);
@@ -248,7 +305,7 @@ function MapContainer() {
 
   /** 매물 타입 변경 시 */
   const onChangeType = (changedType: string) => {
-    console.log(changedType);
+    console.log('매물 타입 변경', changedType);
     setType(changedType);
     setShowOption(-1);
   };
@@ -261,51 +318,39 @@ function MapContainer() {
 
   /** 매매가 변경 시 */
   const onChangePrice = (priceRange: number[]) => {
-    if (priceRange[0] > 100000) {
-      setPrice([100000, priceRange[1]]);
-    } else {
-      setPrice(priceRange);
-    }
+    const newPriceRange = priceRange[0] > 100000 ? [100000, priceRange[1]] : priceRange;
+    setPrice(newPriceRange);
   };
 
   /** 전세 보증금 변경 시 */
   const onChangeGuarantee1 = (guaranteeRange: number[]) => {
-    if (guaranteeRange[0] > 100000) {
-      setGuarantee1([100000, guaranteeRange[1]]);
-    } else {
-      setGuarantee1(guaranteeRange);
-    }
+    const newGuaranteeRange = guaranteeRange[0] > 100000 ? [100000, guaranteeRange[1]] : guaranteeRange;
+    setGuarantee1(newGuaranteeRange);
   };
 
   /** 월세 보증금 변경 시 */
   const onChangeGuarantee2 = (guaranteeRange: number[]) => {
-    if (guaranteeRange[0] > 100000) {
-      setGuarantee2([100000, guaranteeRange[1]]);
-    } else {
-      setGuarantee2(guaranteeRange);
-    }
+    const newGuaranteeRange = guaranteeRange[0] > 100000 ? [100000, guaranteeRange[1]] : guaranteeRange;
+    setGuarantee2(newGuaranteeRange);
   };
 
   /** 월세 변경 시 */
   const onChangeMonthly = (monthlyRange: number[]) => {
-    if (monthlyRange[0] > 300) {
-      setMonthly([300, monthlyRange[1]]);
-    } else {
-      setMonthly(monthlyRange);
-    }
+    const newMonthlyRange = monthlyRange[0] > 300 ? [300, monthlyRange[1]] : monthlyRange;
+    setMonthly(newMonthlyRange);
   };
 
   /** 방 넓이 변경 시 */
   const onChangeExtent = (extentRange: number[]) => {
     const extentMin = extentRange[0] > 199 ? 199 : extentRange[0];
-
     setExtent([Math.ceil(extentMin * 3.3058), Math.ceil(extentRange[1] * 3.3058)]);
     setExtent2([extentMin, extentRange[1]]);
   };
 
   /** 층수 변경 시 */
   const onChangeFloor = (floorRange: number[]) => {
-    setFloor(floorRange);
+    const newFloorRange = [floorRange[0] > 9 ? 9 : floorRange[0], floorRange[1] === 10 ? 100 : floorRange[1]];
+    setFloor(newFloorRange);
   };
 
   return (
@@ -423,9 +468,6 @@ function MapContainer() {
                     <RangeSlider id="slider" min={0} max={350} step={50} defaultValue={[0, 350]} value={monthly} onInput={onChangeMonthly} />
                   </div>
                 )}
-                <div className={styles['option-btn-div']}>
-                  <button ref={btnRef}>적용</button>
-                </div>
               </div>
             )}
           </div>
@@ -447,9 +489,6 @@ function MapContainer() {
                   </span>
                 </p>
                 <RangeSlider id="slider" min={0} max={200} step={1} defaultValue={[0, 200]} value={extent2} onInput={onChangeExtent} />
-                <div className={styles['option-btn-div']}>
-                  <button ref={btnRef}>적용</button>
-                </div>
               </div>
             )}
           </div>
@@ -477,13 +516,14 @@ function MapContainer() {
                   )}
                 </p>
                 <RangeSlider id="slider" min={0} max={10} step={1} defaultValue={[0, 10]} value={floor} onInput={onChangeFloor} />
-                <div className={styles['option-btn-div']}>
-                  <button ref={btnRef}>적용</button>
-                </div>
               </div>
             )}
           </div>
         )}
+      </div>
+      <div className={styles['search']}>
+        <input type="text" />
+        <AiOutlineSearch />
       </div>
       {priority && (
         <div className={styles['applied-priority']}>

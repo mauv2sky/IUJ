@@ -11,7 +11,7 @@ import styles from './RealEstateItem.module.scss';
 const dealTypeMap: TypeMappingType = {
   BUY: '매매',
   LONG_TERM_RENT: '전세',
-  MONTHLY: '월세',
+  MONTHLY_RENT: '월세',
 };
 
 type RealEstatePropsType = {
