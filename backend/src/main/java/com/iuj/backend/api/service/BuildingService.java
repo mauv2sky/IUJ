@@ -5,7 +5,6 @@ import com.iuj.backend.api.domain.dto.mapping.LocationMapping;
 import com.iuj.backend.api.domain.dto.request.PlaceMainRequest;
 import com.iuj.backend.api.domain.dto.response.BuildingDto;
 import com.iuj.backend.api.domain.entity.building.Score;
-import com.iuj.backend.api.domain.entity.building.ScoreId;
 import com.iuj.backend.api.domain.enums.BuildingType;
 import com.iuj.backend.api.repository.building.AptRepository;
 import com.iuj.backend.api.repository.building.JDBCBuildingRepository;
@@ -16,9 +15,7 @@ import com.iuj.backend.util.ScoreUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,25 +63,37 @@ public class BuildingService {
         }
 
         // 점수 추가
-        if(!buildingList.isEmpty()){
+        if(!buildingList.isEmpty() && request.getLevel() <= 4){
+
+            List<Long> idList = new ArrayList<>();
             for(BuildingDto building : buildingList){
-                building.setType(buildingType);
-                if(request.getLevel() <= 4) {
-                    if (request.getRecomm() == null){
-                        ScoreId id = new ScoreId(building.getId(), building.getType().getName().toUpperCase());
-                        Score score = scoreRepository.findById(id).orElse(new Score());
-                        building.setTotalScore(ScoreUtil.getBasicScore(score));
-                    } else {
-                        ScoreId id = new ScoreId(building.getId(), building.getType().getName().toUpperCase());
-                        Score score = scoreRepository.findById(id).orElse(new Score());
-                        LinkedHashMap<String, Integer> scoreMap = ScoreUtil.getScoreMap(request.getRecomm(), score);
-                        building.setScore(scoreMap);
-                        building.setTotalScore(ScoreUtil.getTotalScoreByRecomm(scoreMap, score));
-                    }
+                idList.add(building.getId());
+            }
+
+            // building list 아이디로 점수 가져오기
+            List<Score> scoreList = scoreRepository.getScoreByTypeAndIdIsIn(buildingType.getName().toUpperCase(), idList);
+            System.out.println(scoreList);
+
+
+            // 가져온 점수랑 건물 매칭
+            if (request.getRecomm() == null){
+                for(BuildingDto building : buildingList){
+                    Score score = scoreList.stream().filter(o -> Objects.equals(o.getId(), building.getId())).findFirst().orElse(new Score());
+                    building.setTotalScore(ScoreUtil.getBasicScore(score));
                 }
+                // 점수 있을 때, 총점에 따라 정렬
+                Collections.sort( buildingList, (o1, o2) -> (int) (o2.getTotalScore()*10 - o1.getTotalScore()*10));
+            } else {
+                for(BuildingDto building : buildingList){
+                    Score score = scoreList.stream().filter(o -> Objects.equals(o.getId(), building.getId())).findFirst().orElse(new Score());
+                    LinkedHashMap<String, Integer> scoreMap = ScoreUtil.getScoreMap(request.getRecomm(), score);
+                    building.setScore(scoreMap);
+                    building.setTotalScore(ScoreUtil.getTotalScoreByRecomm(scoreMap, score));
+                }
+                // 점수 있을 때, 총점에 따라 정렬
+                Collections.sort( buildingList, (o1, o2) -> (int) (o2.getTotalScore()*10 - o1.getTotalScore()*10));
             }
         }
-        Collections.sort( buildingList, (o1, o2) -> (int) (o2.getTotalScore()*10 - o1.getTotalScore()*10));
         return buildingList;
     }
 
