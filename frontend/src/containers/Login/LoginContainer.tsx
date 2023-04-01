@@ -9,7 +9,7 @@ function LoginContainer() {
   const OAuth = async () => {
     try {
       // const url = 'http://localhost:5000/oauth2/authorization/google';
-      const url = 'https://j8e103.p.ssafy.io/oauth2/authorization/google';
+      const url = 'https://j8e103.p.ssafy.io:5000/oauth2/authorization/google';
       window.location.href = url;
     } catch (err) {
       console.error(err);
