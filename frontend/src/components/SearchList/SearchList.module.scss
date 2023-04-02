@@ -1,0 +1,34 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.component {
+  z-index: 11;
+  width: 220px;
+  max-height: 300px;
+  padding: 20px;
+  border-radius: 5px;
+  background-color: white;
+  color: $ffc;
+  font-size: 18px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: inline;
+    width: 7px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgb(215, 215, 215);
+    border-radius: 5px;
+  }
+
+  .address-item {
+    padding: 10px;
+    border-radius: 5px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $hover;
+    }
+  }
+}
