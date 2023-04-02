@@ -11,7 +11,7 @@ import styles from './RealEstateItem.module.scss';
 const dealTypeMap: TypeMappingType = {
   BUY: '매매',
   LONG_TERM_RENT: '전세',
-  MONTHLY: '월세',
+  MONTHLY_RENT: '월세',
 };
 
 type RealEstatePropsType = {
@@ -36,8 +36,8 @@ function RealEstateItem({ realEstate, scrollY }: RealEstatePropsType) {
       const componentPos = component?.getBoundingClientRect();
 
       if (graph && componentPos && component) {
-        graph.style.height = getComputedStyle(component).height;
-        graph.style.width = getComputedStyle(component).width;
+        graph.style.height = 200 + 'px';
+        graph.style.width = 500 + 'px';
         graph.style.top = componentPos.top + 'px';
         graph.style.left = componentPos.left + component.offsetWidth + 10 + 'px';
       }

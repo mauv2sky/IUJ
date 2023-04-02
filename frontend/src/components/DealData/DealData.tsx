@@ -1,5 +1,8 @@
 // import React, { useState, useEffect } from 'react';
 // import styles from './DealData.module.scss';
+// import DealDataItem, { DealDataItemType } from '../DealDataItem/DealDataItem';
+// import { useAppDispatch, useAppSelector } from '../../store/hooks';
+// import { getdetailContainerState } from '../../store/slices/detailContainerSlice';
 
 // export type DealType = {
 //   type: string;
@@ -25,6 +28,13 @@
 // };
 
 // function DealData({ dealRelist }: DealPropsType) {
+//   const dispatch = useAppDispatch();
+//   dispatch(getdetailContainerState());
+//   const detailContainer = useAppSelector((state) => state.detailContainerSlice.detailContainer);
+//   useEffect(() => {
+//     console.log('디테일콘!!!', detailContainer);
+//   }, [detailContainer]);
+
 //   const [deals, setDeals] = useState<DealType['deals']>([]);
 
 //   useEffect(() => {
@@ -32,8 +42,8 @@
 //       setDeals(dealRelist.deals);
 //     }
 //   }, [dealRelist]);
-//   console.log(dealRelist);
-
+//   // console.log(1, dealRelist);
+//   // console.log(2, dealRelist.deals);
 //   return (
 //     <div className={styles.component}>
 //       <div>여긴 그래프</div>
@@ -44,18 +54,9 @@
 //         <div className={styles.cost}>금액 (만원)</div>
 //       </div>
 //       <div>
-//         {dealRelist.deals.map((item, index) => (
+//         {deals.map((item, index) => (
 //           <div key={index}>
-//             {item && (
-//               <div>
-//                 <div className={styles.time}>
-//                   {item.contract_ym}.{item.contract_day}
-//                 </div>
-//                 <div className={styles.time}>{item.area}</div>
-//                 <div className={styles.floor}>{item.floor}</div>
-//                 <div className={styles.cost}>{item.price}</div>
-//               </div>
-//             )}
+//             <DealDataItem dealdataitem={item} />
 //           </div>
 //         ))}
 //       </div>
@@ -67,40 +68,53 @@
 
 import React, { useState, useEffect } from 'react';
 import styles from './DealData.module.scss';
+import DealDataItem, { DealDataItemType } from '../DealDataItem/DealDataItem';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { getdetailContainerState } from '../../store/slices/detailContainerSlice';
 
+/** 프롭스 받은 매물 상세 정보 */
 export type DealType = {
-  type: string;
-  maxPrice: number;
-  minPrice: number;
-  deals: {
-    aptId: number;
-    area: string;
-    author: string;
-    contract_day: string;
-    contract_ym: string;
-    dealType: string;
-    floor: number;
-    guarantee: number;
-    id: number;
-    monthly: number;
-    price: number;
-  }[];
+  Deal: {
+    type: string;
+    maxPrice: number;
+    minPrice: number;
+    deals: {
+      aptId: number;
+      area: string;
+      author: string;
+      contract_day: string;
+      contract_ym: string;
+      dealType: string;
+      floor: number;
+      guarantee: number;
+      id: number;
+      monthly: number;
+      price: number;
+    }[];
+  };
+  home: { id: number; lat: number; lng: number; sigungu: string; bungi: string; name: string; built_year: string; road_addr: string };
 };
-
+/** 프롭스 받은 매물 상세 정보 */
 type DealPropsType = {
   dealRelist: DealType;
 };
 
 function DealData({ dealRelist }: DealPropsType) {
-  const [deals, setDeals] = useState<DealType['deals']>([]);
+  console.log(dealRelist, '여기 맞냐');
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getdetailContainerState());
+  }, [dispatch]);
+  const detailContainer = useAppSelector((state) => state.detailContainerSlice.detailContainer);
+
+  const [deals, setDeals] = useState<DealType['Deal']['deals']>([]);
 
   useEffect(() => {
-    if (dealRelist && dealRelist.deals) {
-      setDeals(dealRelist.deals);
+    if (dealRelist && dealRelist.Deal && dealRelist.Deal.deals) {
+      setDeals(dealRelist.Deal.deals);
     }
   }, [dealRelist]);
-  console.log(1, dealRelist);
-  console.log(2, dealRelist.deals);
+
   return (
     <div className={styles.component}>
       <div>여긴 그래프</div>
@@ -112,18 +126,7 @@ function DealData({ dealRelist }: DealPropsType) {
       </div>
       <div>
         {deals.map((item, index) => (
-          <div key={index}>
-            {item && (
-              <div>
-                <div className={styles.time}>
-                  {item.contract_ym}.{item.contract_day}
-                </div>
-                <div className={styles.time}>{item.area}</div>
-                <div className={styles.floor}>{item.floor}</div>
-                <div className={styles.cost}>{item.price}</div>
-              </div>
-            )}
-          </div>
+          <div key={index}>{item && <DealDataItem dealDataItem={item} />}</div>
         ))}
       </div>
     </div>
