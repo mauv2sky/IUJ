@@ -9,11 +9,11 @@ import MapSidebar from '../../components/MapSidebar/MapSidebar';
 import { pretreatAmount } from '../../utils/PretreatAmount';
 import { filterType, RealEstateType, requestRealEstateListType, TypeMappingType } from '../../types/MapType';
 import { requestSearch, requestRealEstateList } from '../../api/map';
-import styles from './MapContainer.module.scss';
-import './Slider.scss';
 import AppliedPriority from '../../components/AppliedPriority/AppliedPriority';
 import { DocumentType, MetaType } from '../../types/SearchType';
 import SearchList from '../../components/SearchList/SearchList';
+import styles from './MapContainer.module.scss';
+import './Slider.scss';
 
 /** ============= 매물 목록 API 요청 필요 =============
  * 선호 순위 적용 시
