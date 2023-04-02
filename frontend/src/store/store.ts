@@ -5,6 +5,7 @@ import { createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userSlice from './slices/userSlice';
 import prioritySlice from './slices/prioritySlice';
+import detailContainerSlice from './slices/detailContainerSlice';
 
 /** blackList 대신 사용, prioritySlice와 realEstateSlice는 유지되면 안됨 */
 const filterPriorityTransform = createTransform(
@@ -29,6 +30,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   userSlice,
   prioritySlice,
+  detailContainerSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -32,6 +32,5 @@ public class AptDealDto {
         this.price = price;
         this.monthly = monthly;
         this.aptId = aptId;
-
     }
 }

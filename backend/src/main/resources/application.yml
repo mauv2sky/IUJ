@@ -7,6 +7,18 @@ spring:
   mvc:
     path match:
       matching-strategy: ant_path_matcher
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 379703707830-hbel3a03diao8cucectgrg6g0iro5s75.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+  jwt:
+    secret: NiceE103!
 
 logging:
   level:

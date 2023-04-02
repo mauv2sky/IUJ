@@ -9,125 +9,91 @@ import InfraIconschools from '../../components/InfraIcon/InfraIconschools';
 import InfraIconsecurities from '../../components/InfraIcon/InfraIconsecurities';
 import InfraIcontransports from '../../components/InfraIcon/InfraIcontransports';
 import axios from 'axios';
-import { detailTransport } from '../../types/Map';
+import icon from '../../assets/icon.png';
+
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setdetailContainerState } from '../../store/slices/detailContainerSlice';
 
 interface DetailContainerProps {
   detailRelist: DetailType;
 }
-/** APIURL */
-const APIURL = 'https://j8e103.p.ssafy.io';
 
-function Detailcontainer() {
+/** 건물 타입과 건물 id */
+type Props = {};
+
+/** APIURL */
+const APIURL = 'http://localhost:5000';
+
+function Detailcontainer(props: Props) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
   const [clusterer, setClusterer] = useState<any>(null);
 
-  const detailRelist: DetailType = {
-    place: {
-      id: 1234,
-      name: '송정삼정그린코아더시티',
-      type: '아파트',
-      latlng: [37.456, 127.789],
-      address: ['부산시 강서구 녹산산단335로 7', '부산광역시 강서구 송정동 1627-5'],
-      deal: [
+  const dispatch = useAppDispatch();
+  /** 매물 상세 정보 더미 데이터 */
+  const [detailRelist, setDetailRelist] = useState<DetailType>({
+    Deal: {
+      type: '',
+      maxPrice: 0,
+      minPrice: 0,
+      deals: [
         {
-          type: '매매',
-          aptDeals: [
-            {
-              id: 1,
-              area: '84.9762',
-              contract_ym: '202203',
-              contract_day: '30',
-              dealType: '매매',
-              guarantee: 0,
-              price: 0,
-              floor: 1,
-              monthly: 0,
-              aptId: 1,
-              author: null,
-            },
-          ],
+          aptId: 0,
+          area: '',
+          author: '',
+          contract_day: '',
+          contract_ym: '',
+          dealType: '',
+          floor: 0,
+          guarantee: 0,
+          id: 0,
+          monthly: 0,
+          price: 0,
         },
       ],
     },
-    total_score: 87.56,
-    map: {
-      bus: [
-        { name: '삼성 전기', latlng: [37.456, 127.789] },
-        { name: '삼성 전기', latlng: [37.456, 127.789] },
-      ],
-      subway: [
-        { name: '하단역', latlng: [37.456, 127.789] },
-        { name: '기역', latlng: [37.456, 127.789] },
-      ],
+    home: {
+      id: 0,
+      lat: 0,
+      lng: 0,
+      sigungu: '',
+      bungi: '',
+      name: '',
+      built_year: '',
+      road_addr: '',
     },
-    facility: {
-      어린이집: [
-        { name: '떡잎어린이집', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '치킨어린이집', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '떡잎어린이집', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '치킨어린이집', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-      ],
-      유치원: [
-        { name: '떡잎유치원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '치킨유치원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-      ],
-      초등학교: [
-        { name: '떡잎초등학교', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '치킨초등학교', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-      ],
-      중학교: [
-        { name: '떡잎중학교', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '치킨중학교', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-      ],
-      고등학교: [
-        { name: '떡잎고등학교', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '치킨도등학교', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-      ],
-      특수학교: [
-        { name: '떡잎특수학교', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '치킨특수학교', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-      ],
-      입시학원: [
-        { name: '아현영어학원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '준수종합학원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '호선수학학원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '형규국어학원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '미현과학학원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-      ],
-      예체능학원: [
-        { name: '누리미술학원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '준봉음악학원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-        { name: '재훈태권도학원', address: '부산 강서구 국제 6로 99 대방디엠시티센텀오션', latlng: [37.456, 127.789] },
-      ],
-    },
-  };
+  });
 
-  /** 현재 위치 가져오기 */
-  const getCurrentPosition = (): Promise<GeolocationPosition> => {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          resolve(position);
-        },
-        (error) => {
-          reject(error);
-        },
-      );
-    });
-  };
+  /** 매물 상세 정보 요청 */
+  useEffect(() => {
+    axios({
+      method: 'get',
+      // url: APIURL + `/api/place/${props.type}/${props.id}`,
+      url: APIURL + `/api/place/APT/2`,
+    })
+      .then((response) => {
+        // console.log('데이터 전송 성공이냐옹');
+        // console.log(response.data);
+        dispatch(setdetailContainerState({ status: true, detailRelist: response.data }));
+        setDetailRelist(response.data);
+      })
+      .catch((error) => {
+        // console.error('데이터 전송 실패이냐옹');
+        console.error(error);
+      });
+  }, []);
 
-  /** 현재 위치를 기반으로 지도 생성 */
+  const detailContainer = useAppSelector((state) => state.detailContainerSlice.detailContainer);
+
+  /** 매물 위치를 기반으로 지도 생성 */
   const createMap = async () => {
     if (window.kakao && window.kakao.maps) {
       let lat;
       let lng;
 
       try {
-        const position = await getCurrentPosition();
-        lat = position.coords.latitude;
-        lng = position.coords.longitude;
-        console.log(lat, lng);
+        lat = detailRelist.home.lat;
+        lng = detailRelist.home.lng;
 
         const options = {
           center: new window.kakao.maps.LatLng(lat, lng),
@@ -155,30 +121,7 @@ function Detailcontainer() {
           const bounds = map.getBounds();
 
           /** 현재 영역의 매물들 가져옴 */
-          console.log(bounds.toString(), '로 api 요청');
-
-          /** api 요청으로 가져온 인프라 리스트 */
-          const markers = [
-            {
-              latlng: new window.kakao.maps.LatLng(35.1010816, 128.8503296),
-            },
-            {
-              latlng: new window.kakao.maps.LatLng(35.103, 128.86),
-            },
-            {
-              latlng: new window.kakao.maps.LatLng(35.098, 128.84),
-            },
-          ];
-
-          /** 마커 표시 */
-          for (let i = 0; i < markers.length; i++) {
-            const marker = new kakao.maps.Marker({
-              map,
-              position: markers[i].latlng,
-            });
-
-            clusterer.addMarker(marker);
-          }
+          // console.log(bounds.toString(), '로 api 요청');
         }
       } catch (error) {
         console.error(error);
@@ -189,30 +132,9 @@ function Detailcontainer() {
   /** 맵 생성 useEffect */
   useEffect(() => {
     createMap();
-  }, []);
+  }, [detailRelist]);
 
-  /** 지도 레벨이 변경되면 새로운 매물 요청 */
-  if (map) {
-    kakao.maps.event.addListener(map, 'zoom_changed', () => {
-      const bounds = map.getBounds();
-      console.log(bounds);
-      console.log('레벨 변경 - 매물 요청');
-
-      // requestRealEstate();
-    });
-  }
-
-  /** 드래그가 끝나면 새로운 매물 요청 */
-  if (map) {
-    kakao.maps.event.addListener(map, 'dragend', () => {
-      const bounds = map.getBounds();
-      console.log(bounds);
-      console.log('드래그 이동 - 매물 요청');
-
-      // requestRealEstate();
-    });
-  }
-  const [dataList, setDataList] = useState<detailTransport[]>([]);
+  const [dataList, setDataList] = useState<{ btnName: { id: number; name: string; lat: string; lng: string }[] }>({ btnName: [] });
 
   /** 현재 영역 매물 요청 */
   const handleBtnClick = (btnName: string) => {
@@ -223,59 +145,45 @@ function Detailcontainer() {
     console.log(btnName, '제대로 왔냐?');
     axios({
       method: 'get',
-      url: APIURL + `/api/place/${detailRelist.place.type}/${detailRelist.place.id}/${btnName}`,
+      // url: APIURL + `/api/place/${props.type}/${detailRelist.home.id}/${btnName}`,
+      url: APIURL + `/api/place/APT/${detailRelist.home.id}/${btnName}`,
     })
       .then((response) => {
-        console.log('데이터 전송 성공');
+        console.log('데이터 전송 성공이다멍멍');
         console.log(response.data);
         setDataList(response.data);
+        /** 마커 이미지 */
+        const markerImage = new kakao.maps.MarkerImage(
+          icon, // 이미지 경로
+          new kakao.maps.Size(30, 30), // 이미지 크기
+        );
+        /** api 요청으로 가져온 마커 리스트 */
+        console.log(btnName);
+        let markers = response.data[btnName].map((data: any) => ({
+          // Computed property name syntax
+          latlng: new window.kakao.maps.LatLng(data.lat, data.lng),
+        }));
+        /** 마커 표시 */
+        for (let i = 0; i < markers.length; i++) {
+          const marker = new kakao.maps.Marker({
+            map,
+            position: markers[i].latlng,
+            image: markerImage,
+          });
+
+          clusterer.addMarker(marker);
+        }
       })
       .catch((error) => {
-        console.error('데이터 전송 실패');
+        console.error('데이터 전송 실패다멍멍');
         console.error(error);
       });
-
-    /** api 요청으로 가져온 마커 리스트 */
-    console.log(dataList);
-    let markers = [
-      {
-        latlng: new window.kakao.maps.LatLng(35.1010816, 128.8503296),
-      },
-      {
-        latlng: new window.kakao.maps.LatLng(35.103, 128.86),
-      },
-    ];
-
-    /** 마커 표시 */
-    for (let i = 0; i < markers.length; i++) {
-      const marker = new kakao.maps.Marker({
-        map,
-        position: markers[i].latlng,
-      });
-
-      clusterer.addMarker(marker);
-    }
   };
   const [tabIndex, setTabIndex] = useState(0);
 
   const onClickTab = (index: number) => {
     setTabIndex(index);
   };
-
-  // const handleBtnClick = (btnName: string) => {
-  //   console.log(btnName, '제대로 왔냐?');
-  //   axios
-  //     .get(`${APIURL}/api/place/${detailRelist.place.type}/${detailRelist.place.id}/${btnName}`)
-  //     .then((response) => {
-  //       console.log('데이터 전송 성공');
-  //       console.log(response.data);
-  //       setDataList(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('데이터 전송 실패');
-  //       console.error(error);
-  //     });
-  // };
 
   return (
     <div className={styles.container}>
@@ -300,9 +208,9 @@ function Detailcontainer() {
         </div>
         {tabIndex === 0 && <InfraIconschools />}
         {tabIndex === 1 && <InfraIcontransports selectedBtn={''} setSelectedBtn={handleBtnClick} />}
-        {tabIndex === 2 && <InfraIconamenities />}
-        {tabIndex === 3 && <InfraIconsecurities />}
-        {tabIndex === 4 && <InfraIconcultures />}
+        {tabIndex === 2 && <InfraIconamenities selectedBtn={''} setSelectedBtn={handleBtnClick} />}
+        {tabIndex === 3 && <InfraIconsecurities selectedBtn={''} setSelectedBtn={handleBtnClick} />}
+        {tabIndex === 4 && <InfraIconcultures selectedBtn={''} setSelectedBtn={handleBtnClick} />}
       </div>
       <DetailInformation detailRelist={detailRelist} />
     </div>

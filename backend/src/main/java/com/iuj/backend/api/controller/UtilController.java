@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class UtilController {
 
     private final Environment env;
-
+    //
     @GetMapping("/profile")
     public String getProfile() {
         return Arrays.stream(env.getActiveProfiles()).findFirst().orElse("");
