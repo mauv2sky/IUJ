@@ -7,6 +7,7 @@ import { TypeMappingType } from '../../types/MapType';
 import { typeMap } from '../../containers/Map/MapContainer';
 import test from '../../assets/test.jpg';
 import styles from './RealEstateItem.module.scss';
+import { useNavigate } from 'react-router';
 
 const dealTypeMap: TypeMappingType = {
   BUY: '매매',
@@ -24,6 +25,7 @@ function RealEstateItem({ realEstate, scrollY }: RealEstatePropsType) {
   const [showGraph, setShowGraph] = useState<boolean>(false);
   const graphRef = useRef<HTMLDivElement>(null);
   const graphInnerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   /** =================================== useEffect =================================== */
   /** 물음표 버튼을 누르면 옆에 그래프가 뜨도록 함 */
@@ -85,12 +87,29 @@ function RealEstateItem({ realEstate, scrollY }: RealEstatePropsType) {
     return addressList[0] + ' ' + addressList[1] + ' ' + addressList[2];
   };
 
+  /** 매물 클릭 시 */
+  const onClickRealEstate = (type: string, id: number) => {
+    navigate(`../${type}/${id}`);
+  };
+
   return (
     <div id={'component' + realEstate.type + realEstate.id.toString()} className={styles.component}>
-      <p className={styles.name}>{realEstate.name}</p>
+      <p
+        className={styles.name}
+        onClick={() => {
+          onClickRealEstate(realEstate.type, realEstate.id);
+        }}
+      >
+        {realEstate.name}
+      </p>
       <div className={styles['component-inner']}>
-        <div className={styles.left}>
-          <div className={styles.img} style={{ backgroundImage: `url(${test})` }}>
+        <div
+          className={styles.left}
+          onClick={() => {
+            onClickRealEstate(realEstate.type, realEstate.id);
+          }}
+        >
+          <div className={styles.img} style={{ backgroundImage: `url(${realEstate.img ? realEstate.img : test})` }}>
             <p className={styles.type}>
               <span>{typeMap[realEstate.type]}</span> <span>{dealTypeMap[realEstate.average_deal?.deal_type as string]}</span>
             </p>
@@ -126,7 +145,7 @@ function RealEstateItem({ realEstate, scrollY }: RealEstatePropsType) {
                 <CountUp end={realEstate.total_score} duration={1} decimals={2} decimal="." style={{ color: 'rgba(161, 188, 215, 1)', fontWeight: '600' }} />
               )}
             </div>
-            <RiQuestionnaireFill id={'graph-btn' + realEstate.type + realEstate.id.toString()} onClick={onClickGraphBtn} />
+            <RiQuestionnaireFill className={styles['graph-btn']} id={'graph-btn' + realEstate.type + realEstate.id.toString()} onClick={onClickGraphBtn} />
           </div>
         </div>
       </div>

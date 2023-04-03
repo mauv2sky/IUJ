@@ -28,6 +28,7 @@ export type CategoryStyleType = {
 /** 매물 타입 */
 export type RealEstateType = {
   id: number;
+  img: string;
   name: string;
   type: string;
   latlng: number[];

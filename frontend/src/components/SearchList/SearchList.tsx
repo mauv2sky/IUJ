@@ -4,7 +4,7 @@ import styles from './SearchList.module.scss';
 
 type searchListPropsType = {
   document: DocumentType[];
-  meta: MetaType;
+  meta: MetaType | null;
   setStateCenter: React.Dispatch<React.SetStateAction<number[]>>;
 };
 

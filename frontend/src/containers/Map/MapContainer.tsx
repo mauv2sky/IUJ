@@ -12,8 +12,11 @@ import { requestSearch, requestRealEstateList } from '../../api/map';
 import AppliedPriority from '../../components/AppliedPriority/AppliedPriority';
 import { DocumentType, MetaType } from '../../types/SearchType';
 import SearchList from '../../components/SearchList/SearchList';
+import ReactDOMServer from 'react-dom/server';
 import styles from './MapContainer.module.scss';
 import './Slider.scss';
+import { BsFillHouseFill } from 'react-icons/bs';
+import { useNavigate } from 'react-router';
 
 /** ============= 매물 목록 API 요청 필요 =============
  * 선호 순위 적용 시
@@ -73,11 +76,11 @@ function MapContainer() {
   /** 검색 결과 document */
   const [document, setDocument] = useState<DocumentType[]>([]);
   /** 검색 결과 meta */
-  const [meta, setMeta] = useState<MetaType>({});
-  /** 선호 순위 그림자 표시 */
-  const [showShadow, setShowShadow] = useState<boolean>(true);
+  const [meta, setMeta] = useState<MetaType | null>(null);
   /** 중심 좌표 state */
   const [stateCenter, setStateCenter] = useState<number[]>([]);
+  /** 네비게이터 */
+  const navigate = useNavigate();
 
   /** ================================================= useEffect ================================================= */
   /** 맵 옵션 불러오기 */
@@ -221,7 +224,7 @@ function MapContainer() {
     const mapLevel = map.getLevel();
     setStateLevel(mapLevel);
 
-    if (mapLevel > 7) {
+    if (mapLevel > 5) {
       return;
     }
 
@@ -260,8 +263,66 @@ function MapContainer() {
       setRealEstateList(res.data);
 
       const markers = res.data.map((realEstate: RealEstateType) => {
-        return { name: realEstate.name, score: realEstate.score, latlng: new kakao.maps.LatLng(realEstate.latlng[0], realEstate.latlng[1]) };
+        /** 마커 점수에 색상 적용 함수 */
+        const getMarkerColor = (totalScore: number): string => {
+          if (totalScore >= 80) {
+            return '#1C81DE';
+          } else if (totalScore >= 60) {
+            return '#6593BE';
+          } else if (totalScore >= 30) {
+            return '#768797';
+          } else {
+            return 'gray';
+          }
+        };
+
+        /** 커스텀 오버레이 */
+        const content = (
+          <div
+            className={styles['marker-div']}
+            onClick={() => {
+              onClickRealEstate(realEstate.type, realEstate.id);
+              console.log('!');
+            }}
+          >
+            <BsFillHouseFill
+              className={styles.marker}
+              color={getMarkerColor(realEstate.total_score)}
+              style={{ left: Math.round(realEstate.total_score) >= 10 ? '40%' : '27.5%' }}
+            />
+            <p>{Math.round(realEstate.total_score)}</p>
+          </div>
+        );
+        const customOverlay = new kakao.maps.CustomOverlay({
+          position: new kakao.maps.LatLng(realEstate.latlng[0], realEstate.latlng[1]),
+          content: ReactDOMServer.renderToString(content),
+          yAnchor: 0.5,
+          zIndex: 100,
+          clickable: true,
+        });
+        customOverlay.setMap(map);
+
+        /** 커스텀 오버레이 클릭 이벤트 */
+        kakao.maps.event.addListener(customOverlay, 'click', function () {
+          console.log('클릭');
+        });
+
+        return {
+          type: realEstate.type,
+          id: realEstate.id,
+          name: realEstate.name,
+          score: realEstate.score,
+          overlay: customOverlay,
+        };
       });
+
+      /** 오버레이 표시 */
+      for (let i = 0; i < markers.length; i++) {
+        clusterer.addMarker(markers[i].overlay);
+        kakao.maps.event.addListener(markers[i], 'click', function () {
+          console.log('클릭');
+        });
+      }
 
       /** 마커 표시 */
       for (let i = 0; i < markers.length; i++) {
@@ -365,6 +426,12 @@ function MapContainer() {
     } else {
       setDocument([]);
     }
+  };
+
+  /** 매물 클릭 시 */
+  const onClickRealEstate = (type: string, id: number) => {
+    console.log('상세 페이지로');
+    navigate(`${type}/${id}`);
   };
 
   return (
@@ -540,21 +607,16 @@ function MapContainer() {
         <input type="text" onChange={onChangeSearch} />
       </div>
       {document.length > 0 && (
-        <div className={styles['search-result']}>
+        <div className={styles['search-reuslt']}>
           <SearchList document={document} meta={meta} setStateCenter={setStateCenter} />
         </div>
       )}
       {priority && (
         <>
-          <div
-            className={styles['applied-priority']}
-            onClick={() => {
-              setShowShadow((prev) => !prev);
-            }}
-          >
+          <div className={styles['applied-priority']}>
             <AppliedPriority />
           </div>
-          {showShadow && <div className={styles.shadow} />}
+          <div className={styles.shadow} />
         </>
       )}
       <div ref={mapRef} style={{ width: 'calc(100% - 500px)' }} />
