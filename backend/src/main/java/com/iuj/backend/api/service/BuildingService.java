@@ -4,8 +4,10 @@ import com.iuj.backend.api.domain.dto.common.BoundDto;
 import com.iuj.backend.api.domain.dto.mapping.LocationMapping;
 import com.iuj.backend.api.domain.dto.request.PlaceMainRequest;
 import com.iuj.backend.api.domain.dto.response.BuildingDto;
+import com.iuj.backend.api.domain.entity.BuildingPhoto;
 import com.iuj.backend.api.domain.entity.building.Score;
 import com.iuj.backend.api.domain.enums.BuildingType;
+import com.iuj.backend.api.repository.BuildingPhotoRepository;
 import com.iuj.backend.api.repository.building.AptRepository;
 import com.iuj.backend.api.repository.building.JDBCBuildingRepository;
 import com.iuj.backend.api.repository.building.OfficetelRepository;
@@ -25,8 +27,11 @@ public class BuildingService {
     private final OfficetelRepository officetelRepository;
     private final VillaRepository villaRepository;
     private final ScoreRepository scoreRepository;
+    private final BuildingPhotoRepository photoRepository;
 
+    // 건물 모든 정보를 가져올 때 사용
     private final JDBCBuildingRepository jdbcBuildingRepository;
+
 
     public List<BuildingDto> getBuildingList(PlaceMainRequest request){
         BuildingType buildingType = request.getType();
@@ -62,13 +67,23 @@ public class BuildingService {
                     .collect(Collectors.toList());
         }
 
+        // 건물 리스트에서 아이디 추출
+        List<Long> idList = new ArrayList<>();
+        for(BuildingDto building : buildingList){
+            idList.add(building.getId());
+        }
+
+        // 건물 DTO에 사진 추가
+        List<BuildingPhoto> photoList = photoRepository.getScoreByTypeAndIdIsIn(buildingType.getName().toUpperCase(), idList);
+        for(BuildingDto building : buildingList){
+            BuildingPhoto photo = photoList.stream().filter(o -> Objects.equals(o.getId(), building.getId())).findFirst().orElse(null);
+            if(photo != null){
+                building.setImg(photo.getLink());
+            }
+        }
+
         // 점수 추가
         if(!buildingList.isEmpty() && request.getLevel() <= 4){
-
-            List<Long> idList = new ArrayList<>();
-            for(BuildingDto building : buildingList){
-                idList.add(building.getId());
-            }
 
             // building list 아이디로 점수 가져오기
             List<Score> scoreList = scoreRepository.getScoreByTypeAndIdIsIn(buildingType.getName().toUpperCase(), idList);
