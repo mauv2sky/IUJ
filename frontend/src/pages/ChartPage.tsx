@@ -1,8 +1,8 @@
 import React from 'react';
-import ChartExample from '../components/ChartExample/ChartExample';
+import DealChart from '../components/DealChart/DealChart';
 
 function ChartPage() {
-  return <ChartExample />;
+  return <DealChart />;
 }
 
 export default ChartPage;

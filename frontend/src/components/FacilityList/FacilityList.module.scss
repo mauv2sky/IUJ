@@ -2,4 +2,45 @@
 @import '../../styles/variable.scss';
 
 .component {
+  // justify-content: center;
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      margin-top: 100px;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  & button {
+    position: absolute;
+    margin-top: 50px;
+    border: none;
+    background-color: inherit;
+    font-size: 40px;
+    color: rgba(52, 52, 52, 0.2);
+
+    &:hover {
+      cursor: pointer;
+      color: $tc;
+      transform: scale(1.2);
+    }
+  }
+
+  .left-btn {
+    left: 0;
+    margin-left: 350px;
+    font-weight: 900;
+    line-height: 430px;
+    color: $sc;
+  }
+
+  .right-btn {
+    right: 0;
+    margin-right: 790px;
+    font-weight: 900;
+    line-height: 430px;
+    color: $sc;
+  }
 }

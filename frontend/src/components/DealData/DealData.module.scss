@@ -9,9 +9,18 @@
 .dealtitle {
   background-color: $lfc;
   height: 40px;
+  // border-radius: 3px;
+}
+.type {
+  width: 20%;
+  float: left;
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .time {
-  width: 30%;
+  width: 20%;
   float: left;
   font-size: 20px;
   font-weight: 500;
@@ -19,7 +28,7 @@
   margin-bottom: 10px;
 }
 .space {
-  width: 30%;
+  width: 20%;
   float: left;
   font-size: 20px;
   font-weight: 500;
