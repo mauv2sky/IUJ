@@ -1,6 +1,7 @@
 package com.iuj.backend.config.jwt;
 
 import com.iuj.backend.api.domain.dto.common.TokenDto;
+import com.iuj.backend.api.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
@@ -28,6 +29,7 @@ public class JwtTokenProvider {
 
     private final Logger LOGGER = LoggerFactory.getLogger(JwtTokenProvider.class);
     private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserRepository userRepository;
 
     @Value("${spring.jwt.secret}")
     private String secretKey = "secretKey";
@@ -78,6 +80,9 @@ public class JwtTokenProvider {
         return new TokenDto(accessToken, "", accessTokenExpiresIn);
     }
 
+    /**
+     * 실제 token 발급
+     * */
     private String doGenerateToken(Claims claims, long tokenValidTime) {
         LOGGER.info("[doGenerateToken] " + new Date(System.currentTimeMillis() + tokenValidTime));
         String token = Jwts.builder()
@@ -89,7 +94,9 @@ public class JwtTokenProvider {
         return token;
     }
 
-
+    /**
+     * 토큰 인증 정보 조회 (DB에서 유저 정보 확인)
+     * */
     public Authentication getAuthentication(String token) {
         LOGGER.info("[getAuthentication] 토큰 인증 정보 조회 시작");
         UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(this.getUserEmail(token));
@@ -104,12 +111,16 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
     }
 
-    // Request의 Header에서 token 값을 가져옴.
-    public String resolveToken(HttpServletRequest request) {
-        return request.getHeader(HttpHeaders.AUTHORIZATION);
+    /**
+     * request 헤더에서 token을 가져온다
+     * */
+    public String resolveToken(HttpServletRequest request, String type) {
+        return type.equals("Access") ? request.getHeader(HttpHeaders.AUTHORIZATION) : request.getHeader("Refresh");
     }
 
-    // 토큰의 유효성 + 만료일자 확인
+    /**
+     * access token 유효성, 만료일자 확인
+     * */
     public boolean validateToken(String jwtToken) {
         LOGGER.info("[validateToken] 토큰 유효성 + 만료일자 확인");
         try {
@@ -120,6 +131,19 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
+    /**
+     * refresh token 유효성 검증
+     * */
+    public boolean validateRefreshToken(String jwtToken) {
+        // 1차 토큰 검증
+        if(!validateToken(jwtToken)) return false;
+
+        // DB에 저장한 토큰과 비교
+        String refreshToken = userRepository.findByEmail(getUserEmail(jwtToken)).getRefreshToken();
+        return refreshToken != null && jwtToken.equals(refreshToken);
+    }
+
     public Date getExpiration(String jwtToken) {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
