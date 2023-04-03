@@ -94,6 +94,8 @@ public class BuildingService {
                 Collections.sort( buildingList, (o1, o2) -> (int) (o2.getTotalScore()*10 - o1.getTotalScore()*10));
             }
         }
+
+        buildingList.forEach(b -> b.setType(buildingType));
         return buildingList;
     }
 
