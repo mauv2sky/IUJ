@@ -200,10 +200,6 @@
     z-index: 10;
     bottom: 2%;
     right: 1%;
-
-    &:hover {
-      cursor: pointer;
-    }
   }
 
   .shadow {
@@ -228,5 +224,29 @@
         opacity: 0;
       }
     }
+  }
+}
+
+.marker-div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  .marker {
+    font-size: 40px;
+  }
+
+  & p {
+    position: absolute;
+    top: 45%;
+    color: white;
   }
 }
