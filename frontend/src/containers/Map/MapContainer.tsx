@@ -278,16 +278,10 @@ function MapContainer() {
 
         /** 커스텀 오버레이 */
         const content = (
-          <div
-            className={styles['marker-div']}
-            onClick={() => {
-              onClickRealEstate(realEstate.type, realEstate.id);
-              console.log('!');
-            }}
-          >
+          <div className={styles['marker-div']}>
             <BsFillHouseFill
               className={styles.marker}
-              color={getMarkerColor(realEstate.total_score)}
+              color={getMarkerColor(Math.round(realEstate.total_score))}
               style={{ left: Math.round(realEstate.total_score) >= 10 ? '40%' : '27.5%' }}
             />
             <p>{Math.round(realEstate.total_score)}</p>
@@ -302,11 +296,6 @@ function MapContainer() {
         });
         customOverlay.setMap(map);
 
-        /** 커스텀 오버레이 클릭 이벤트 */
-        kakao.maps.event.addListener(customOverlay, 'click', function () {
-          console.log('클릭');
-        });
-
         return {
           type: realEstate.type,
           id: realEstate.id,
@@ -319,9 +308,6 @@ function MapContainer() {
       /** 오버레이 표시 */
       for (let i = 0; i < markers.length; i++) {
         clusterer.addMarker(markers[i].overlay);
-        kakao.maps.event.addListener(markers[i], 'click', function () {
-          console.log('클릭');
-        });
       }
 
       /** 마커 표시 */
