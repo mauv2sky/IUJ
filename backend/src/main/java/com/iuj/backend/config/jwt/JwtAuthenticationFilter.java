@@ -31,7 +31,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 헤더에서 JWT 받아옴
         String accessToken = jwtTokenProvider.resolveToken(request, "Access");
         String refreshToken = jwtTokenProvider.resolveToken(request, "Refresh");
-        System.out.println("++++++++++++++++++++++++++++++++++++++헤더 JWT 추출");
 
         // 유효한 토큰인지 확인
         if (accessToken != null && accessToken.startsWith("Bearer ")) {
@@ -41,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 Authentication authentication = jwtTokenProvider.getAuthentication(jwtToken);
                 // SecurityContext 에 Authentication 객체를 저장
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-                System.out.println("+++++++++++++++++++++++++++++++++++++++++인증 완료");
 
             } else if (refreshToken != null) {
                 // 리프레시 토큰 검증 && 리프레시 토큰 DB에서 토큰 존재 유무 확인

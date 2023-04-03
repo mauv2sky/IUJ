@@ -2,10 +2,7 @@ package com.iuj.backend.config.jwt;
 
 import com.iuj.backend.api.domain.dto.common.TokenDto;
 import com.iuj.backend.api.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +30,7 @@ public class JwtTokenProvider {
 
     @Value("${spring.jwt.secret}")
     private String secretKey = "secretKey";
-    private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 30 * 60;
+    private final long ACCESS_TOKEN_EXPIRE_TIME = 1000L * 2 * 60; // 2분
     private final long REFRESH_TOKEN_EXPIRE_TIME = 1000L * 24 * 14 * 60 * 60;
 
     @PostConstruct
@@ -124,9 +121,13 @@ public class JwtTokenProvider {
     public boolean validateToken(String jwtToken) {
         LOGGER.info("[validateToken] 토큰 유효성 + 만료일자 확인");
         try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-            return claims.getBody().getExpiration().after(new Date(System.currentTimeMillis()));
-        } catch (Exception e) {
+            Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken).getBody();
+            System.out.println("+++++++++++++++++++++++++++++++ parseClaimsJws");
+            return claims.getExpiration().after(new Date(System.currentTimeMillis()));
+        } catch (ExpiredJwtException e) {
+            e.printStackTrace();
+            return false;
+        } catch (JwtException e) {
             e.printStackTrace();
             return false;
         }
