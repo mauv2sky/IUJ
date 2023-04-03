@@ -4,10 +4,11 @@ import { http } from './axios';
 export const requestSearch = async (query: string) => {
   const res = await http.get('https://dapi.kakao.com/v2/local/search/address.json', {
     headers: {
-      Authorization: '6b0974b03cc37391ccf31bc3bbfcdf8f',
+      Authorization: 'KakaoAK 6b0974b03cc37391ccf31bc3bbfcdf8f',
     },
     params: {
       query,
+      size: 30,
     },
   });
 
