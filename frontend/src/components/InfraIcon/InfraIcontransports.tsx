@@ -14,7 +14,7 @@ function InfraIcontransports(props: Props) {
 
   /** 버튼 클릭 시 */
   const onClickBtn = (type: string) => {
-    console.log(`${type} 위치 요청`);
+    // console.log(`${type} 위치 요청`);
     setSelectedBtn(onoffBtn === type ? '' : type);
     setOnoffBtn(onoffBtn === type ? '' : type);
   };

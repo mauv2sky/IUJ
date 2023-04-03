@@ -24,23 +24,30 @@
       border-bottom: none;
       border-top-left-radius: 7px;
       border-top-right-radius: 7px;
-      font-size: 17px;
+      font-size: 20px;
       transition: background-color 0.2s ease-in-out;
 
       &:hover {
         cursor: pointer;
+        color: $tc;
       }
     }
 
     .selected {
-      font-size: 20px;
-      font-weight: 600;
-      color: black;
+      // font-size: 25px;
+      font-weight: 700;
+      color: $tc;
+      margin: 0 auto;
+      margin-top: 15px;
+      transform: scale(1.05);
     }
 
     .not-selected {
       font-weight: 500;
       color: black;
+      margin: 0 auto;
+      margin-top: 15px;
+      margin-bottom: 10px;
     }
   }
 }

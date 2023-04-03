@@ -3,55 +3,25 @@ import styles from './InfraIconschools.module.scss';
 import { FaSchool } from 'react-icons/fa';
 import { SiHtmlacademy } from 'react-icons/si';
 
-type Props = {};
+type Props = {
+  selectedBtn: string;
+  setSelectedBtn: (btnName: string) => void;
+};
 
 function InfraIconschools(props: Props) {
-  const [selectedBtn, setSelectedBtn] = useState('');
+  const { selectedBtn, setSelectedBtn } = props;
+  const [onoffBtn, setOnoffBtn] = useState('');
 
-  /** 어린이집 버튼 클릭 시 */
-  const onClickBabyBtn = () => {
-    console.log('어린이집 위치 요청');
-    setSelectedBtn(selectedBtn === 'baby' ? '' : 'baby');
-  };
-  /** 유치원 버튼 클릭 시 */
-  const onClickKidBtn = () => {
-    console.log('유치원 위치 요청');
-    setSelectedBtn(selectedBtn === 'kid' ? '' : 'kid');
-  };
-  /** 초등학교 버튼 클릭 시 */
-  const onClickElementaryBtn = () => {
-    console.log('초등학교 위치 요청');
-    setSelectedBtn(selectedBtn === 'elementary' ? '' : 'elementary');
-  };
-  /** 중학교 버튼 클릭 시 */
-  const onClickMiddleBtn = () => {
-    console.log('중학교 위치 요청');
-    setSelectedBtn(selectedBtn === 'middle' ? '' : 'middle');
-  };
-  /** 고등학교 버튼 클릭 시 */
-  const onClickHighBtn = () => {
-    console.log('고등학교 위치 요청');
-    setSelectedBtn(selectedBtn === 'high' ? '' : 'high');
-  };
-  /** 특수학교 버튼 클릭 시 */
-  const onClickHandicappedBtn = () => {
-    console.log('특수학교 위치 요청');
-    setSelectedBtn(selectedBtn === 'handicapped' ? '' : 'handicapped');
-  };
-  /** 입시학원 버튼 클릭 시 */
-  const onClickEntranceBtn = () => {
-    console.log('입시학원 위치 요청');
-    setSelectedBtn(selectedBtn === 'entrance' ? '' : 'entrance');
-  };
-  /** 예체능 버튼 클릭 시 */
-  const onClickArtsBtn = () => {
-    console.log('예체능 위치 요청');
-    setSelectedBtn(selectedBtn === 'arts' ? '' : 'arts');
+  /** 버튼 클릭 시 */
+  const onClickBtn = (type: string) => {
+    // console.log(`${type} 위치 요청`);
+    setSelectedBtn(onoffBtn === type ? '' : type);
+    setOnoffBtn(onoffBtn === type ? '' : type);
   };
   return (
     <div className={styles.component}>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'baby' ? styles.selected : ''}`} onClick={onClickBabyBtn}>
+        <div className={`${styles.iconborder} ${onoffBtn === '어린이집' ? styles.selected : ''}`} onClick={() => onClickBtn('어린이집')}>
           <span className={styles.icon}>
             <FaSchool />
           </span>
@@ -59,7 +29,7 @@ function InfraIconschools(props: Props) {
         <p>어린이집</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'kid' ? styles.selected : ''}`} onClick={onClickKidBtn}>
+        <div className={`${styles.iconborder} ${onoffBtn === '유치원' ? styles.selected : ''}`} onClick={() => onClickBtn('유치원')}>
           <span className={styles.icon}>
             <FaSchool />
           </span>
@@ -67,7 +37,7 @@ function InfraIconschools(props: Props) {
         <p>유치원</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'elementary' ? styles.selected : ''}`} onClick={onClickElementaryBtn}>
+        <div className={`${styles.iconborder} ${onoffBtn === '초등학교' ? styles.selected : ''}`} onClick={() => onClickBtn('초등학교')}>
           <span className={styles.icon}>
             <FaSchool />
           </span>
@@ -75,7 +45,7 @@ function InfraIconschools(props: Props) {
         <p>초등학교</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'middle' ? styles.selected : ''}`} onClick={onClickMiddleBtn}>
+        <div className={`${styles.iconborder} ${onoffBtn === '중학교' ? styles.selected : ''}`} onClick={() => onClickBtn('중학교')}>
           <span className={styles.icon}>
             <FaSchool />
           </span>
@@ -83,7 +53,7 @@ function InfraIconschools(props: Props) {
         <p>중학교</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'high' ? styles.selected : ''}`} onClick={onClickHighBtn}>
+        <div className={`${styles.iconborder} ${onoffBtn === '고등학교' ? styles.selected : ''}`} onClick={() => onClickBtn('고등학교')}>
           <span className={styles.icon}>
             <FaSchool />
           </span>
@@ -91,7 +61,7 @@ function InfraIconschools(props: Props) {
         <p>고등학교</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'handicapped' ? styles.selected : ''}`} onClick={onClickHandicappedBtn}>
+        <div className={`${styles.iconborder} ${onoffBtn === '특수학교' ? styles.selected : ''}`} onClick={() => onClickBtn('특수학교')}>
           <span className={styles.icon}>
             <FaSchool />
           </span>
@@ -99,7 +69,7 @@ function InfraIconschools(props: Props) {
         <p>특수학교</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'entrance' ? styles.selected : ''}`} onClick={onClickEntranceBtn}>
+        <div className={`${styles.iconborder} ${onoffBtn === '입시.검정 및 보습' ? styles.selected : ''}`} onClick={() => onClickBtn('입시.검정 및 보습')}>
           <span className={styles.icon}>
             <SiHtmlacademy />
           </span>
@@ -107,7 +77,7 @@ function InfraIconschools(props: Props) {
         <p>입시학원</p>
       </div>
       <div className={styles.iconall}>
-        <div className={`${styles.iconborder} ${selectedBtn === 'arts' ? styles.selected : ''}`} onClick={onClickArtsBtn}>
+        <div className={`${styles.iconborder} ${onoffBtn === '예체능' ? styles.selected : ''}`} onClick={() => onClickBtn('예체능')}>
           <span className={styles.icon}>
             <SiHtmlacademy />
           </span>

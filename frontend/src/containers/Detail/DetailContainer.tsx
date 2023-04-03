@@ -14,10 +14,6 @@ import icon from '../../assets/icon.png';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setdetailContainerState } from '../../store/slices/detailContainerSlice';
 
-interface DetailContainerProps {
-  detailRelist: DetailType;
-}
-
 /** 건물 타입과 건물 id */
 type Props = {};
 
@@ -31,38 +27,7 @@ function Detailcontainer(props: Props) {
 
   const dispatch = useAppDispatch();
   /** 매물 상세 정보 더미 데이터 */
-  const [detailRelist, setDetailRelist] = useState<DetailType>({
-    Deal: {
-      type: '',
-      maxPrice: 0,
-      minPrice: 0,
-      deals: [
-        {
-          aptId: 0,
-          area: '',
-          author: '',
-          contract_day: '',
-          contract_ym: '',
-          dealType: '',
-          floor: 0,
-          guarantee: 0,
-          id: 0,
-          monthly: 0,
-          price: 0,
-        },
-      ],
-    },
-    home: {
-      id: 0,
-      lat: 0,
-      lng: 0,
-      sigungu: '',
-      bungi: '',
-      name: '',
-      built_year: '',
-      road_addr: '',
-    },
-  });
+  const [detailRelist, setDetailRelist] = useState<DetailType>();
 
   /** 매물 상세 정보 요청 */
   useEffect(() => {
@@ -72,9 +37,6 @@ function Detailcontainer(props: Props) {
       url: APIURL + `/api/place/APT/2`,
     })
       .then((response) => {
-        // console.log('데이터 전송 성공이냐옹');
-        // console.log(response.data);
-        dispatch(setdetailContainerState({ status: true, detailRelist: response.data }));
         setDetailRelist(response.data);
       })
       .catch((error) => {
@@ -87,7 +49,7 @@ function Detailcontainer(props: Props) {
 
   /** 매물 위치를 기반으로 지도 생성 */
   const createMap = async () => {
-    if (window.kakao && window.kakao.maps) {
+    if (window.kakao && window.kakao.maps && detailRelist) {
       let lat;
       let lng;
 
@@ -121,7 +83,6 @@ function Detailcontainer(props: Props) {
           const bounds = map.getBounds();
 
           /** 현재 영역의 매물들 가져옴 */
-          // console.log(bounds.toString(), '로 api 요청');
         }
       } catch (error) {
         console.error(error);
@@ -140,44 +101,128 @@ function Detailcontainer(props: Props) {
   const handleBtnClick = (btnName: string) => {
     /** 기존 맵, 클러스터러 초기화 */
     clusterer.clear();
-
-    /** 백엔드에 인프라 데이터 요청 */
-    console.log(btnName, '제대로 왔냐?');
-    axios({
-      method: 'get',
-      // url: APIURL + `/api/place/${props.type}/${detailRelist.home.id}/${btnName}`,
-      url: APIURL + `/api/place/APT/${detailRelist.home.id}/${btnName}`,
-    })
-      .then((response) => {
-        console.log('데이터 전송 성공이다멍멍');
-        console.log(response.data);
-        setDataList(response.data);
-        /** 마커 이미지 */
-        const markerImage = new kakao.maps.MarkerImage(
-          icon, // 이미지 경로
-          new kakao.maps.Size(30, 30), // 이미지 크기
-        );
-        /** api 요청으로 가져온 마커 리스트 */
-        console.log(btnName);
-        let markers = response.data[btnName].map((data: any) => ({
-          // Computed property name syntax
-          latlng: new window.kakao.maps.LatLng(data.lat, data.lng),
-        }));
-        /** 마커 표시 */
-        for (let i = 0; i < markers.length; i++) {
-          const marker = new kakao.maps.Marker({
-            map,
-            position: markers[i].latlng,
-            image: markerImage,
-          });
-
-          clusterer.addMarker(marker);
-        }
+    if (
+      btnName === '어린이집' ||
+      btnName === '유치원' ||
+      btnName === '초등학교' ||
+      btnName === '중학교' ||
+      btnName === '고등학교' ||
+      btnName === '특수학교' ||
+      btnName === '입시.검정 및 보습' ||
+      btnName === '예체능'
+    ) {
+      /** 백엔드에 인프라 데이터 요청 */
+      axios({
+        method: 'get',
+        // url: APIURL + `/api/place/${props.type}/${detailRelist.home.id}/${btnName}`,
+        url: APIURL + `/api/place/APT/${detailRelist?.home.id}/school`,
       })
-      .catch((error) => {
-        console.error('데이터 전송 실패다멍멍');
-        console.error(error);
-      });
+        .then((response) => {
+          console.log('데이터 전송 성공이다멍멍 학군임');
+          // console.log(response.data);
+
+          if (btnName === '어린이집' || btnName === '유치원' || btnName === '초등학교' || btnName === '중학교' || btnName === '고등학교' || btnName === '특수학교') {
+            response.data.school.map((item: any) => {
+              if (item.type === btnName) {
+                setDataList(item.schools);
+                console.log(item.schools);
+                /** 마커 이미지 */
+                const markerImage = new kakao.maps.MarkerImage(
+                  icon, // 이미지 경로
+                  new kakao.maps.Size(30, 30), // 이미지 크기
+                );
+                /** api 요청으로 가져온 마커 리스트 */
+                let markers = item.schools.map((data: any) => ({
+                  // Computed property name syntax
+                  latlng: new window.kakao.maps.LatLng(data.lat, data.lng),
+                }));
+                /** 마커 표시 */
+                for (let i = 0; i < markers.length; i++) {
+                  const marker = new kakao.maps.Marker({
+                    map,
+                    position: markers[i].latlng,
+                    image: markerImage,
+                  });
+
+                  clusterer.addMarker(marker);
+                }
+                return;
+              }
+            });
+          } else {
+            response.data.academy.map((item: any) => {
+              if (item.type === btnName) {
+                console.log(item.academys);
+                setDataList(item.academys);
+
+                /** 마커 이미지 */
+                const markerImage = new kakao.maps.MarkerImage(
+                  icon, // 이미지 경로
+                  new kakao.maps.Size(30, 30), // 이미지 크기
+                );
+                /** api 요청으로 가져온 마커 리스트 */
+                let markers = item.academys.map((data: any) => ({
+                  // Computed property name syntax
+
+                  latlng: new window.kakao.maps.LatLng(data.lng, data.type),
+                }));
+                /** 마커 표시 */
+                for (let i = 0; i < markers.length; i++) {
+                  const marker = new kakao.maps.Marker({
+                    map,
+                    position: markers[i].latlng,
+                    image: markerImage,
+                  });
+
+                  clusterer.addMarker(marker);
+                }
+                return;
+              }
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('데이터 전송 실패다멍멍 학군임');
+          // console.error(error);
+        });
+    } else {
+      /** 백엔드에 인프라 데이터 요청 */
+      axios({
+        method: 'get',
+        // url: APIURL + `/api/place/${props.type}/${detailRelist.home.id}/${btnName}`,
+        url: APIURL + `/api/place/APT/${detailRelist?.home.id}/${btnName}`,
+      })
+        .then((response) => {
+          console.log('데이터 전송 성공이다멍멍 학군아님');
+          console.log(response.data);
+          setDataList(response.data);
+          /** 마커 이미지 */
+          const markerImage = new kakao.maps.MarkerImage(
+            icon, // 이미지 경로
+            new kakao.maps.Size(30, 30), // 이미지 크기
+          );
+          /** api 요청으로 가져온 마커 리스트 */
+          console.log(btnName);
+          let markers = response.data[btnName].map((data: any) => ({
+            // Computed property name syntax
+            latlng: new window.kakao.maps.LatLng(data.lat, data.lng),
+          }));
+          /** 마커 표시 */
+          for (let i = 0; i < markers.length; i++) {
+            const marker = new kakao.maps.Marker({
+              map,
+              position: markers[i].latlng,
+              image: markerImage,
+            });
+
+            clusterer.addMarker(marker);
+          }
+        })
+        .catch((error) => {
+          console.error('데이터 전송 실패다멍멍 학군아님');
+          console.error(error);
+        });
+    }
   };
   const [tabIndex, setTabIndex] = useState(0);
 
@@ -206,13 +251,13 @@ function Detailcontainer(props: Props) {
             문화
           </div>
         </div>
-        {tabIndex === 0 && <InfraIconschools />}
+        {tabIndex === 0 && <InfraIconschools selectedBtn={''} setSelectedBtn={handleBtnClick} />}
         {tabIndex === 1 && <InfraIcontransports selectedBtn={''} setSelectedBtn={handleBtnClick} />}
         {tabIndex === 2 && <InfraIconamenities selectedBtn={''} setSelectedBtn={handleBtnClick} />}
         {tabIndex === 3 && <InfraIconsecurities selectedBtn={''} setSelectedBtn={handleBtnClick} />}
         {tabIndex === 4 && <InfraIconcultures selectedBtn={''} setSelectedBtn={handleBtnClick} />}
       </div>
-      <DetailInformation detailRelist={detailRelist} />
+      {detailRelist ? <DetailInformation detailRelist={detailRelist} /> : <></>}
     </div>
   );
 }
