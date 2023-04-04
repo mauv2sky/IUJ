@@ -19,7 +19,7 @@ function RealEstateList({ realEstateList, level }: RealEstateListPropsType) {
   };
 
   if (level > 4) {
-    return <div className={styles.component}>지도를 더 확대해주세요!</div>;
+    return <div className={styles.require}>지도를 더 확대해주세요.</div>;
   }
 
   return (
