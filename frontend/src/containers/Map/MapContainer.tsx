@@ -263,7 +263,6 @@ function MapContainer() {
       setRealEstateList(res.data);
 
       const markers = res.data.map((realEstate: RealEstateType) => {
-        /** 마커 점수에 색상 적용 함수 */
         const getMarkerColor = (totalScore: number): string => {
           if (totalScore >= 80) {
             return '#1C81DE';
@@ -276,8 +275,7 @@ function MapContainer() {
           }
         };
 
-        /** 커스텀 오버레이 */
-        const content = (
+        const contentInner = (
           <div className={styles['marker-div']}>
             <BsFillHouseFill
               className={styles.marker}
@@ -287,9 +285,16 @@ function MapContainer() {
             <p>{Math.round(realEstate.total_score)}</p>
           </div>
         );
+
+        const content = window.document.createElement('div');
+        content.innerHTML = ReactDOMServer.renderToString(contentInner);
+        content.addEventListener('click', () => {
+          onClickRealEstate(realEstate.type, realEstate.id);
+        });
+
         const customOverlay = new kakao.maps.CustomOverlay({
           position: new kakao.maps.LatLng(realEstate.latlng[0], realEstate.latlng[1]),
-          content: ReactDOMServer.renderToString(content),
+          content,
           yAnchor: 0.5,
           zIndex: 100,
           clickable: true,
@@ -417,7 +422,7 @@ function MapContainer() {
   /** 매물 클릭 시 */
   const onClickRealEstate = (type: string, id: number) => {
     console.log('상세 페이지로');
-    navigate(`${type}/${id}`);
+    navigate(`../${type}/${id}`);
   };
 
   return (
