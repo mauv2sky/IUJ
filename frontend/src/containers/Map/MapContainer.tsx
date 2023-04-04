@@ -255,13 +255,14 @@ function MapContainer() {
 
     console.log('매물 request: ', requestInfo);
 
-    /** 백엔드에 매물 요청 */
+    /** 매물 요청 */
     try {
       const res = await requestRealEstateList(requestInfo);
       console.log('매물 response: ', res);
 
       setRealEstateList(res.data);
 
+      /** 커스텀 */
       const markers = res.data.map((realEstate: RealEstateType) => {
         const getMarkerColor = (totalScore: number): string => {
           if (totalScore >= 80) {
