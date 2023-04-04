@@ -40,7 +40,7 @@ public class AcademyService {
                     academy.getType(),
                     academy.getAddr(),
                     distance
-            );
+            );  
             String AcademyType = academy.getType();
             List<AcademyDto> academyList = academyMap.getOrDefault(AcademyType, new ArrayList<>());
             academyList.add(academyDto);
