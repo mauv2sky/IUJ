@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './DetailInformation.module.scss';
 import FacilityList, { FacilityType } from '../../components/FacilityList/FacilityList';
 import axios from 'axios';
-import DealData, { DealType } from '../../components/DealData/DealData';
+import DealData from '../../components/DealData/DealData';
 // import DealData from '../../components/DealData/DealData';
 
 /** 프롭스 받은 매물 상세 정보 */
@@ -24,11 +24,21 @@ export type DetailType = {
       monthly: number;
       price: number;
     }[];
+  }[];
+  home: {
+    id: number;
+    lat: number;
+    lng: number;
+    sigungu: string;
+    bungi: string;
+    name: string;
+    built_year: string;
+    road_addr: string;
   };
-  home: { id: number; lat: number; lng: number; sigungu: string; bungi: string; name: string; built_year: string; road_addr: string };
 };
 /** 프롭스 받은 매물 상세 정보 */
-type DetailPropsType = {
+export type DetailPropsType = {
+  // home: any;
   detailRelist: DetailType;
 };
 
@@ -65,7 +75,9 @@ interface StudyType {
 /** APIURL */
 const APIURL = 'http://localhost:5000';
 
-function DetailInformation({ detailRelist }: DetailPropsType) {
+function DetailInformation(detailRelist: DetailPropsType) {
+  // console.log('detailRelist', detailRelist);
+  const detaillist = detailRelist.detailRelist;
   const [schoolRelist, setSchoolRelist] = useState<StudyType>({
     school: [
       {
@@ -138,7 +150,7 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
       <div className={styles.information}>
         <div className={styles.deal}>최근 1년간 실거래</div>
         <div className={styles.costdata}>
-          <DealData dealRelist={detailRelist} />
+          <DealData detailRelist={detaillist} />
         </div>
 
         <div className={styles.school}>인근 학교 정보</div>
@@ -167,12 +179,12 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
             <div key={index}>
               {item && (
                 <div>
-                  {tabIndex === 0 && <FacilityList facilitylist={item.type === '어린이집' ? item.schools : []} />}
-                  {tabIndex === 1 && <FacilityList facilitylist={item.type === '유치원' ? item.schools : []} />}
-                  {tabIndex === 2 && <FacilityList facilitylist={item.type === '초등학교' ? item.schools : []} />}
-                  {tabIndex === 3 && <FacilityList facilitylist={item.type === '중학교' ? item.schools : []} />}
-                  {tabIndex === 4 && <FacilityList facilitylist={item.type === '고등학교' ? item.schools : []} />}
-                  {tabIndex === 5 && <FacilityList facilitylist={item.type === '특수학교' ? item.schools : []} />}
+                  {tabIndex === 0 && item.type === '어린이집' && <FacilityList facilitylist={item.type === '어린이집' ? item.schools : []} />}
+                  {tabIndex === 1 && item.type === '유치원' && <FacilityList facilitylist={item.type === '유치원' ? item.schools : []} />}
+                  {tabIndex === 2 && item.type === '초등학교' && <FacilityList facilitylist={item.type === '초등학교' ? item.schools : []} />}
+                  {tabIndex === 3 && item.type === '중학교' && <FacilityList facilitylist={item.type === '중학교' ? item.schools : []} />}
+                  {tabIndex === 4 && item.type === '고등학교' && <FacilityList facilitylist={item.type === '고등학교' ? item.schools : []} />}
+                  {tabIndex === 5 && item.type === '특수학교' && <FacilityList facilitylist={item.type === '특수학교' ? item.schools : []} />}
                 </div>
               )}
             </div>
@@ -192,8 +204,8 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
             <div key={index}>
               {item && (
                 <div>
-                  {tabIndex2 === 0 && <FacilityList facilitylist={item.type === '입시.검정 및 보습' ? item.academys : []} />}
-                  {tabIndex2 === 1 && <FacilityList facilitylist={item.type === '예체능' ? item.academys : []} />}
+                  {tabIndex2 === 0 && item.type === '입시.검정 및 보습' && <FacilityList facilitylist={item.type === '입시.검정 및 보습' ? item.academys : []} />}
+                  {tabIndex2 === 1 && item.type === '예체능' && <FacilityList facilitylist={item.type === '예체능' ? item.academys : []} />}
                 </div>
               )}
             </div>
@@ -201,12 +213,12 @@ function DetailInformation({ detailRelist }: DetailPropsType) {
         </div>
       </div>
       <div className={styles.title}>
-        <div className={styles.type}>{detailRelist.home.built_year}</div>
-        <div className={styles.name}>{detailRelist.home.name}</div>
+        <div className={styles.type}>{detaillist.home.built_year}</div>
+        <div className={styles.name}>{detaillist.home.name}</div>
         <div className={styles.address}>
-          {detailRelist.home.sigungu} {detailRelist.home.bungi}
+          {detaillist.home.sigungu} {detaillist.home.bungi}
         </div>
-        <div className={styles.address}>{detailRelist.home.road_addr}</div>
+        <div className={styles.address}>{detaillist.home.road_addr}</div>
         <button className={styles.interestbutton} onClick={onClickInterestBtn}>
           관심 매물 등록
         </button>

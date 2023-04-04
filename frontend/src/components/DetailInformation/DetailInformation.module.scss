@@ -3,7 +3,7 @@
 
 .component {
   width: 100%;
-  height: 1800px;
+  height: 2200px;
   // overflow: hidden;
   .tab {
     display: flex;
@@ -25,13 +25,14 @@
 
       &:hover {
         cursor: pointer;
+        color: $tc;
       }
     }
 
     .selected {
       font-size: 20px;
       font-weight: 600;
-      color: black;
+      color: $tc;
     }
 
     .not-selected {
@@ -52,7 +53,7 @@
   width: 350px;
   height: 300px;
   position: sticky;
-  top: 80px;
+  top: 120px;
   border-radius: 5px;
   box-shadow: 1px 1px 1px 1px rgb(70, 70, 70, 0.6);
 }
@@ -64,7 +65,7 @@
 .costdata {
   width: 100%;
   height: 800px;
-  border-bottom: 1px solid $lfc;
+  // border-bottom: 1px solid $lfc;
 }
 .study {
   width: 100%;
@@ -108,37 +109,38 @@
   width: 290px;
   height: 50px;
   border: 0px;
-  background-color: $tc;
+  background-color: $sc;
   font-size: larger;
   font-weight: 800;
   color: white;
   letter-spacing: 1.5px;
   &:hover {
     cursor: pointer;
-    border: 1px solid black;
+    background-color: $tc;
+    // transform: scale(1.05);
   }
 }
 .deal {
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 1000;
   margin-left: 35px;
   margin-bottom: 20px;
 }
 .school {
   font-size: 30px;
-  font-weight: 700;
+  font-weight: 1000;
   margin: 35px;
   margin-top: 100px;
 }
 .schooltap {
   width: 100%;
-  height: auto;
-  overflow: hidden;
-  // border-bottom: 1px solid $lfc;
+  height: 600px;
+
+  // overflow: hidden;
 }
 .schooltap2 {
   width: 100%;
-  height: auto;
-  overflow: hidden;
+  height: 600px;
+  // overflow: hidden;
   margin-bottom: 200px;
 }
