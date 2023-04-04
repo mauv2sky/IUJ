@@ -21,7 +21,7 @@ public class TokenController {
 
     @GetMapping("/refresh")
     public void refreshAuth(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String token = jwtTokenProvider.resolveToken(request);
+        String token = jwtTokenProvider.resolveToken(request, "Refresh");
 
         // 유효한 토큰인지 확인
         if (token != null && token.startsWith("Bearer ")) {
@@ -30,8 +30,8 @@ public class TokenController {
                 String email = jwtTokenProvider.getUserEmail(jwtToken);
                 TokenDto tokenDto = jwtTokenProvider.generateAllToken(email, "USER");
 
-                response.addHeader("Bearer", tokenDto.getAccessToken());
-                response.addHeader("Refresh", tokenDto.getRefreshToken());
+                response.addHeader("access_token", tokenDto.getAccessToken());
+                response.addHeader("refresh_token", tokenDto.getRefreshToken());
                 response.setContentType("application/json;charset=UTF-8");
 
                 PrintWriter writer = response.getWriter();
