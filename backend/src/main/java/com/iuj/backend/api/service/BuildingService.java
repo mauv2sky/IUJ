@@ -4,9 +4,10 @@ import com.iuj.backend.api.domain.dto.common.BoundDto;
 import com.iuj.backend.api.domain.dto.mapping.LocationMapping;
 import com.iuj.backend.api.domain.dto.request.PlaceMainRequest;
 import com.iuj.backend.api.domain.dto.response.BuildingDto;
+import com.iuj.backend.api.domain.entity.BuildingPhoto;
 import com.iuj.backend.api.domain.entity.building.Score;
-import com.iuj.backend.api.domain.entity.building.ScoreId;
 import com.iuj.backend.api.domain.enums.BuildingType;
+import com.iuj.backend.api.repository.BuildingPhotoRepository;
 import com.iuj.backend.api.repository.building.AptRepository;
 import com.iuj.backend.api.repository.building.JDBCBuildingRepository;
 import com.iuj.backend.api.repository.building.OfficetelRepository;
@@ -16,9 +17,7 @@ import com.iuj.backend.util.ScoreUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,8 +27,11 @@ public class BuildingService {
     private final OfficetelRepository officetelRepository;
     private final VillaRepository villaRepository;
     private final ScoreRepository scoreRepository;
+    private final BuildingPhotoRepository photoRepository;
 
+    // 건물 모든 정보를 가져올 때 사용
     private final JDBCBuildingRepository jdbcBuildingRepository;
+
 
     public List<BuildingDto> getBuildingList(PlaceMainRequest request){
         BuildingType buildingType = request.getType();
@@ -40,7 +42,7 @@ public class BuildingService {
 
         if(level > 9) {
             throw new IllegalArgumentException();
-        } else if(level > 3){
+        } else if(level > 4){
             List<LocationMapping> locList;
 
             if(buildingType.equals(BuildingType.APT)) {
@@ -65,26 +67,50 @@ public class BuildingService {
                     .collect(Collectors.toList());
         }
 
-        // 점수 추가
-        if(!buildingList.isEmpty()){
-            for(BuildingDto building : buildingList){
-                building.setType(buildingType);
-                if(request.getLevel() < 9) {
-                    if (request.getRecomm() == null){
-                        ScoreId id = new ScoreId(building.getId(), building.getType().getName().toUpperCase());
-                        Score score = scoreRepository.findById(id).orElse(new Score());
-                        building.setTotalScore(ScoreUtil.getBasicScore(score));
-                    } else {
-                        ScoreId id = new ScoreId(building.getId(), building.getType().getName().toUpperCase());
-                        Score score = scoreRepository.findById(id).orElse(new Score());
-                        LinkedHashMap<String, Integer> scoreMap = ScoreUtil.getScoreMap(request.getRecomm(), score);
-                        building.setScore(scoreMap);
-                        building.setTotalScore(ScoreUtil.getTotalScoreByRecomm(scoreMap, score));
-                    }
-                }
+        // 건물 리스트에서 아이디 추출
+        List<Long> idList = new ArrayList<>();
+        for(BuildingDto building : buildingList){
+            idList.add(building.getId());
+        }
+
+        // 건물 DTO에 사진 추가
+        List<BuildingPhoto> photoList = photoRepository.getScoreByTypeAndIdIsIn(buildingType.getName().toUpperCase(), idList);
+        for(BuildingDto building : buildingList){
+            BuildingPhoto photo = photoList.stream().filter(o -> Objects.equals(o.getId(), building.getId())).findFirst().orElse(null);
+            if(photo != null){
+                building.setImg(photo.getLink());
             }
         }
-        Collections.sort( buildingList, (o1, o2) -> (int) (o2.getTotalScore()*10 - o1.getTotalScore()*10));
+
+        // 점수 추가
+        if(!buildingList.isEmpty() && request.getLevel() <= 4){
+
+            // building list 아이디로 점수 가져오기
+            List<Score> scoreList = scoreRepository.getScoreByTypeAndIdIsIn(buildingType.getName().toUpperCase(), idList);
+            System.out.println(scoreList);
+
+
+            // 가져온 점수랑 건물 매칭
+            if (request.getRecomm() == null){
+                for(BuildingDto building : buildingList){
+                    Score score = scoreList.stream().filter(o -> Objects.equals(o.getId(), building.getId())).findFirst().orElse(new Score());
+                    building.setTotalScore(ScoreUtil.getBasicScore(score));
+                }
+                // 점수 있을 때, 총점에 따라 정렬
+                Collections.sort( buildingList, (o1, o2) -> (int) (o2.getTotalScore()*10 - o1.getTotalScore()*10));
+            } else {
+                for(BuildingDto building : buildingList){
+                    Score score = scoreList.stream().filter(o -> Objects.equals(o.getId(), building.getId())).findFirst().orElse(new Score());
+                    LinkedHashMap<String, Integer> scoreMap = ScoreUtil.getScoreMap(request.getRecomm(), score);
+                    building.setScore(scoreMap);
+                    building.setTotalScore(ScoreUtil.getTotalScoreByRecomm(scoreMap, score));
+                }
+                // 점수 있을 때, 총점에 따라 정렬
+                Collections.sort( buildingList, (o1, o2) -> (int) (o2.getTotalScore()*10 - o1.getTotalScore()*10));
+            }
+        }
+
+        buildingList.forEach(b -> b.setType(buildingType));
         return buildingList;
     }
 
