@@ -40,7 +40,7 @@ public class AcademyService {
                     academy.getType(),
                     academy.getAddr(),
                     distance
-            );  
+            );
             String AcademyType = academy.getType();
             List<AcademyDto> academyList = academyMap.getOrDefault(AcademyType, new ArrayList<>());
             academyList.add(academyDto);
@@ -58,40 +58,6 @@ public class AcademyService {
 
     }
 
-//    public List<AcademyTypeDto> findNearByAcademy(String lat, String lng){
-//        Near near = new Near();
-//        String[] latlng = near.calLatLng(lat, lng);
-//
-//        List<Academy> academys = academyRepository.findAllAcademyBtwlatAndlat(latlng[0],latlng[1],latlng[2],latlng[3]);
-//
-//        Map<String, List<AcademyDto>> academyMap = new HashMap<>();
-//
-//        for (Academy academy : academys) {
-//            AcademyDto academyDto = new AcademyDto(
-//                    academy.getId(),
-//                    academy.getName(),
-//                    academy.getType(),
-//                    academy.getLat(),
-//                    academy.getLng(),
-//                    academy.getAddr()
-//            );
-//            String academyType = academy.getType();
-//            List<AcademyDto> academyList = academyMap.getOrDefault(academyType, new ArrayList<>());
-//            academyList.add(academyDto);
-//            academyMap.put(academyType, academyList);
-//
-//        }
-//
-//        List<AcademyTypeDto> academyTypeDtos = new ArrayList<>();
-//        for(Map.Entry<String, List<AcademyDto>> entry : academyMap.entrySet()){
-//            String academyType = entry.getKey();
-//            List<AcademyDto> academyList = entry.getValue();
-//            AcademyTypeDto academyTypeDto = new AcademyTypeDto(academyType, academyList);
-//            academyTypeDtos.add(academyTypeDto);
-//        }
-//
-//        return academyTypeDtos;
-//    }
 //  거리 계산 메소드
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         double R = 6371; // Radius of the earth in km
