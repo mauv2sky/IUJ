@@ -17,9 +17,9 @@
 
   & p {
     margin: 30px auto 0 auto;
-    height: 50px;
+    height: 40px;
     font-size: 35px;
-    animation: fade-in 3s ease-in-out;
+    animation: fade-in 4s ease-in-out;
 
     @keyframes fade-in {
       0% {
@@ -31,11 +31,11 @@
     }
 
     & span {
-      animation: twinkle 5s infinite ease-in-out;
+      animation: twinkle 4s infinite ease-in-out;
 
       @keyframes twinkle {
         0% {
-          opacity: 0.5;
+          opacity: 0.65;
           color: #b18d87;
         }
         33% {
@@ -43,11 +43,11 @@
           color: #769bb8;
         }
         66% {
-          opacity: 0.75;
+          opacity: 0.8;
           color: #b4ae8d;
         }
         100% {
-          opacity: 0.5;
+          opacity: 0.65;
           color: #b18d87;
         }
       }
@@ -55,7 +55,7 @@
   }
 
   #login {
-    margin: 100px 0 0 0;
+    margin: 70px 0 0 0;
     width: 300px;
 
     &:hover {
