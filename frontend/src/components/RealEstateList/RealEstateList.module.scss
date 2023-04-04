@@ -17,3 +17,27 @@
     border-radius: 5px;
   }
 }
+
+.require {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+  max-height: calc(100% - 58.19px);
+  height: 100%;
+  color: $ffc;
+  font-size: 22px;
+  animation: twinkle 1.5s infinite ease-in-out;
+
+  @keyframes twinkle {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
