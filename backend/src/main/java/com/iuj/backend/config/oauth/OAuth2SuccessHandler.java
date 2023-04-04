@@ -22,6 +22,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Component
@@ -44,6 +45,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         // access token 과 refresh token 발급
         TokenDto tokenDto = tokenProvider.generateAllToken(userDto.getEmail(), "USER");
+        tokenDto.setUserName(user.getNickname());
         log.info("{}", tokenDto);
 
         if(user == null) { // user DB 저장
@@ -56,11 +58,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             user.setRefreshToken(tokenDto.getRefreshToken());
             userRepository.save(user);
         }
-
-        resultRedirectStrategy(request, response, tokenDto, userDto);
+        resultRedirectStrategy(request, response, tokenDto);
     }
 
-    private void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response, TokenDto tokenDto, UserDto userDto) throws IOException, ServletException {
+    private void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response, TokenDto tokenDto) throws IOException, ServletException {
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
@@ -70,16 +71,20 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                     .queryParam("access_token", tokenDto.getAccessToken())
                     .queryParam("refresh_token", tokenDto.getRefreshToken())
                     .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
-                    .queryParam("user_name", userDto.getNickname())
+                    .queryParam("user_name", tokenDto.getUserName())
+                    .encode(StandardCharsets.UTF_8)
                     .build().toUriString();
+
             redirectStrategy.sendRedirect(request, response, targetUrl);
         } else { // 소셜로그인 요청일 경우
             String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173")
                     .queryParam("access_token", tokenDto.getAccessToken())
                     .queryParam("refresh_token", tokenDto.getRefreshToken())
                     .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
-                    .queryParam("user_name", userDto.getNickname())
+                    .queryParam("user_name", tokenDto.getUserName())
+                    .encode(StandardCharsets.UTF_8)
                     .build().toUriString();
+
             redirectStrategy.sendRedirect(request, response, targetUrl);
         }
     }
