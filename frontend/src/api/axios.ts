@@ -2,8 +2,9 @@ import axios, { AxiosInstance } from 'axios';
 import { requestUpdateToken } from './auth';
 
 export const http: AxiosInstance = axios.create({
-  baseURL: 'https://j8e103.p.ssafy.io/',
+  // baseURL: 'http://j8e103.p.ssafy.io/',
   // baseURL: 'http://localhost:5000/',
+  baseURL: 'http://172.17.0.1:5000/',
   withCredentials: true,
 });
 
