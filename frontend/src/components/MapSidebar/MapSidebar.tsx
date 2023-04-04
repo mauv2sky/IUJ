@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
+import { RealEstateType } from '../../types/MapType';
 import PriorityList from '../PriorityList/PriorityList';
 import RealEstateList from '../RealEstateList/RealEstateList';
 import SetPriority from '../SetPriority/SetPriority';
 import styles from './MapSidebar.module.scss';
 
-function MapSidebar() {
+export type RealEstateListPropsType = {
+  realEstateList: RealEstateType[];
+  level: number;
+};
+
+function MapSidebar({ realEstateList, level }: RealEstateListPropsType) {
   const [tabIndex, setTabIndex] = useState(0);
 
   const onClickTab = (index: number) => {
@@ -21,12 +27,12 @@ function MapSidebar() {
           선호 순위 목록
         </div>
         <div onClick={() => onClickTab(2)} className={tabIndex === 2 ? styles.selected : styles['not-selected']}>
-          매물 목록
+          실거래 목록
         </div>
       </div>
       {tabIndex === 0 && <SetPriority />}
       {tabIndex === 1 && <PriorityList />}
-      {tabIndex === 2 && <RealEstateList />}
+      {tabIndex === 2 && <RealEstateList realEstateList={realEstateList} level={level} />}
     </div>
   );
 }

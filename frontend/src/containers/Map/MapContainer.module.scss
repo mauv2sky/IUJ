@@ -7,4 +7,247 @@
   padding: 80px 0 0 0;
   display: flex;
   background-color: white;
+
+  .option {
+    position: absolute;
+    display: flex;
+    z-index: 10;
+    top: 10.5%;
+    left: 27%;
+
+    .option-item {
+      position: relative;
+      margin: 0 20px 0 0;
+
+      & > button {
+        height: 35px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: white;
+        border: 2px solid $tc;
+        border-radius: 5px;
+        font-size: 17px;
+        color: $ffc;
+        transition: all 0.2s ease-in-out;
+
+        & span {
+          min-width: 100px;
+        }
+
+        &:hover {
+          cursor: pointer;
+          background-color: rgb(250, 250, 250);
+        }
+      }
+
+      .selected-btn {
+        color: $tc;
+      }
+
+      & > div {
+        position: absolute;
+        top: 45px;
+        left: 0;
+        padding: 20px 20px 30px 20px;
+        border: 1px solid $tc;
+        border-radius: 5px;
+        background-color: white;
+
+        .option-title {
+          font-size: 20px;
+          margin-bottom: 2rem;
+        }
+
+        .amount-content {
+          color: rgb(57, 117, 201);
+        }
+      }
+
+      & svg {
+        font-size: 18px;
+      }
+
+      .option-btn-div {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0 0 0;
+
+        & button {
+          padding: 0.5rem 1rem;
+          border-radius: 5px;
+          border: none;
+          background-color: $tc;
+          font-size: 18px;
+          color: white;
+
+          &:hover {
+            cursor: pointer;
+            background-color: $sc;
+          }
+        }
+      }
+
+      .type-btn {
+        width: 160px;
+      }
+
+      .type-div {
+        width: 120px;
+
+        .type-item {
+          margin: 0.5rem 0 0 0;
+          padding: 0.7rem 0 0.7rem 0.5rem;
+          border-radius: 5px;
+
+          &:hover {
+            cursor: pointer;
+            background-color: $hover;
+          }
+        }
+      }
+
+      .deal-type-btn {
+        padding: 0 1.5rem;
+
+        & p {
+          margin: 0 1.6rem 0 0;
+        }
+      }
+
+      .deal-type-div {
+        width: 300px;
+
+        .deal-type {
+          border-bottom: 1px solid $lfc;
+          margin: 0 0 20px 0;
+          padding: 0 0 1.5rem 0;
+
+          & label {
+            margin: 1rem 1rem 0 0;
+            font-size: 17px;
+          }
+        }
+
+        & div {
+          & p {
+            display: flex;
+            margin: 0 0 1.5rem 0;
+            font-size: 17px;
+
+            .amount-title {
+              margin: 0 1rem 0 0;
+            }
+          }
+        }
+      }
+
+      .extent-btn {
+        padding: 0 1.5rem;
+
+        & span {
+          margin: 0 1.5rem 0 0;
+        }
+      }
+
+      .extent-div {
+        width: 300px;
+      }
+
+      .floor-div {
+        width: 220px;
+      }
+    }
+  }
+
+  .search {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    top: 10.5%;
+    right: 1%;
+    height: 37px;
+    padding: 0 10px;
+    border: 2px solid $tc;
+    border-radius: 5px;
+    background-color: white;
+
+    & input {
+      margin: 0 0 0 15px;
+      height: 35px;
+      border: none;
+      border-radius: 5px;
+      background-color: inherit;
+      font-size: 17px;
+    }
+
+    & svg {
+      font-size: 20px;
+      color: grey;
+    }
+  }
+
+  .search-result {
+    position: absolute;
+    z-index: 10;
+    top: 15.5%;
+    right: 1%;
+  }
+
+  .applied-priority {
+    position: absolute;
+    z-index: 10;
+    bottom: 2%;
+    right: 1%;
+  }
+
+  .shadow {
+    position: absolute;
+    z-index: 9;
+    width: 420px;
+    height: 86px;
+    bottom: 2%;
+    right: 1%;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgb(95, 142, 200);
+    animation: fade-in-out 2s ease-in-out infinite;
+
+    @keyframes fade-in-out {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  }
+}
+
+.marker-div {
+  z-index: 100;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
+
+  .marker {
+    font-size: 40px;
+  }
+
+  & p {
+    position: absolute;
+    top: 45%;
+    color: white;
+  }
 }

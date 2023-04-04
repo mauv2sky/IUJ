@@ -1,54 +1,45 @@
 import React, { useEffect, useRef, useState } from 'react';
 import CountUp from 'react-countup';
 import { RiQuestionnaireFill } from 'react-icons/ri';
+import { pretreatAmount } from '../../utils/PretreatAmount';
+import { RealEstateType } from '../../types/MapType';
+import { TypeMappingType } from '../../types/MapType';
+import { typeMap } from '../../containers/Map/MapContainer';
 import test from '../../assets/test.jpg';
 import styles from './RealEstateItem.module.scss';
+import { useNavigate } from 'react-router';
 
-export type RealEstateType = {
-  place: {
-    id: number;
-    name: string;
-    type: string;
-    address: string[];
-    total_score: number;
-    score: {
-      [kind: string]: number | undefined;
-    };
-    average_deal: {
-      deal_type: string;
-      price: number;
-      guarantee: number;
-      monthly: number;
-    };
-    range_extent: number[];
-    range_floor: number[];
-  };
+const dealTypeMap: TypeMappingType = {
+  BUY: '매매',
+  LONG_TERM_RENT: '전세',
+  MONTHLY_RENT: '월세',
 };
 
 type RealEstatePropsType = {
-  RE: RealEstateType;
+  realEstate: RealEstateType;
   scrollY: number;
 };
 
-function RealEstateItem({ RE, scrollY }: RealEstatePropsType) {
+function RealEstateItem({ realEstate, scrollY }: RealEstatePropsType) {
   /** =================================== 변수, useState, useRef =================================== */
   const [showGraph, setShowGraph] = useState<boolean>(false);
   const graphRef = useRef<HTMLDivElement>(null);
   const graphInnerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   /** =================================== useEffect =================================== */
   /** 물음표 버튼을 누르면 옆에 그래프가 뜨도록 함 */
-  /** css로 하면 absolute로 해도 overflow로 처리되는 문제로 인해 JS로 처리 */
+  /** css로 하면 absolute 요소가 overflow로 처리되는 문제로 인해 JS로 처리 */
   useEffect(() => {
-    const graphBtn = document.getElementById('graph-btn' + RE.place.type + RE.place.id.toString());
+    const graphBtn = document.getElementById('graph-btn' + realEstate.type + realEstate.id.toString());
     graphBtn?.addEventListener('click', function () {
-      const component = document.getElementById('component' + RE.place.type + RE.place.id.toString());
-      const graph = document.getElementById('graph' + RE.place.type + RE.place.id.toString());
+      const component = document.getElementById('component' + realEstate.type + realEstate.id.toString());
+      const graph = document.getElementById('graph' + realEstate.type + realEstate.id.toString());
       const componentPos = component?.getBoundingClientRect();
 
       if (graph && componentPos && component) {
-        graph.style.height = getComputedStyle(component).height;
-        graph.style.width = getComputedStyle(component).width;
+        graph.style.height = 200 + 'px';
+        graph.style.width = 500 + 'px';
         graph.style.top = componentPos.top + 'px';
         graph.style.left = componentPos.left + component.offsetWidth + 10 + 'px';
       }
@@ -90,70 +81,86 @@ function RealEstateItem({ RE, scrollY }: RealEstatePropsType) {
     }, 500);
   };
 
-  /** 매매가, 보증금, 월세 보기 쉽게 전처리 */
-  const pretreatAmount = (amount: number) => {
-    if (amount > 10000 && amount % 10000) {
-      const tmp = amount.toString();
-      const result = tmp.substring(0, 1) + '억 ' + tmp.substring(1, tmp.length) + '만';
-      return result;
-    } else if (amount % 10000 === 0) {
-      const tmp = amount.toString();
-      const result = tmp.substring(0, 1) + '억';
-      return result;
-    } else {
-      return amount.toString() + '만';
-    }
+  /** 주소 전처리 */
+  const pretreatAddress = (address: string) => {
+    const addressList = address.split(' ').slice(0, 3);
+    return addressList[0] + ' ' + addressList[1] + ' ' + addressList[2];
+  };
+
+  /** 매물 클릭 시 */
+  const onClickRealEstate = (type: string, id: number) => {
+    navigate(`../${type}/${id}`);
   };
 
   return (
-    <div id={'component' + RE.place.type + RE.place.id.toString()} className={styles.component}>
-      <p className={styles.name}>{RE.place.name}</p>
+    <div id={'component' + realEstate.type + realEstate.id.toString()} className={styles.component}>
+      <p
+        className={styles.name}
+        onClick={() => {
+          onClickRealEstate(realEstate.type, realEstate.id);
+        }}
+      >
+        {realEstate.name}
+      </p>
       <div className={styles['component-inner']}>
-        <div className={styles.left}>
-          <div className={styles.img} style={{ backgroundImage: `url(${test})` }}>
+        <div
+          className={styles.left}
+          onClick={() => {
+            onClickRealEstate(realEstate.type, realEstate.id);
+          }}
+        >
+          <div className={styles.img} style={{ backgroundImage: `url(${realEstate.img ? realEstate.img : test})` }}>
             <p className={styles.type}>
-              <span>{RE.place.type}</span> <span>{RE.place.average_deal.deal_type}</span>
+              <span>{typeMap[realEstate.type]}</span> <span>{dealTypeMap[realEstate.average_deal?.deal_type as string]}</span>
             </p>
           </div>
         </div>
         <div className={styles['content']}>
-          {RE.place.average_deal.deal_type === '월세' && (
+          {realEstate.average_deal?.deal_type === 'MONTHLY' && (
             <p className={styles.price}>
-              평균 {pretreatAmount(RE.place.average_deal.guarantee)} / {pretreatAmount(RE.place.average_deal.monthly)}
+              평균 {pretreatAmount(realEstate.average_deal.guarantee)} / {pretreatAmount(realEstate.average_deal.monthly)}
             </p>
           )}
-          {RE.place.average_deal.deal_type === '전세' && <p className={styles.price}>평균 {pretreatAmount(RE.place.average_deal.guarantee)}</p>}
-          {RE.place.average_deal.deal_type === '매매' && <p className={styles.price}>평균 {pretreatAmount(RE.place.average_deal.price)}</p>}
-          <p className={styles.address}>{RE.place.address}</p>
-          <p className={styles.extent}>
-            전용면적(㎡): {RE.place.range_extent[0]} ~ {RE.place.range_extent[1]}
-          </p>
-          <p className={styles.floor}>
-            층수: {RE.place.range_floor[0]} ~ {RE.place.range_floor[1]}
-          </p>
+          {realEstate.average_deal?.deal_type === 'LONG_TERM_RENT' && <p className={styles.price}>평균 {pretreatAmount(realEstate.average_deal.guarantee)}</p>}
+          {realEstate.average_deal?.deal_type === 'BUY' && <p className={styles.price}>평균 {pretreatAmount(realEstate.average_deal.price)}</p>}
+          {realEstate.address && <p className={styles.address}>{pretreatAddress(realEstate.address[1])}</p>}
+          {realEstate.range_extent && (
+            <p className={styles.extent}>
+              전용면적(㎡): {Math.round(realEstate.range_extent[0] * 100) / 100} ~ {Math.round(realEstate.range_extent[1] * 100) / 100}
+            </p>
+          )}
+          {realEstate.range_floor && (
+            <p className={styles.floor}>
+              층수: {realEstate.range_floor[0]} ~ {realEstate.range_floor[1]}
+            </p>
+          )}
           <div className={styles.score}>
             <span>추천 점수: </span>
             <div>
-              {RE.place.total_score < 70 && <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." />}
-              {RE.place.total_score >= 70 && RE.place.total_score < 90 && (
-                <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." style={{ fontWeight: '600' }} />
+              {realEstate.total_score < 70 && <CountUp end={realEstate.total_score} duration={1} decimals={2} decimal="." />}
+              {realEstate.total_score >= 70 && realEstate.total_score < 90 && (
+                <CountUp end={realEstate.total_score} duration={1} decimals={2} decimal="." style={{ fontWeight: '600' }} />
               )}
-              {RE.place.total_score >= 90 && (
-                <CountUp end={RE.place.total_score} duration={1} decimals={2} decimal="." style={{ color: 'rgba(161, 188, 215, 1)', fontWeight: '600' }} />
+              {realEstate.total_score >= 90 && (
+                <CountUp end={realEstate.total_score} duration={1} decimals={2} decimal="." style={{ color: 'rgba(161, 188, 215, 1)', fontWeight: '600' }} />
               )}
             </div>
-            <RiQuestionnaireFill id={'graph-btn' + RE.place.type + RE.place.id.toString()} onClick={onClickGraphBtn} />
+            <RiQuestionnaireFill className={styles['graph-btn']} id={'graph-btn' + realEstate.type + realEstate.id.toString()} onClick={onClickGraphBtn} />
           </div>
         </div>
       </div>
-      <div ref={graphRef} id={'graph' + RE.place.type + RE.place.id.toString()} className={showGraph ? styles['graph-show'] : styles['graph-no-show']}>
+      <div ref={graphRef} id={'graph' + realEstate.type + realEstate.id.toString()} className={showGraph ? styles['graph-show'] : styles['graph-no-show']}>
         <div ref={graphInnerRef} className={styles['graph-inner']}>
-          {Object.entries(RE.place.score).map((data) => (
-            <div key={data[0]} className={styles['graph-item']} style={{ height: `${data[1]}%` }}>
-              <p className={styles['graph-item-kind']}>{data[0]}</p>
-              <div className={styles['graph-item-stick']} />
-            </div>
-          ))}
+          {realEstate.score &&
+            Object.entries(realEstate.score).map((data) => (
+              <div key={data[0]} className={styles['graph-item']} style={{ height: `${data[1]}%` }}>
+                <p className={styles['graph-item-kind']}>{data[0]}</p>
+                <p className={styles['graph-item-kind']} style={{ color: 'skyblue' }}>
+                  {data[1]}
+                </p>
+                <div className={styles['graph-item-stick']} />
+              </div>
+            ))}
         </div>
       </div>
     </div>

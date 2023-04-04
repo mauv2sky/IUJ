@@ -14,6 +14,11 @@
     margin: 0.5rem 0 0 15px;
     font-size: 22px;
     font-weight: 600;
+
+    &:hover {
+      cursor: pointer;
+      color: $tc;
+    }
   }
 
   .component-inner {
@@ -25,6 +30,10 @@
       width: 235px;
       margin: 0 15px 0 0;
 
+      &:hover {
+        cursor: pointer;
+      }
+
       .img {
         position: relative;
         width: 235px;
@@ -33,6 +42,10 @@
         background-position: center;
         background-size: 235px 149px;
         transition: background-size 0.3s ease-in-out;
+
+        &:hover {
+          background-size: 255px 161px;
+        }
       }
 
       .type {
@@ -121,11 +134,12 @@
   }
 
   &:hover {
-    cursor: pointer;
-    background-color: rgba(255, 250.5, 250.5);
+    background-color: $hover;
+  }
 
-    .component-inner .img {
-      background-size: 271px 171px;
+  .graph-btn {
+    &:hover {
+      cursor: pointer;
     }
   }
 
@@ -197,7 +211,7 @@
         }
 
         .graph-item-stick {
-          width: 45px;
+          width: 25px;
           height: 100%;
           background-color: $fc;
           border-top-left-radius: 5px;

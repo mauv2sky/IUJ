@@ -3,46 +3,44 @@ import { GrRefresh } from 'react-icons/gr';
 import { FaSchool, FaBus, FaHospitalUser } from 'react-icons/fa';
 import { MdSecurity, MdMovie } from 'react-icons/md';
 import { AiFillSave } from 'react-icons/ai';
+import { pretreatPriority } from '../../utils/PretreatPriority';
 import { customAlert } from '../../utils/CustomAlert';
+import { useDispatch } from 'react-redux';
+import { setPriority } from '../../store/slices/prioritySlice';
+import { priorityType, ResponsedPriorityItemType } from '../../types/MapType';
 import styles from './SetPriority.module.scss';
 
-type priorityType = {
-  kind: string;
-  color: string;
-  icon: React.ReactNode;
-};
-
 export const schools = {
-  title: '학군',
-  kind: ['어린이집', '유치원', '초등학교', '중학교', '고등학교', '특수학교', '입시학원', '예체능학원'],
+  main: '학군',
+  subList: ['어린이집', '유치원', '초등학교', '중학교', '고등학교', '특수학교', '입시학원', '예체능학원'],
   icon: <FaSchool />,
   color: '#DCBFB7',
 };
 
 export const transports = {
-  title: '교통',
-  kind: ['지하철', '버스'],
+  main: '교통',
+  subList: ['지하철', '버스'],
   icon: <FaBus />,
   color: '#DAB2E0',
 };
 
 export const amenities = {
-  title: '편의',
-  kind: ['병원', '마트', '편의점'],
+  main: '편의',
+  subList: ['병원', '마트', '편의점', '관공서'],
   icon: <FaHospitalUser />,
   color: '#DBCEAF',
 };
 
 export const securities = {
-  title: '치안',
-  kind: ['치안'],
+  main: '치안',
+  subList: ['치안'],
   icon: <MdSecurity />,
   color: '#B0C6DD',
 };
 
 export const cultures = {
-  title: '문화',
-  kind: ['공원', '영화관'],
+  main: '문화',
+  subList: ['공원', '영화관', '서점', '미술관', '도서관'],
   icon: <MdMovie />,
   color: '#A4D8C5',
 };
@@ -51,26 +49,17 @@ const categories = [schools, transports, amenities, securities, cultures];
 
 function SetPriority() {
   /** ============================== 변수, useState ============================== */
+  const dispatch = useDispatch();
   const [priority, setPrirorty] = useState<priorityType[]>([]);
   const dummyPriority = [0, 1, 2, 3, 4];
-  const [priorityForRequest, setPriorityForRequest] = useState<string[]>([]);
 
   /** ============================== 함수 ============================== */
-  /** 우선 순위 리스트를 요청용으로 전처리하기 위한 함수 */
-  const pretreat = (list: priorityType[]) => {
-    const listForRequest = list.map((priority) => {
-      return priority.kind;
-    });
-
-    return listForRequest;
-  };
-
   /** 우선 순위 삭제 */
-  const deletePriority = (kind: string) => {
+  const deletePriority = (sub: string) => {
     for (let i = 0; i < priority.length; i++) {
-      if (priority[i].kind === kind) {
+      if (priority[i].sub === sub) {
         const newPriorityList = priority.filter((priority) => {
-          return priority.kind !== kind;
+          return priority.sub !== sub;
         });
 
         setPrirorty(newPriorityList);
@@ -81,14 +70,13 @@ function SetPriority() {
   };
 
   /** ============================== event handler ============================== */
-
   /** 카테고리 아이템 클릭 시 */
-  const onClickKind = (kind: string, color: string, icon: React.ReactNode) => {
+  const onClickKind = (main: string, sub: string, color: string, icon: React.ReactNode) => {
     /** 클릭한 카테고리가 이미 우선 순위 리스트에 포함되어 있는 경우 */
     for (let i = 0; i < priority.length; i++) {
-      if (priority[i].kind === kind) {
+      if (priority[i].sub === sub) {
         const newPriorityList = priority.filter((priority) => {
-          return priority.kind !== kind;
+          return priority.sub !== sub;
         });
 
         setPrirorty(newPriorityList);
@@ -104,8 +92,7 @@ function SetPriority() {
     }
 
     /** 리스트에 추가 */
-    setPrirorty((prev) => [...prev, { kind, color, icon }]);
-    setPriorityForRequest((prev) => [...prev, kind]);
+    setPrirorty((prev) => [...prev, { main, sub, color, icon }]);
   };
 
   /** 우선 순위 초기화 */
@@ -114,8 +101,8 @@ function SetPriority() {
   };
 
   /** 우선 순위 삭제 */
-  const onClickDelete = (kind: string) => {
-    deletePriority(kind);
+  const onClickDelete = (sub: string) => {
+    deletePriority(sub);
   };
 
   /** 선호 순위 저장하기 버튼 클릭 시 */
@@ -124,8 +111,8 @@ function SetPriority() {
       customAlert('선호 순위를 설정해주세요.');
       return;
     }
-    setPriorityForRequest(pretreat(priority));
-    console.log(priorityForRequest, '로 선호 순위 저장 요청');
+
+    console.log(pretreatPriority(priority), '로 선호 순위 저장 요청');
   };
 
   /** 선호 순위 적용 버튼 클릭 시 */
@@ -134,8 +121,12 @@ function SetPriority() {
       customAlert('선호 순위를 설정해주세요.');
       return;
     }
-    setPriorityForRequest(pretreat(priority));
-    console.log(priorityForRequest, '로 선호 순위 적용 요청');
+
+    const appliedPriority: ResponsedPriorityItemType[] = priority.map((item) => {
+      return { main: item.main, sub: item.sub };
+    });
+
+    dispatch(setPriority({ priority: pretreatPriority(priority), appliedPriority }));
   };
 
   return (
@@ -147,11 +138,11 @@ function SetPriority() {
       <div className={styles.graph}>
         <GrRefresh className={styles.refresh} onClick={onClickRefresh} />
         {priority.map((graph, index) => (
-          <div key={graph.kind} className={styles['graph-item']} style={{ height: `calc(90% - ${index * 7}%)` }}>
-            <div style={{ backgroundColor: graph.color }} onClick={() => onClickDelete(graph.kind)}>
+          <div key={graph.sub} className={styles['graph-item']} style={{ height: `calc(90% - ${index * 7}%)` }}>
+            <div style={{ backgroundColor: graph.color }} onClick={() => onClickDelete(graph.sub)}>
               <div style={{ color: graph.color }}>{graph.icon}</div>
             </div>
-            <p>{graph.kind}</p>
+            <p>{graph.sub}</p>
           </div>
         ))}
         {priority.length === 0 &&
@@ -170,13 +161,13 @@ function SetPriority() {
                 <span style={{ color: category.color }} className={styles['priority-category-title-text']}>
                   {category.icon}
                 </span>
-                <span>{category.title}</span>
+                <span>{category.main}</span>
               </div>
             </div>
             <div className={styles['priority-category-content']}>
-              {category.kind.map((kind, index) => (
-                <span key={index} className={styles['priority-category-item']} onClick={() => onClickKind(kind, category.color, category.icon)}>
-                  {kind}
+              {category.subList.map((sub, index) => (
+                <span key={index} className={styles['priority-category-item']} onClick={() => onClickKind(category.main, sub, category.color, category.icon)}>
+                  {sub}
                 </span>
               ))}
             </div>

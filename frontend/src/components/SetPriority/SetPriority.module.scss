@@ -12,9 +12,9 @@
 
   .graph {
     position: relative;
-    margin: 1.8rem auto 0 auto;
+    margin: 1.5rem auto 0 auto;
     width: 95%;
-    height: 200px;
+    height: 180px;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -101,7 +101,7 @@
   }
 
   .priority {
-    margin: 2rem auto 0 auto;
+    margin: 1.2rem auto 0 auto;
     width: 100%;
 
     .priority-item {
@@ -142,7 +142,7 @@
         .priority-category-item {
           display: inline-block;
           margin: 0.2rem 1rem 0.2rem 0;
-          font-size: 18px;
+          font-size: 16px;
 
           &:hover {
             cursor: pointer;
@@ -154,7 +154,7 @@
   }
 
   .button-div {
-    margin: 3rem 0 0 0;
+    margin: 2.5rem 0 0 0;
     text-align: center;
 
     & p {

@@ -1,0 +1,44 @@
+@import '../../styles/reset.scss';
+@import '../../styles/variable.scss';
+
+.component {
+  position: relative;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  // justify-content: space-around;
+}
+.iconall {
+  margin: 0px 30px 0px 30px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.iconborder {
+  padding: 3px;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  opacity: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: $ffc;
+  &.selected {
+    background-color: #dab2e0;
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+.icon {
+  color: white;
+  & svg {
+    font-size: 25px;
+  }
+  &.selected {
+    color: #dab2e0;
+  }
+}
