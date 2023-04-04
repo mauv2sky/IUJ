@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProfileMenu from '../ProfileMenu/ProfileMenu';
-import { ProfileMenuType } from '../../types/MainType';
 import logo from '../../assets/logo.png';
 import styles from './Navbar.module.scss';
-
-/** 프로필 메뉴바 리스트 */
-const menuList: ProfileMenuType[] = [
-  {
-    title: '관심 매물 목록',
-    url: '/interest',
-  },
-  {
-    title: '로그아웃',
-    url: '/',
-  },
-];
+import { useAppSelector } from '../../store/hooks';
 
 function Navbar() {
+  const userName = useAppSelector((state) => state.userSlice.userName);
   const navigate = useNavigate();
   /** 네브바 보여줄지 여부 */
   const [showNavbar, setShowNavbar] = useState(true);
   /** 프로필 메뉴 보여줄지 여부 */
   const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log(userName);
+  }, [userName]);
 
   /** 네브바 보여줄지 여부 결정 */
   useEffect(() => {
@@ -54,20 +47,38 @@ function Navbar() {
     navigate('/map');
   };
 
+  /** 로그인 클릭 시 */
+  const onClickLogin = () => {
+    navigate('/login');
+  };
+
   return (
     <div className={`${styles.component} ${showNavbar || window.pageYOffset < 300 ? '' : styles.hidden}`}>
       <div className={styles['component-inner']}>
         <img src={logo} alt="logo" onClick={onClickLogo} className={styles.logo} />
         <div className={styles['nav-right']}>
-          <a onClick={onClickGoMap}>내 집 찾아보기</a>
-          <div
-            onClick={() => {
-              setShowProfileMenu(true);
-            }}
-            className={styles['tmp-profile-img']}
-          >
-            B{showProfileMenu && <ProfileMenu menuList={menuList} setShowProfileMenu={setShowProfileMenu} />}
-          </div>
+          <a className={styles.hover} onClick={onClickGoMap}>
+            내 집 찾아보기
+          </a>
+          {!userName && (
+            <p className={styles.hover} onClick={onClickLogin}>
+              로그인
+            </p>
+          )}
+          {userName && (
+            <div id={styles.profile}>
+              어서오세요,{' '}
+              <span
+                className={styles.hover}
+                onClick={() => {
+                  setShowProfileMenu(true);
+                }}
+              >
+                {userName}
+              </span>{' '}
+              님{showProfileMenu && <ProfileMenu setShowProfileMenu={setShowProfileMenu} />}
+            </div>
+          )}
         </div>
       </div>
     </div>

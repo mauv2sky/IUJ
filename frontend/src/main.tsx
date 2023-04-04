@@ -6,9 +6,10 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import store from './store/store';
 import NormalRoot from './roots/NormalRoot';
-import { MainPage, MapPage, InterestPage, DetailPage, LoginPage, ChartPage } from './pages/index';
+import { MainPage, MapPage, InterestPage, DetailPage, LoginPage } from './pages/index';
 import './styles/reset.scss';
 import NoFooterRoot from './roots/NoFooterRoot';
+import LoginRoot from './roots/LoginRoot';
 
 const router = createBrowserRouter([
   /** Navbar, Footer 전부 있는 페이지 */
@@ -24,10 +25,6 @@ const router = createBrowserRouter([
         path: 'interest',
         element: <InterestPage />,
       },
-      {
-        path: 'chart',
-        element: <ChartPage />,
-      },
     ],
   },
   /** Footer 없는 페이지 */
@@ -40,12 +37,19 @@ const router = createBrowserRouter([
         element: <MapPage />,
       },
       {
-        path: 'login',
-        element: <LoginPage />,
-      },
-      {
         path: '/:type/:id',
         element: <DetailPage />,
+      },
+    ],
+  },
+  /** Navbar, Footer 둘 다 없는 페이지 */
+  {
+    path: '/',
+    element: <LoginRoot />,
+    children: [
+      {
+        path: 'login',
+        element: <LoginPage />,
       },
     ],
   },

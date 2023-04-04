@@ -3,6 +3,7 @@ import { Map } from 'react-kakao-maps-sdk';
 import { useAppSelector } from '../../store/hooks';
 import { SlArrowDown, SlArrowUp } from 'react-icons/sl';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { BsFillHouseFill } from 'react-icons/bs';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
 import MapSidebar from '../../components/MapSidebar/MapSidebar';
@@ -15,8 +16,6 @@ import SearchList from '../../components/SearchList/SearchList';
 import ReactDOMServer from 'react-dom/server';
 import styles from './MapContainer.module.scss';
 import './Slider.scss';
-import { BsFillHouseFill } from 'react-icons/bs';
-import { useNavigate } from 'react-router';
 
 /** ============= 매물 목록 API 요청 필요 =============
  * 선호 순위 적용 시
@@ -79,8 +78,6 @@ function MapContainer() {
   const [meta, setMeta] = useState<MetaType | null>(null);
   /** 중심 좌표 state */
   const [stateCenter, setStateCenter] = useState<number[]>([]);
-  /** 네비게이터 */
-  const navigate = useNavigate();
 
   /** ================================================= useEffect ================================================= */
   /** 맵 옵션 불러오기 */
@@ -422,8 +419,7 @@ function MapContainer() {
 
   /** 매물 클릭 시 */
   const onClickRealEstate = (type: string, id: number) => {
-    console.log('상세 페이지로');
-    navigate(`../${type}/${id}`);
+    window.open(`../${type}/${id}`);
   };
 
   return (
@@ -599,7 +595,7 @@ function MapContainer() {
         <input type="text" onChange={onChangeSearch} />
       </div>
       {document.length > 0 && (
-        <div className={styles['search-reuslt']}>
+        <div className={styles['search-result']}>
           <SearchList document={document} meta={meta} setStateCenter={setStateCenter} />
         </div>
       )}

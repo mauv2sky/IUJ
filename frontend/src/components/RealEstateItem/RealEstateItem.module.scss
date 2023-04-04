@@ -2,7 +2,7 @@
 @import '../../styles/variable.scss';
 
 .component {
-  position: static;
+  position: relative;
   padding: 1rem 0;
   width: 100%;
   height: 200px;
@@ -150,9 +150,9 @@
 
   .graph-show {
     position: absolute;
-    z-index: 1000;
-    top: 0;
-    left: 100%;
+    z-index: 10000;
+    bottom: 0;
+    left: 0;
     width: 500px;
     height: 200px;
     padding: 1rem 0;
@@ -171,6 +171,7 @@
     }
 
     .graph-inner {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: flex-end;
@@ -181,8 +182,17 @@
       opacity: 1;
       transition: opacity 0.2s ease-in-out;
 
-      &:hover {
-        cursor: default;
+      & svg {
+        position: absolute;
+        top: -32px;
+        right: 0;
+        font-size: 20px;
+        color: white;
+
+        &:hover {
+          cursor: pointer;
+          color: rgb(207, 207, 207);
+        }
       }
 
       .graph-item {
