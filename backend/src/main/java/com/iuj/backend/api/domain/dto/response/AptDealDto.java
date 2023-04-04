@@ -21,6 +21,14 @@ public class AptDealDto {
 
     private AptDto author;
 
+    public String getContract_ym() {
+        return contract_ym;
+    }
+
+    public void setContract_ym(String contract_ym) {
+        this.contract_ym = contract_ym;
+    }
+
     public AptDealDto(int id, String area, String contract_ym, String contract_day, String dealType, int guarantee, int price, int floor, int monthly, Long aptId){
         this.id = id;
         this.area = area;
