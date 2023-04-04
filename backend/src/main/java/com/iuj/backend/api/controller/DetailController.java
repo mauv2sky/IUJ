@@ -3,19 +3,22 @@ package com.iuj.backend.api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.iuj.backend.api.domain.dto.response.*;
 
+import com.iuj.backend.api.domain.entity.building.AptDeal;
+import com.iuj.backend.api.repository.building.AptDealRepository;
 import com.iuj.backend.api.repository.infra.CinemaRepository;
 import com.iuj.backend.api.service.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,12 +36,12 @@ public class DetailController {
     private final AcademyService academyService;
     private final SafeService safeService;
     private final ConviService conviService;
-    private final ConviService HospitalService;
     private final CultureService cultureService;
 
+    private final AptDealRepository aptDealRepository;
 
     @GetMapping("/APT/{id}")
-    @ApiOperation(value="아파트 상세페이지 정보", notes="아파트 상세페이지 정보")
+    @ApiOperation(value = "아파트 상세페이지 정보", notes = "아파트 상세페이지 정보")
     public Map<String, Object> getApart(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
@@ -57,7 +60,7 @@ public class DetailController {
     }
 
     @GetMapping("/APT/{id}/school")
-    @ApiOperation(value="아파트 학군 정보", notes="아파트 학군 정보")
+    @ApiOperation(value = "아파트 학군 정보", notes = "아파트 학군 정보")
     public Map<String, Object> getAptSchool(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -74,7 +77,7 @@ public class DetailController {
     }
 
     @GetMapping("/APT/{id}/bus")
-    @ApiOperation(value="아파트 버스 정보", notes="아파트 버스 정보")
+    @ApiOperation(value = "아파트 버스 정보", notes = "아파트 버스 정보")
     public Map<String, Object> getAptBus(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
@@ -88,7 +91,7 @@ public class DetailController {
     }
 
     @GetMapping("/APT/{id}/subway")
-    @ApiOperation(value="아파트 지하철 정보", notes="아파트 지하철 정보")
+    @ApiOperation(value = "아파트 지하철 정보", notes = "아파트 지하철 정보")
     public Map<String, Object> getAptTransport(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
@@ -100,8 +103,9 @@ public class DetailController {
 
         return resultMap;
     }
+
     @GetMapping("/APT/{id}/convi")
-    @ApiOperation(value="아파트 편의점 정보", notes="아파트 편의점 정보")
+    @ApiOperation(value = "아파트 편의점 정보", notes = "아파트 편의점 정보")
     public Map<String, Object> getAptConvi(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -114,8 +118,9 @@ public class DetailController {
         resultMap.put("convi", conviDto);
         return resultMap;
     }
+
     @GetMapping("/APT/{id}/hospital")
-    @ApiOperation(value="아파트 병원 정보", notes="아파트 병원 정보")
+    @ApiOperation(value = "아파트 병원 정보", notes = "아파트 병원 정보")
     public Map<String, Object> getAptHospital(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -128,8 +133,9 @@ public class DetailController {
         resultMap.put("hospital", hospitalDto);
         return resultMap;
     }
+
     @GetMapping("/APT/{id}/shopping")
-    @ApiOperation(value="아파트 대형매장 정보", notes="아파트 대형매장 정보")
+    @ApiOperation(value = "아파트 대형매장 정보", notes = "아파트 대형매장 정보")
     public Map<String, Object> getAptShopping(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -144,7 +150,7 @@ public class DetailController {
     }
 
     @GetMapping("/APT/{id}/cctv")
-    @ApiOperation(value="아파트 cctv 정보", notes="아파트 cctv 정보")
+    @ApiOperation(value = "아파트 cctv 정보", notes = "아파트 cctv 정보")
     public Map<String, Object> getAptCctv(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -157,8 +163,9 @@ public class DetailController {
 
         return resultMap;
     }
+
     @GetMapping("/APT/{id}/police")
-    @ApiOperation(value="아파트 경찰서 정보", notes="아파트 경찰서 정보")
+    @ApiOperation(value = "아파트 경찰서 정보", notes = "아파트 경찰서 정보")
     public Map<String, Object> getAptPolice(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -173,7 +180,7 @@ public class DetailController {
     }
 
     @GetMapping("/APT/{id}/cinema")
-    @ApiOperation(value="아파트 영화관 정보", notes="아파트 영화관 정보")
+    @ApiOperation(value = "아파트 영화관 정보", notes = "아파트 영화관 정보")
     public Map<String, Object> getAptCinema(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
@@ -184,8 +191,9 @@ public class DetailController {
         resultMap.put("cinema", cinemaDto);
         return resultMap;
     }
+
     @GetMapping("/APT/{id}/lib")
-    @ApiOperation(value="아파트 도서관 정보", notes="아파트 도서관 정보")
+    @ApiOperation(value = "아파트 도서관 정보", notes = "아파트 도서관 정보")
     public Map<String, Object> getAptLibrary(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
@@ -196,8 +204,9 @@ public class DetailController {
         resultMap.put("library", libraryDto);
         return resultMap;
     }
+
     @GetMapping("/APT/{id}/gallery")
-    @ApiOperation(value="아파트 미술관 정보", notes="아파트 미술관 정보")
+    @ApiOperation(value = "아파트 미술관 정보", notes = "아파트 미술관 정보")
     public Map<String, Object> getAptGallery(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
@@ -208,8 +217,9 @@ public class DetailController {
         resultMap.put("gallery", galleryDto);
         return resultMap;
     }
+
     @GetMapping("/APT/{id}/park")
-    @ApiOperation(value="아파트 공원 정보", notes="아파트 공원 정보")
+    @ApiOperation(value = "아파트 공원 정보", notes = "아파트 공원 정보")
     public Map<String, Object> getAptPark(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         AptDto apartDTO = aptService.getApartById(id);
@@ -221,10 +231,10 @@ public class DetailController {
         return resultMap;
     }
 
-//    -------------------------------------------------------------------------------------
+    //    -------------------------------------------------------------------------------------
 //    오피스텔
     @GetMapping("/OFFICETEL/{id}")
-    @ApiOperation(value="오피스텔 상세페이지 정보", notes="오피스텔 상세페이지 정보")
+    @ApiOperation(value = "오피스텔 상세페이지 정보", notes = "오피스텔 상세페이지 정보")
     public Map<String, Object> getOfficetel(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         OfficetelDto officetelDto = officetelService.getOfficetelById(id);
@@ -243,7 +253,7 @@ public class DetailController {
     }
 
     @GetMapping("/OFFICETEL/{id}/school")
-    @ApiOperation(value="오피스텔 학군 정보", notes="오피스텔 학군 정보")
+    @ApiOperation(value = "오피스텔 학군 정보", notes = "오피스텔 학군 정보")
     public Map<String, Object> getOfficetelSchool(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -260,7 +270,7 @@ public class DetailController {
     }
 
     @GetMapping("/OFFICETEL/{id}/bus")
-    @ApiOperation(value="오피스텔 버스 정보", notes="오피스텔 버스 정보")
+    @ApiOperation(value = "오피스텔 버스 정보", notes = "오피스텔 버스 정보")
     public Map<String, Object> getOfficetelBus(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         OfficetelDto officetelDto = officetelService.getOfficetelById(id);
@@ -272,8 +282,9 @@ public class DetailController {
 
         return resultMap;
     }
+
     @GetMapping("/OFFICETEL/{id}/subway")
-    @ApiOperation(value="오피스텔 지하철 정보", notes="오피스텔 지하철 정보")
+    @ApiOperation(value = "오피스텔 지하철 정보", notes = "오피스텔 지하철 정보")
     public Map<String, Object> getOfficetelSubway(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         OfficetelDto officetelDto = officetelService.getOfficetelById(id);
@@ -287,7 +298,7 @@ public class DetailController {
     }
 
     @GetMapping("/OFFICETEL/{id}/convi")
-    @ApiOperation(value="오피스텔 편의점 정보", notes="오피스텔 편의점 정보")
+    @ApiOperation(value = "오피스텔 편의점 정보", notes = "오피스텔 편의점 정보")
     public Map<String, Object> getOfficetelConvi(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -299,8 +310,9 @@ public class DetailController {
         resultMap.put("convi", conviDto);
         return resultMap;
     }
+
     @GetMapping("/OFFICETEL/{id}/hospital")
-    @ApiOperation(value="오피스텔 병원 정보", notes="오피스텔 병원 정보")
+    @ApiOperation(value = "오피스텔 병원 정보", notes = "오피스텔 병원 정보")
     public Map<String, Object> getOfficetelHospital(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -312,8 +324,9 @@ public class DetailController {
         resultMap.put("hospital", hospitalDto);
         return resultMap;
     }
+
     @GetMapping("/OFFICETEL/{id}/shopping")
-    @ApiOperation(value="오피스텔 대형점포 정보", notes="오피스텔 대형점포 정보")
+    @ApiOperation(value = "오피스텔 대형점포 정보", notes = "오피스텔 대형점포 정보")
     public Map<String, Object> getOfficetelShopping(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         OfficetelDto officetelDto = officetelService.getOfficetelById(id);
@@ -325,7 +338,7 @@ public class DetailController {
     }
 
     @GetMapping("/OFFICETEL/{id}/cctv")
-    @ApiOperation(value="오피스텔 cctv 정보", notes="오피스텔 cctv 정보")
+    @ApiOperation(value = "오피스텔 cctv 정보", notes = "오피스텔 cctv 정보")
     public Map<String, Object> getOfficetelCctv(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -336,8 +349,9 @@ public class DetailController {
 
         return resultMap;
     }
+
     @GetMapping("/OFFICETEL/{id}/police")
-    @ApiOperation(value="오피스텔 경찰서 정보", notes="오피스텔 경찰서 정보")
+    @ApiOperation(value = "오피스텔 경찰서 정보", notes = "오피스텔 경찰서 정보")
     public Map<String, Object> getOfficetelPolice(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -352,7 +366,7 @@ public class DetailController {
     }
 
     @GetMapping("/OFFICETEL/{id}/cinema")
-    @ApiOperation(value="오피스텔 영화관 정보", notes="오피스텔 영화관 정보")
+    @ApiOperation(value = "오피스텔 영화관 정보", notes = "오피스텔 영화관 정보")
     public Map<String, Object> getOfficetelCinemare(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         OfficetelDto officetelDto = officetelService.getOfficetelById(id);
@@ -362,8 +376,9 @@ public class DetailController {
         resultMap.put("cinema", cinemaDto);
         return resultMap;
     }
+
     @GetMapping("/OFFICETEL/{id}/lib")
-    @ApiOperation(value="오피스텔 도서관 정보", notes="오피스텔 도서관 정보")
+    @ApiOperation(value = "오피스텔 도서관 정보", notes = "오피스텔 도서관 정보")
     public Map<String, Object> getOfficetelLib(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         OfficetelDto officetelDto = officetelService.getOfficetelById(id);
@@ -374,8 +389,9 @@ public class DetailController {
         resultMap.put("library", libraryDto);
         return resultMap;
     }
+
     @GetMapping("/OFFICETEL/{id}/gallery")
-    @ApiOperation(value="오피스텔 미술관 정보", notes="오피스텔 미술관 정보")
+    @ApiOperation(value = "오피스텔 미술관 정보", notes = "오피스텔 미술관 정보")
     public Map<String, Object> getOfficetelGallery(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         OfficetelDto officetelDto = officetelService.getOfficetelById(id);
@@ -386,8 +402,9 @@ public class DetailController {
         resultMap.put("gallery", galleryDto);
         return resultMap;
     }
+
     @GetMapping("/OFFICETEL/{id}/park")
-    @ApiOperation(value="오피스텔 공원 정보", notes="오피스텔 공원 정보")
+    @ApiOperation(value = "오피스텔 공원 정보", notes = "오피스텔 공원 정보")
     public Map<String, Object> getOfficetelPark(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         OfficetelDto officetelDto = officetelService.getOfficetelById(id);
@@ -399,18 +416,18 @@ public class DetailController {
         return resultMap;
     }
 
-//    ---------------------------------------------------------------------------------------------------
+    //    ---------------------------------------------------------------------------------------------------
 //    빌라
     @GetMapping("/VILLA/{id}")
-    @ApiOperation(value="빌라 상세페이지 정보", notes="빌라 상세페이지 정보")
+    @ApiOperation(value = "빌라 상세페이지 정보", notes = "빌라 상세페이지 정보")
     public Map<String, Object> getVilla(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         VillaDto villaDto = villaService.getVillaById(id);
         List<VillaDealTypeDto> villaDealTypeDTO = villaService.getDealByVillaId(id);
 
         resultMap.put("home", villaDto);
-        int maxPrice = villaDealTypeDTO.stream().mapToInt(VillaDealTypeDto::getMaxPrice).max().orElse(0) ;
-        int minPrice = villaDealTypeDTO.stream().mapToInt(VillaDealTypeDto::getMinPrice).max().orElse(0) ;
+        int maxPrice = villaDealTypeDTO.stream().mapToInt(VillaDealTypeDto::getMaxPrice).max().orElse(0);
+        int minPrice = villaDealTypeDTO.stream().mapToInt(VillaDealTypeDto::getMinPrice).max().orElse(0);
 
         Map<String, Object> dealInfo = new HashMap<>();
         dealInfo.put("maxPrice", maxPrice);
@@ -421,7 +438,7 @@ public class DetailController {
     }
 
     @GetMapping("/VILLA/{id}/school")
-    @ApiOperation(value="빌라 학군 정보", notes="빌라 학군 정보")
+    @ApiOperation(value = "빌라 학군 정보", notes = "빌라 학군 정보")
     public Map<String, Object> getVillaSchool(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -438,7 +455,7 @@ public class DetailController {
     }
 
     @GetMapping("/VILLA/{id}/bus")
-    @ApiOperation(value="빌라 버스 정보", notes="빌라 버스 정보")
+    @ApiOperation(value = "빌라 버스 정보", notes = "빌라 버스 정보")
     public Map<String, Object> getVillaBus(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         VillaDto villaDto = villaService.getVillaById(id);
@@ -450,12 +467,13 @@ public class DetailController {
     }
 
     @GetMapping("/VILLA/{id}/subway")
-    @ApiOperation(value="빌라 지하철 정보", notes="빌라 지하철 정보")
+    @ApiOperation(value = "빌라 지하철 정보", notes = "빌라 지하철 정보")
     public Map<String, Object> getVillaSubway(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         VillaDto villaDto = villaService.getVillaById(id);
 //      교통
-        List<SubwayDto> subwayDTO = trafficService.findNearbySubways(villaDto.getLat(), villaDto.getLng());resultMap.put("subway", subwayDTO);
+        List<SubwayDto> subwayDTO = trafficService.findNearbySubways(villaDto.getLat(), villaDto.getLng());
+        resultMap.put("subway", subwayDTO);
 
         resultMap.put("subway", subwayDTO);
         return resultMap;
@@ -463,7 +481,7 @@ public class DetailController {
 
 
     @GetMapping("/VILLA/{id}/convi")
-    @ApiOperation(value="빌라 편의점 정보", notes="빌라 편의점 정보")
+    @ApiOperation(value = "빌라 편의점 정보", notes = "빌라 편의점 정보")
     public Map<String, Object> getVillaConvi(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -475,8 +493,9 @@ public class DetailController {
         resultMap.put("convi", conviDto);
         return resultMap;
     }
+
     @GetMapping("/VILLA/{id}/hospital")
-    @ApiOperation(value="빌라 병원 정보", notes="빌라 병원 정보")
+    @ApiOperation(value = "빌라 병원 정보", notes = "빌라 병원 정보")
     public Map<String, Object> getVillaHospital(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -489,7 +508,7 @@ public class DetailController {
     }
 
     @GetMapping("/VILLA/{id}/shopping")
-    @ApiOperation(value="빌라 대형매장 정보", notes="빌라 대형매장 정보")
+    @ApiOperation(value = "빌라 대형매장 정보", notes = "빌라 대형매장 정보")
     public Map<String, Object> getVillaShopping(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -501,8 +520,9 @@ public class DetailController {
         resultMap.put("shopping", shoppingDto);
         return resultMap;
     }
+
     @GetMapping("/VILLA/{id}/cctv")
-    @ApiOperation(value="빌라 cctv 정보", notes="빌라 cctv 정보")
+    @ApiOperation(value = "빌라 cctv 정보", notes = "빌라 cctv 정보")
     public Map<String, Object> getVillaCctv(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -513,8 +533,9 @@ public class DetailController {
 
         return resultMap;
     }
+
     @GetMapping("/VILLA/{id}/police")
-    @ApiOperation(value="빌라 경찰서 정보", notes="빌라 경찰서 정보")
+    @ApiOperation(value = "빌라 경찰서 정보", notes = "빌라 경찰서 정보")
     public Map<String, Object> getVillaPolice(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
 
@@ -529,7 +550,7 @@ public class DetailController {
     }
 
     @GetMapping("/VILLA/{id}/cinema")
-    @ApiOperation(value="빌라 영화관 정보", notes="빌라 영화관 정보")
+    @ApiOperation(value = "빌라 영화관 정보", notes = "빌라 영화관 정보")
     public Map<String, Object> getVillaCinema(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         VillaDto villaDto = villaService.getVillaById(id);
@@ -540,8 +561,9 @@ public class DetailController {
         resultMap.put("cinema", cinemaDto);
         return resultMap;
     }
+
     @GetMapping("/VILLA/{id}/lib")
-    @ApiOperation(value="빌라 도서관 정보", notes="빌라 도서관 정보")
+    @ApiOperation(value = "빌라 도서관 정보", notes = "빌라 도서관 정보")
     public Map<String, Object> getVillaLib(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         VillaDto villaDto = villaService.getVillaById(id);
@@ -552,8 +574,9 @@ public class DetailController {
         resultMap.put("library", libraryDto);
         return resultMap;
     }
+
     @GetMapping("/VILLA/{id}/gallery")
-    @ApiOperation(value="빌라 미술관 정보", notes="빌라 미술관 정보")
+    @ApiOperation(value = "빌라 미술관 정보", notes = "빌라 미술관 정보")
     public Map<String, Object> getVillaGallery(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         VillaDto villaDto = villaService.getVillaById(id);
@@ -564,8 +587,9 @@ public class DetailController {
         resultMap.put("gallery", galleryDto);
         return resultMap;
     }
+
     @GetMapping("/VILLA/{id}/park")
-    @ApiOperation(value="빌라 공원 정보", notes="빌라 공원 정보")
+    @ApiOperation(value = "빌라 공원 정보", notes = "빌라 공원 정보")
     public Map<String, Object> getVillaPark(@PathVariable Long id) {
         Map<String, Object> resultMap = new HashMap<>();
         VillaDto villaDto = villaService.getVillaById(id);
@@ -577,9 +601,99 @@ public class DetailController {
         return resultMap;
     }
 
+//    @GetMapping("/APT/chart/{id}")
+//    public ResponseEntity<Map<String, Object>> getAptDealChart(@PathVariable Long id) {
+//        List<AptDealTypeDto> aptDealList = aptService.getDealByApartId(id);
+//        Map<String, Object> result = new HashMap<>();
+//        List<String> labels = new ArrayList<>();
+//        List<Map<String, Object>> datasets = new ArrayList<>();
+//
+//        // 각 거래 유형(매매, 전세, 월세)에 대해 처리
+//        for (AptDealTypeDto dto : aptDealList) {
+//            String type = dto.getType();
+//            List<AptDealDto> deals = dto.getDeals();
+//
+//            // 라벨 추가
+//            labels.add(type);
+//
+//            // 거래 내역에서 가격 데이터 추출
+//            List<Integer> prices = new ArrayList<>();
+//            for (AptDealDto deal : deals) {
+//                int price = 0;
+//                if (type.equals("매매")) {
+//                    price = deal.getPrice();
+//                } else if (type.equals("전세")) {
+//                    price = deal.getGuarantee();
+//                } else if (type.equals("월세")) {
+//                    price = deal.getMonthly();
+//                }
+//                prices.add(price);
+//            }
+//
+//            // 데이터셋 생성 및 추가
+//            Map<String, Object> dataset = new HashMap<>();
+//            dataset.put("label", type);
+//            dataset.put("data", prices);
+//            datasets.add(dataset);
+//        }
+//
+//        // 결과 데이터 생성
+//        result.put("labels", labels);
+//        result.put("datasets", datasets);
+//
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
 
+    @GetMapping("/APT/chart/{id}")
+    public ResponseEntity<Map<String, Object>> getAptDealChart(@PathVariable Long id) {
+        List<AptDealTypeDto> aptDealList = aptService.getDealByApartId(id);
+        Map<String, Object> result = new HashMap<>();
+        List<String> labels = new ArrayList<>();
+        List<Map<String, Object>> datasets = new ArrayList<>();
 
+        // 1월부터 12월까지 라벨 추가
+        for (int i = 1; i <= 12; i++) {
+            labels.add(String.format("%d%02d", 2022, i)); // 예시로 2022년으로 고정
+        }
 
+        // 각 거래 유형(매매, 전세, 월세)에 대해 처리
+        for (AptDealTypeDto dto : aptDealList) {
+            String type = dto.getType();
+            List<AptDealDto> deals = dto.getDeals();
 
+            // 거래 내역에서 가격 데이터 추출
+            List<Double> prices = new ArrayList<>();
+            for (int i = 1; i <= 12; i++) {
+                double sum = 0;
+                int count = 0;
+                for (AptDealDto deal : deals) {
+                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022, i))) { // 예시로 2022년으로 고정
+                        if (type.equals("매매")) {
+                            sum += deal.getPrice();
+                        } else if (type.equals("전세")) {
+                            sum += deal.getGuarantee();
+                        } else if (type.equals("월세")) {
+                            sum += deal.getMonthly();
+                        }
+                        count++;
+                    }
+                }
+                double average = count > 0 ? sum / count : Double.NaN;
+                prices.add(average);
+            }
+
+            // 데이터셋 생성 및 추가
+            Map<String, Object> dataset = new HashMap<>();
+            dataset.put("label", type);
+            dataset.put("data", prices);
+            datasets.add(dataset);
+        }
+
+        // 결과 데이터 생성
+        result.put("labels", labels);
+        result.put("datasets", datasets);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 }

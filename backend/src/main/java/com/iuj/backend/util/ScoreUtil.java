@@ -61,6 +61,10 @@ public class ScoreUtil {
                     return score.getSupermarket();
                 case CONVENIENCE_STORE:
                     return score.getConvi();
+                case LIBRARY:
+                    return score.getLibrary();
+                case PUBLIC_OFFICE:
+                    return score.getPublicOffice();
             }
         }
 
