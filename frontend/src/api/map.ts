@@ -39,7 +39,11 @@ export const requestPriorityList = async () => {
 
 /** 선호 필터 저장 */
 export const requestDeletePriority = async (id: number) => {
-  const res = await http.delete('api/recomm', { id });
+  const data = {
+    id,
+  };
+
+  const res = await http.delete('api/recomm', { data });
 
   return res;
 };
