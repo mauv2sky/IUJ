@@ -24,6 +24,19 @@ export const options = {
   },
 };
 
+export type DealType = {
+  data: {
+    value: string;
+    data: number[];
+  };
+}[];
+
+/** 프롭스 받은 매물 상세 정보 */
+export type DealPropsType = {
+  // home: any;
+  dealChartlist: DealType;
+};
+
 /** X축 라벨 */
 const labels = ['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2'];
 
@@ -51,7 +64,9 @@ export const data = {
   ],
 };
 
-export default function DealChart() {
+export default function DealChart(dealChartlist: DealType) {
+  console.log(dealChartlist);
+
   return (
     <div className={styles.component}>
       <div className={styles.chart}>
@@ -60,3 +75,81 @@ export default function DealChart() {
     </div>
   );
 }
+
+// import React from 'react';
+// import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Colors } from 'chart.js';
+// import { Line } from 'react-chartjs-2';
+// import styles from './DealChart.module.scss';
+
+// ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Colors, Title, Tooltip, Legend);
+
+// export const options = {
+//   responsive: true,
+//   plugins: {
+//     legend: {
+//       position: 'top' as const,
+//     },
+//     // title: {
+//     //   display: true,
+//     //   text: '최근 1년간 실거래 그래프',
+//     // },
+//   },
+//   scales: {
+//     y: {
+//       max: 30000, // 최대
+//       min: 0, // 최소
+//     },
+//   },
+// };
+
+// export type DealType = {
+//   data: {
+//     value: string;
+//     data: number[];
+//   };
+// }[];
+
+// export type DealPropsType = {
+//   dealChartlist: DealType;
+// };
+
+// /** X축 라벨 */
+// const labels = ['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2'];
+
+// export function createChartData(dealChartlist: DealType) {
+//   return {
+//     labels,
+//     datasets: [
+//       {
+//         label: '매매',
+//         data: dealChartlist[0].data,
+//         borderColor: 'rgb(255, 99, 132)',
+//         backgroundColor: 'rgba(255, 99, 132, 0.5)',
+//       },
+//       {
+//         label: '전세',
+//         data: dealChartlist[1].data,
+//         borderColor: 'rgb(54, 162, 235)',
+//         backgroundColor: 'rgba(54, 162, 235, 0.5)',
+//       },
+//       {
+//         label: '월세',
+//         data: dealChartlist[2].data,
+//         borderColor: 'rgb(75, 192, 192)',
+//         backgroundColor: 'rgba(75, 192, 192, 0.5)',
+//       },
+//     ],
+//   };
+// }
+
+// export default function DealChart(props: DealPropsType) {
+//   const data = createChartData(props.dealChartlist);
+
+//   return (
+//     <div className={styles.component}>
+//       <div className={styles.chart}>
+//         <Line options={options} data={data} className="chart" />
+//       </div>
+//     </div>
+//   );
+// }

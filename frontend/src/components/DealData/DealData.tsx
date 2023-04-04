@@ -4,21 +4,37 @@ import DealDataItem from '../DealDataItem/DealDataItem';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getdetailContainerState } from '../../store/slices/detailContainerSlice';
 import { DetailPropsType, DetailType } from '../DetailInformation/DetailInformation';
-import DealChart from '../DealChart/DealChart';
+import { DealChart, DealType } from '../DealChart/DealChart';
+import axios from 'axios';
+
+/** APIURL */
+const APIURL = 'http://localhost:5000';
 
 function DealData(detaillist: DetailPropsType) {
   const dealRelist = detaillist.detailRelist.Deal;
-
-  // const detailContainer = useAppSelector((state) => state.detailContainerSlice.detailContainer);
+  const [dealChartlist, setDealChartlist] = useState<DealType>();
 
   useEffect(() => {
-    console.log('dealRelist', dealRelist);
+    axios({
+      method: 'get',
+      // url: APIURL + `/api/place/${props.type}/${props.id}`,
+      url: APIURL + `/api/place/APT/9/graph`,
+    })
+      .then((response) => {
+        // console.log('데이터 전송 성공이구아나');
+        // console.log(response.data);
+        setDealChartlist(response.data);
+      })
+      .catch((error) => {
+        // console.error('데이터 전송 실패이구아나');
+        console.error(error);
+      });
   }, []);
 
   return (
     <div className={styles.component}>
       <div>
-        <DealChart />
+        <DealChart dealChartlist={dealChartlist} />
       </div>
       <div className={styles.dealtitle}>
         <div className={styles.type}>거래타입</div>
