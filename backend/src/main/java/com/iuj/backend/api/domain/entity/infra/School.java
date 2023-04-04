@@ -23,4 +23,5 @@ public class School extends BaseInfra{
 
     @Column(length=45)
     private String type;
+    private Double distance;
 }
