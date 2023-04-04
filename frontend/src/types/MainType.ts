@@ -3,8 +3,3 @@ export type NoticeType = {
   content: string;
   url: string;
 };
-
-export type ProfileMenuType = {
-  title: string;
-  url: string;
-};

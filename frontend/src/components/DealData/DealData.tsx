@@ -4,7 +4,7 @@
 // import { useAppDispatch, useAppSelector } from '../../store/hooks';
 // import { getdetailContainerState } from '../../store/slices/detailContainerSlice';
 // import { DetailPropsType, DetailType } from '../DetailInformation/DetailInformation';
-// import { DealChart, DealType } from '../DealChart/DealChart';
+// import DealChart from '../DealChart/DealChart';
 // import axios from 'axios';
 
 // /** APIURL */
@@ -12,7 +12,7 @@
 
 // function DealData(detaillist: DetailPropsType) {
 //   const dealRelist = detaillist.detailRelist.Deal;
-//   const [dealChartlist, setDealChartlist] = useState<DealType>();
+//   const [dealChartlist, setDealChartlist] = useState<any>();
 
 //   useEffect(() => {
 //     axios({
@@ -34,7 +34,7 @@
 //   return (
 //     <div className={styles.component}>
 //       <div>
-//         <DealChart dealChartlist={dealChartlist} />
+//         <DealChart />
 //       </div>
 //       <div className={styles.dealtitle}>
 //         <div className={styles.type}>거래타입</div>
@@ -79,11 +79,11 @@ function DealData(detaillist: DetailPropsType) {
     axios({
       method: 'get',
       // url: APIURL + `/api/place/${props.type}/${props.id}`,
-      url: APIURL + `/api/place/APT/9/graph`,
+      url: APIURL + `/api/place/APT/chart/9`,
     })
       .then((response) => {
-        // console.log('데이터 전송 성공이구아나');
-        // console.log(response.data);
+        console.log('데이터 전송 성공이구아나');
+        console.log(response.data);
         setDealChartlist(response.data);
       })
       .catch((error) => {
@@ -95,7 +95,7 @@ function DealData(detaillist: DetailPropsType) {
   return (
     <div className={styles.component}>
       <div>
-        <DealChart />
+        <DealChart dealChartlist={dealChartlist} />{' '}
       </div>
       <div className={styles.dealtitle}>
         <div className={styles.type}>거래타입</div>

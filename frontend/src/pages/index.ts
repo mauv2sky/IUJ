@@ -3,4 +3,3 @@ export { default as MapPage } from './MapPage';
 export { default as InterestPage } from './InterestPage';
 export { default as DetailPage } from './DetailPage';
 export { default as LoginPage } from './LoginPage';
-export { default as ChartPage } from './ChartPage';
