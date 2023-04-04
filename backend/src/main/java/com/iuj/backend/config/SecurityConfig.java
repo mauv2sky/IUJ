@@ -26,15 +26,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.cors()
+        http
+            .cors()
             .and()
             .httpBasic().disable()
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
             .and()
-            .authorizeRequests()    // 관심 건물, 필터 추가시에는 로그인 필요
-            .antMatchers("/api/like").authenticated()
+            .authorizeRequests()
+            .antMatchers("/api/like").authenticated()       // 관심건물
+            .antMatchers("/api/recomm").authenticated()     // 관심필터
             .anyRequest().permitAll()
 
             .and()
@@ -48,6 +50,4 @@ public class SecurityConfig {
 
         return http.build();
     }
-
-
 }

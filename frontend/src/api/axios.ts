@@ -2,15 +2,11 @@ import axios, { AxiosInstance } from 'axios';
 import { requestUpdateToken } from './auth';
 
 export const http: AxiosInstance = axios.create({
-  // baseURL: 'https://j8e103.p.ssafy.io/',
-  baseURL: 'http://localhost:5000/',
+  baseURL: 'https://j8e103.p.ssafy.io/',
   withCredentials: true,
 });
 
-export const httpForKakaoSearch: AxiosInstance = axios.create({
-  // baseURL: 'https://j8e103.p.ssafy.io/',
-  baseURL: 'http://localhost:5000/',
-});
+export const httpForKakaoSearch: AxiosInstance = axios.create();
 
 /** 요청 인터셉터 */
 http.interceptors.request.use(

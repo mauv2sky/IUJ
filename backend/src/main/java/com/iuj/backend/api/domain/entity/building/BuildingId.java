@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ScoreId implements Serializable {
+public class BuildingId implements Serializable {
     private Long id;
     private String type;
 }

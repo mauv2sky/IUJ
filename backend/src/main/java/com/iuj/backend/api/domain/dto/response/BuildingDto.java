@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.iuj.backend.api.domain.enums.BuildingType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.*;
-
-import java.util.List;
 import java.util.Map;
 
 @ToString
@@ -16,7 +13,7 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel(value = "ㅇㅇ", description = "ㅇㅇ")
+@ApiModel(value = "주기능 - 건물 정보", description = "주기능 api에서 사용하는 건물 정보 DTO")
 public class BuildingDto {
     @ApiModelProperty(value = "건물 ID")
     private Long id;
@@ -26,8 +23,8 @@ public class BuildingDto {
     private Double[] latlng;
     private String[] address;
 
-    // 거래 관련
-    private List<AptDealDto> deal;
+    // 사진
+    private String img;
 
     // 점수 관련
     @JsonProperty("total_score")

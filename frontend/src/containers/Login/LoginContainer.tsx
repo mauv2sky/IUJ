@@ -13,7 +13,7 @@ function LoginContainer() {
   useEffect(() => {
     const commentInterval = window.setInterval(() => {
       setShowComment((prev) => prev + 1);
-    }, 70);
+    }, 20);
 
     return () => {
       clearInterval(commentInterval);
@@ -23,8 +23,8 @@ function LoginContainer() {
   /** 구글 로그인 */
   const OAuth = async () => {
     try {
-      const url = 'http://localhost:5000/oauth2/authorization/google';
-      // const url = 'https://j8e103.p.ssafy.io:5000/oauth2/authorization/google';
+      // const url = 'http://localhost:5000/oauth2/authorization/google';
+      const url = 'http://j8e103.p.ssafy.io:5000/oauth2/authorization/google';
       window.location.href = url;
     } catch (err) {
       console.error(err);
