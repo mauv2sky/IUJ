@@ -1,135 +1,307 @@
+// @import '../../styles//reset.scss';
+// @import '../../styles/variable.scss';
+
+// .container1 {
+//   width: 100%;
+//   height: 960px;
+//   font-family: 'SUIT-Regular';
+//   background-color: rgba(23, 23, 23);
+// }
+// .bigbox {
+//   padding-top: 80px;
+//   width: 100%;
+//   height: 640px;
+//   background-color: rgba(23, 23, 23);
+//   border-bottom: 1px solid $ffc;
+//   color: white;
+//   font-family: 'SUIT-Regular';
+//   display: grid;
+//   grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+// }
+// .container2 {
+//   padding-top: 80px;
+//   width: 100%;
+//   height: 600px;
+//   // height: auto;
+//   // overflow: hidden;
+//   font-family: 'SUIT-Regular';
+//   // border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+// }
+// .box1 {
+//   float: left;
+//   height: 100%;
+//   border-right: 1px solid $ffc;
+//   border-top: 1px solid $ffc;
+//   color: $ffc;
+// }
+// .box2 {
+//   height: 100%;
+//   float: left;
+//   color: $ffc;
+//   border-right: 1px solid $ffc;
+// }
+// .box2_1 {
+//   width: 100%;
+//   height: 50%;
+//   border-bottom: 1px solid $ffc;
+//   border-top: 1px solid $ffc;
+//   color: $ffc;
+// }
+// .box2_2 {
+//   width: 100%;
+//   height: 50%;
+//   float: left;
+//   color: $ffc;
+//   font-size: 70px;
+//   font-weight: 700;
+//   color: white;
+//   vertical-align: bottom;
+// }
+// .box3 {
+//   height: 100%;
+//   float: left;
+//   border-right: 1px solid $ffc;
+//   border-top: 1px solid $ffc;
+//   border-bottom-right-radius: 50% 50%;
+//   color: $ffc;
+// }
+// .box3_1 {
+//   width: 50%;
+//   height: 50%;
+//   border: 1px solid $ffc;
+//   border-radius: 50%;
+//   color: $ffc;
+// }
+// .box4 {
+//   height: 100%;
+//   float: left;
+//   border-right: 1px solid $ffc;
+//   border-top: 1px solid $ffc;
+//   color: $ffc;
+// }
+// .box5 {
+//   height: 100%;
+//   float: left;
+//   border-right: 1px solid $ffc;
+//   border-top: 1px solid $ffc;
+//   color: $ffc;
+// }
+// .introduce {
+//   float: left;
+//   color: white;
+//   margin-top: 20px;
+//   margin-left: 325px;
+//   font-size: xx-large;
+//   font-weight: 700;
+// }
+
+// .btn-div {
+//   min-height: 80px;
+//   float: right;
+
+//   & button {
+//     width: 130px;
+//     margin-top: 30px;
+//     float: left;
+//     margin-right: 325px;
+//     padding: 13px 0;
+//     border: 1px solid white;
+//     border-radius: 50px;
+//     background-color: inherit;
+//     font-size: 18px;
+//     color: white;
+//     animation: fade-in 1s ease-in-out;
+
+//     &:hover {
+//       cursor: pointer;
+//       border: 1px solid $tc;
+//       color: $tc;
+//       transition: all 0.2s;
+//     }
+//   }
+// }
+
+// .title {
+//   margin-top: 20px;
+//   margin-left: 325px;
+//   font-size: xx-large;
+//   font-weight: 700;
+//   color: rgba(23, 23, 23);
+// }
+// .cardlist {
+//   margin-left: 325px;
+//   margin-top: 0px;
+//   margin-right: 325px;
+// }
+
 @import '../../styles//reset.scss';
 @import '../../styles/variable.scss';
+.container {
+  height: 100%;
 
-.container1 {
-  width: 100%;
-  height: 960px;
-  font-family: 'SUIT-Regular';
-  background-color: rgba(23, 23, 23);
-}
-.bigbox {
-  padding-top: 80px;
-  width: 100%;
-  height: 640px;
-  background-color: rgba(23, 23, 23);
-  border-bottom: 1px solid $ffc;
-  color: white;
-  font-family: 'SUIT-Regular';
-  display: grid;
-  grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
-}
-.container2 {
-  padding-top: 80px;
-  width: 100%;
-  height: 600px;
-  // height: auto;
-  // overflow: hidden;
-  font-family: 'SUIT-Regular';
-  // border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-}
-.box1 {
-  float: left;
-  height: 100%;
-  border-right: 1px solid $ffc;
-  border-top: 1px solid $ffc;
-  color: $ffc;
-}
-.box2 {
-  height: 100%;
-  float: left;
-  color: $ffc;
-  border-right: 1px solid $ffc;
-}
-.box2_1 {
-  width: 100%;
-  height: 50%;
-  border-bottom: 1px solid $ffc;
-  border-top: 1px solid $ffc;
-  color: $ffc;
-}
-.box2_2 {
-  width: 100%;
-  height: 50%;
-  float: left;
-  color: $ffc;
-  font-size: 70px;
-  font-weight: 700;
-  color: white;
-  vertical-align: bottom;
-}
-.box3 {
-  height: 100%;
-  float: left;
-  border-right: 1px solid $ffc;
-  border-top: 1px solid $ffc;
-  border-bottom-right-radius: 50% 50%;
-  color: $ffc;
-}
-.box3_1 {
-  width: 50%;
-  height: 50%;
-  border: 1px solid $ffc;
-  border-radius: 50%;
-  color: $ffc;
-}
-.box4 {
-  height: 100%;
-  float: left;
-  border-right: 1px solid $ffc;
-  border-top: 1px solid $ffc;
-  color: $ffc;
-}
-.box5 {
-  height: 100%;
-  float: left;
-  border-right: 1px solid $ffc;
-  border-top: 1px solid $ffc;
-  color: $ffc;
-}
-.introduce {
-  float: left;
-  color: white;
-  margin-top: 20px;
-  margin-left: 325px;
-  font-size: xx-large;
-  font-weight: 700;
-}
+  .lottie {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 0 0 0;
+    width: 100%;
+    height: 860px;
+  }
 
-.btn-div {
-  min-height: 80px;
-  float: right;
+  .banner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 530px;
+    background-image: url('../../assets/banner.png');
+    background-size: 150% 150%;
+    animation: gradient 4s ease infinite;
 
-  & button {
-    width: 130px;
-    margin-top: 30px;
-    float: left;
-    margin-right: 325px;
-    padding: 13px 0;
-    border: 1px solid white;
-    border-radius: 50px;
-    background-color: inherit;
-    font-size: 18px;
-    color: white;
-    animation: fade-in 1s ease-in-out;
+    .banner-inner {
+      width: 80%;
+      // display: flex;
 
-    &:hover {
-      cursor: pointer;
-      border: 1px solid black;
-      color: white;
-      transition: all 0.2s;
+      .banner-title {
+        font-size: 200px;
+        color: white;
+
+        & span {
+          animation: title-fade-in 0.5s ease;
+        }
+      }
+
+      .banner-right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        font-weight: 900;
+        line-height: 70px;
+        margin: 100px 0 0 7%;
+
+        .banner-des-div {
+          min-height: 120px;
+          width: 90%;
+          float: left;
+
+          .banner-des {
+            margin-bottom: 1rem;
+            font-size: 60px;
+            color: white;
+
+            & span {
+              animation: des-fade-in 0.5s ease-in-out;
+            }
+          }
+        }
+
+        .margin {
+          height: 4%;
+        }
+
+        .banner-btn-div {
+          width: 50%;
+          min-height: 100px;
+          text-align: end;
+          float: right;
+        }
+
+        .banner-btn {
+          font-size: 50px;
+          color: white;
+          animation: btn-fade-in 1s ease-in-out;
+
+          &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+          }
+        }
+      }
+    }
+  }
+
+  .interest {
+    width: 70%;
+    margin: 100px auto 0 auto;
+
+    .interest-title {
+      font-size: 40px;
+      font-weight: 500;
+    }
+
+    .interest-null {
+      height: 500px;
     }
   }
 }
 
-.title {
-  margin-top: 20px;
-  margin-left: 325px;
-  font-size: xx-large;
-  font-weight: 700;
-  color: rgba(23, 23, 23);
+@keyframes gradient {
+  0% {
+    background-position: 50% 10%;
+  }
+  10% {
+    background-position: 60% 20%;
+  }
+  20% {
+    background-position: 70% 30%;
+  }
+  25% {
+    background-position: 80% 40%;
+  }
+  30% {
+    background-position: 90% 50%;
+  }
+  40% {
+    background-position: 80% 60%;
+  }
+  50% {
+    background-position: 70% 70%;
+  }
+  60% {
+    background-position: 60% 80%;
+  }
+  70% {
+    background-position: 50% 90%;
+  }
+  80% {
+    background-position: 30% 70%;
+  }
+  90% {
+    background-position: 10% 50%;
+  }
+  100% {
+    background-position: 50% 10%;
+  }
 }
-.cardlist {
-  margin-left: 325px;
-  margin-top: 0px;
-  margin-right: 325px;
+
+@keyframes title-fade-in {
+  from {
+    margin: 0 0 0 -20px;
+    opacity: 0;
+  }
+  to {
+    margin: 0 0 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes des-fade-in {
+  from {
+    margin: 0 0 0 -3px;
+    opacity: 0;
+  }
+  to {
+    margin: 0 0 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes btn-fade-in {
+  from {
+    margin: 0 0 0 -10px;
+    opacity: 0;
+  }
+  to {
+    margin: 0 0 0 0;
+    opacity: 1;
+  }
 }

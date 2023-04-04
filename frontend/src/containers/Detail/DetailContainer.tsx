@@ -26,7 +26,7 @@ function Detailcontainer(props: Props) {
   const [clusterer, setClusterer] = useState<any>(null);
 
   const dispatch = useAppDispatch();
-  /** 매물 상세 정보 더미 데이터 */
+  /** 매물 상세 정보 데이터 */
   const [detailRelist, setDetailRelist] = useState<DetailType>();
 
   /** 매물 상세 정보 요청 */
