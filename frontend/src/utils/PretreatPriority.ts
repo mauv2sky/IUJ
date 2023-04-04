@@ -21,10 +21,19 @@ export const priorityMapForRequest: priorityMappingType = {
   지하철: 'SUBWAY',
 };
 
-/** 우선 순위 리스트를 요청용으로 전처리하기 위한 함수 */
+/** 우선 순위 리스트를 dispatch용으로 전처리하기 위한 함수 */
 export const pretreatPriority = (list: priorityType[] | ResponsedPriorityItemType[]) => {
   const result = list.map((item) => {
     return priorityMapForRequest[item.sub];
+  });
+
+  return result;
+};
+
+/** 우선 순위 리스트를 요청용으로 전처리하기 위한 함수 */
+export const pretreatPriority2 = (list: priorityType[] | ResponsedPriorityItemType[]) => {
+  const result = list.map((item) => {
+    return item.sub;
   });
 
   return result;
