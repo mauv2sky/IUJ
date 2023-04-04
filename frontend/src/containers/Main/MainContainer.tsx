@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import Notice from '../../components/Notice/Notice';
 import { NoticeType } from '../../types/MainType';
@@ -41,6 +41,7 @@ const noticeList: NoticeType[] = [
 function MainContainer() {
   /** ==================================== 변수, useState ==================================== */
   const navigate = useNavigate();
+  const params = useParams();
   /** 스크롤 */
   const [scrollY, setScrollY] = useState<number>(0);
   let bannerTitleInteval: number | undefined, bannerDes1Interval: number | undefined, bannerDes2Interval: number | undefined;
@@ -62,6 +63,11 @@ function MainContainer() {
   const [showNotice, setShowNotice] = useState<boolean>(false);
 
   /** ==================================== useEffect ==================================== */
+  /** 로그인 정보 가져오기 */
+  useEffect(() => {
+    console.log(params);
+  }, []);
+
   /** 스크롤 이벤트 추가 */
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -71,9 +77,8 @@ function MainContainer() {
     };
   }, []);
 
+  /** 스크롤이 450 이상이면 공지사항 보여주기 */
   useEffect(() => {
-    console.log(scrollY);
-
     if (scrollY >= 450) {
       setShowNotice(true);
     }
