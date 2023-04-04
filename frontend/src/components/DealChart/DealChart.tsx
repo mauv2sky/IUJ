@@ -24,19 +24,6 @@ export const options = {
   },
 };
 
-export type DealType = {
-  data: {
-    value: string;
-    data: number[];
-  };
-}[];
-
-/** 프롭스 받은 매물 상세 정보 */
-export type DealPropsType = {
-  // home: any;
-  dealChartlist: DealType;
-};
-
 /** X축 라벨 */
 const labels = ['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2'];
 
@@ -64,9 +51,7 @@ export const data = {
   ],
 };
 
-export default function DealChart(dealChartlist: DealType) {
-  console.log(dealChartlist);
-
+export default function DealChart() {
   return (
     <div className={styles.component}>
       <div className={styles.chart}>
