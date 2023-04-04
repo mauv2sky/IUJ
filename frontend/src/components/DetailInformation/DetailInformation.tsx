@@ -38,7 +38,8 @@ export type DetailType = {
 };
 /** 프롭스 받은 매물 상세 정보 */
 export type DetailPropsType = {
-  // home: any;
+  detailid: number;
+  detailtype: string;
   detailRelist: DetailType;
 };
 
@@ -75,9 +76,10 @@ interface StudyType {
 /** APIURL */
 const APIURL = 'http://localhost:5000';
 
-function DetailInformation(detailRelist: DetailPropsType) {
+function DetailInformation(props: DetailPropsType) {
+  const { detailid, detailtype, detailRelist } = props;
   // console.log('detailRelist', detailRelist);
-  const detaillist = detailRelist.detailRelist;
+  const detaillist = detailRelist;
   const [schoolRelist, setSchoolRelist] = useState<StudyType>({
     school: [
       {
@@ -98,7 +100,7 @@ function DetailInformation(detailRelist: DetailPropsType) {
     axios({
       method: 'get',
       // url: APIURL + `/api/place/${props.type}/${props.id}`,
-      url: APIURL + `/api/place/APT/9/school`,
+      url: APIURL + `/api/place/${detailtype}/${detailid}/school`,
     })
       .then((response) => {
         // console.log('데이터 전송 성공이냐옹');
@@ -150,7 +152,7 @@ function DetailInformation(detailRelist: DetailPropsType) {
       <div className={styles.information}>
         <div className={styles.deal}>최근 1년간 실거래</div>
         <div className={styles.costdata}>
-          <DealData detailRelist={detaillist} />
+          <DealData detailRelist={detaillist} detailid={detailid} detailtype={detailtype} />
         </div>
 
         <div className={styles.school}>인근 학교 정보</div>
