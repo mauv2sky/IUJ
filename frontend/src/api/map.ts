@@ -22,3 +22,24 @@ export const requestRealEstateList = async (requestRealEstateListInfo: requestRe
 
   return res;
 };
+
+/** 선호 필터 저장 */
+export const requestSavePriority = async (recomm: string[]) => {
+  const res = await http.post('api/recomm', { recomm });
+
+  return res;
+};
+
+/** 선호 필터 저장 */
+export const requestPriorityList = async () => {
+  const res = await http.get('api/recomm');
+
+  return res;
+};
+
+/** 선호 필터 저장 */
+export const requestDeletePriority = async (id: number) => {
+  const res = await http.delete('api/recomm', { id });
+
+  return res;
+};
