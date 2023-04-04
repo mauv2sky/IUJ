@@ -1,9 +1,9 @@
 import { requestRealEstateListType } from '../types/MapType';
-import { http } from './axios';
+import { http, httpForKakaoSearch } from './axios';
 
 /** 카카오 주소 검색 API */
 export const requestSearch = async (query: string) => {
-  const res = await http.get('https://dapi.kakao.com/v2/local/search/address.json', {
+  const res = await httpForKakaoSearch.get('https://dapi.kakao.com/v2/local/search/address.json', {
     headers: {
       Authorization: 'KakaoAK 6b0974b03cc37391ccf31bc3bbfcdf8f',
     },
