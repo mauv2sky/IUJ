@@ -108,6 +108,8 @@ function MapContainer() {
       return;
     }
 
+    requestRealEstateForMap(stateMap, stateClusterer, type, dealType, price, guarantee1, guarantee2, monthly, extent2, floor, priority);
+
     kakao.maps.event.addListener(stateMap, 'dragend', () => {
       setMapEvent((prev) => prev + 1);
     });
