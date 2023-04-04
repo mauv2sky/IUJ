@@ -1,15 +1,12 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import googleLoginBtn from '../../assets/google_login.png';
 import styles from './LoginContainer.module.scss';
 
 function LoginContainer() {
-  const navigate = useNavigate();
-
   const OAuth = async () => {
     try {
-      // const url = 'http://localhost:5000/oauth2/authorization/google';
-      const url = 'http://j8e103.p.ssafy.io:5000/oauth2/authorization/google';
+      const url = 'http://localhost:5000/oauth2/authorization/google';
+      // const url = 'https://j8e103.p.ssafy.io:5000/oauth2/authorization/google';
       window.location.href = url;
     } catch (err) {
       console.error(err);
