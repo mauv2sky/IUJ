@@ -2,6 +2,7 @@
 @import '../../styles/variable.scss';
 
 .component {
+  margin: 1.6rem 0 0 0;
   height: calc(100% - 58.19px);
   display: flex;
   align-items: center;
@@ -13,6 +14,5 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
   }
 }
