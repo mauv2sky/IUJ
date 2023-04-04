@@ -12,14 +12,23 @@ public class AcademyDto {
     private String lng;
     private String type;
     private String addr;
+    private double distance;
 
-    public AcademyDto(int id, String name, String lat, String lng, String type, String addr){
+    public AcademyDto(int id, String name, String lat, String lng, String type, String addr, double distance){
         this.id = id;
         this.name = name;
         this.lat = lat;
         this.lng = lng;
         this.type = type;
         this.addr = addr;
+        this.distance = distance;
     }
 
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
 }
