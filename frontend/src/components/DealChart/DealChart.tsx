@@ -5,25 +5,6 @@ import styles from './DealChart.module.scss';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Colors, Title, Tooltip, Legend);
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    // title: {
-    //   display: true,
-    //   text: '최근 1년간 실거래 그래프',
-    // },
-  },
-  scales: {
-    y: {
-      max: 100000, // 최대
-      min: 0, // 최소
-    },
-  },
-};
-
 /** X축 라벨 */
 const labels = ['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2'];
 
@@ -37,6 +18,8 @@ export type DealType = {
 
 export type DealPropsType = {
   dealChartlist: DealType;
+  maxPrice: number;
+  minPrice: number;
 };
 
 export const chartdata = {
@@ -63,9 +46,25 @@ export const chartdata = {
   ],
 };
 
-export default function DealChart({ dealChartlist }: any) {
+export default function DealChart({ dealChartlist, min, max }: any) {
   const [chartData, setChartData] = useState(chartdata);
   const chartDatalist = dealChartlist;
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+    },
+    scales: {
+      y: {
+        max: max + 500, // 최대
+        min: min - 500 >= 0 ? min - 500 : 0, // 최소
+      },
+    },
+  };
+
   useEffect(() => {
     if (dealChartlist) {
       setChartData({
@@ -73,8 +72,6 @@ export default function DealChart({ dealChartlist }: any) {
         datasets: chartDatalist.datasets.map((data: any) => ({
           data: data.data,
           label: data.label,
-          // borderColor: data.datasets.borderColor,
-          // backgroundColor: data.datasets.backgroundColor,
         })),
       });
     }

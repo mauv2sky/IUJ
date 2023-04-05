@@ -10,11 +10,15 @@ type FacilityListItemPropsType = {
 };
 
 function FacilityListItem({ facilitylistitem }: FacilityListItemPropsType) {
+  const address = facilitylistitem.addr as string;
+  const pretreatedAddressList = address.split(' ').slice(0, 2);
+  const pretreatedAddress = pretreatedAddressList[0] + ' ' + pretreatedAddressList[1];
+
   return (
     <div className={styles.container}>
       <div className={styles.itemname}>{facilitylistitem.name}</div>
-      <div className={styles.itemaddress}>{facilitylistitem.addr}</div>
-      <div className={styles.distance}>집에서 {facilitylistitem.distance}km</div>
+      <div className={styles.itemaddress}>{pretreatedAddress}</div>
+      <div className={styles.distance}>{facilitylistitem.distance}km</div>
     </div>
   );
 }
