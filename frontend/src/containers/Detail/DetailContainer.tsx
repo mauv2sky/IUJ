@@ -11,30 +11,30 @@ import InfraIcontransports from '../../components/InfraIcon/InfraIcontransports'
 import axios from 'axios';
 import icon from '../../assets/icon.png';
 
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setdetailContainerState } from '../../store/slices/detailContainerSlice';
-
 /** 건물 타입과 건물 id */
-type Props = {};
+export interface DetailContainerProps {
+  detailid: number;
+  detailtype: string;
+}
 
 /** APIURL */
 const APIURL = 'http://localhost:5000';
 
-function Detailcontainer(props: Props) {
+function Detailcontainer(props: DetailContainerProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<any>(null);
   const [clusterer, setClusterer] = useState<any>(null);
 
-  const dispatch = useAppDispatch();
   /** 매물 상세 정보 데이터 */
   const [detailRelist, setDetailRelist] = useState<DetailType>();
 
   /** 매물 상세 정보 요청 */
   useEffect(() => {
+    console.log(props.detailtype, '나오냐?');
+
     axios({
       method: 'get',
-      // url: APIURL + `/api/place/${props.type}/${props.id}`,
-      url: APIURL + `/api/place/APT/2`,
+      url: APIURL + `/api/place/${props.detailtype}/${props.detailid}`,
     })
       .then((response) => {
         setDetailRelist(response.data);
@@ -44,8 +44,6 @@ function Detailcontainer(props: Props) {
         console.error(error);
       });
   }, []);
-
-  const detailContainer = useAppSelector((state) => state.detailContainerSlice.detailContainer);
 
   /** 매물 위치를 기반으로 지도 생성 */
   const createMap = async () => {
@@ -82,6 +80,21 @@ function Detailcontainer(props: Props) {
           /** 현재 영역 가져옴 */
           const bounds = map.getBounds();
 
+          /** 마커 이미지 */
+          const markerImage = new kakao.maps.MarkerImage(
+            icon, // 이미지 경로
+            new kakao.maps.Size(30, 30), // 이미지 크기
+          );
+
+          /** 마커 표시 */
+          const marker = new kakao.maps.Marker({
+            map,
+            position: new window.kakao.maps.LatLng(lat, lng),
+            image: markerImage,
+          });
+
+          clusterer.addMarker(marker);
+
           /** 현재 영역의 매물들 가져옴 */
         }
       } catch (error) {
@@ -115,7 +128,7 @@ function Detailcontainer(props: Props) {
       axios({
         method: 'get',
         // url: APIURL + `/api/place/${props.type}/${detailRelist.home.id}/${btnName}`,
-        url: APIURL + `/api/place/APT/${detailRelist?.home.id}/school`,
+        url: APIURL + `/api/place/${props.detailtype}/${detailRelist?.home.id}/school`,
       })
         .then((response) => {
           console.log('데이터 전송 성공이다멍멍 학군임');
@@ -190,7 +203,7 @@ function Detailcontainer(props: Props) {
       axios({
         method: 'get',
         // url: APIURL + `/api/place/${props.type}/${detailRelist.home.id}/${btnName}`,
-        url: APIURL + `/api/place/APT/${detailRelist?.home.id}/${btnName}`,
+        url: APIURL + `/api/place/${props.detailtype}/${detailRelist?.home.id}/${btnName}`,
       })
         .then((response) => {
           console.log('데이터 전송 성공이다멍멍 학군아님');
@@ -257,7 +270,7 @@ function Detailcontainer(props: Props) {
         {tabIndex === 3 && <InfraIconsecurities selectedBtn={''} setSelectedBtn={handleBtnClick} />}
         {tabIndex === 4 && <InfraIconcultures selectedBtn={''} setSelectedBtn={handleBtnClick} />}
       </div>
-      {detailRelist ? <DetailInformation detailRelist={detailRelist} /> : <></>}
+      {detailRelist ? <DetailInformation detailRelist={detailRelist} detailid={props.detailid} detailtype={props.detailtype} /> : <></>}
     </div>
   );
 }

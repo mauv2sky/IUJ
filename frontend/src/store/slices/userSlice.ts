@@ -3,14 +3,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface UserStateInterface {
   isLogin: boolean;
-  userId: string;
-  username: string;
+  userName: string;
 }
 
 const initialState: UserStateInterface = {
   isLogin: false,
-  userId: '',
-  username: '',
+  userName: '',
 };
 
 export const userSlice = createSlice({
@@ -19,17 +17,15 @@ export const userSlice = createSlice({
   reducers: {
     setUserLoginState: (state, action: PayloadAction<UserStateInterface>) => {
       state.isLogin = action.payload.isLogin;
-      state.userId = action.payload.userId;
-      state.username = action.payload.username;
+      state.userName = action.payload.userName;
     },
-    resetUserLoginState: (state) => {
+    setUserLogoutState: (state) => {
       state.isLogin = false;
-      state.userId = '';
-      state.username = '';
+      state.userName = '';
     },
   },
 });
 
-export const { setUserLoginState, resetUserLoginState } = userSlice.actions;
+export const { setUserLoginState, setUserLogoutState } = userSlice.actions;
 
 export default userSlice.reducer;

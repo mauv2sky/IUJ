@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { ProfileMenuType } from '../../types/MainType';
+import { setUserLogoutState } from '../../store/slices/userSlice';
 import styles from './ProfileMenu.module.scss';
 
 type ProfileMenuPropsType = {
-  menuList: ProfileMenuType[];
   setShowProfileMenu: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function ProfileMenu({ menuList, setShowProfileMenu }: ProfileMenuPropsType) {
+function ProfileMenu({ setShowProfileMenu }: ProfileMenuPropsType) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -26,17 +27,23 @@ function ProfileMenu({ menuList, setShowProfileMenu }: ProfileMenuPropsType) {
     };
   }, [menuRef]);
 
-  const onClickMenuItem = (url: string) => {
-    navigate(url);
+  /** 관심 매물 목록으로 */
+  const onClickInterest = () => {
+    navigate('/interest');
+  };
+
+  /** 로그아웃 */
+  const logout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userName');
+    dispatch(setUserLogoutState());
   };
 
   return (
     <div ref={menuRef} className={styles.component}>
-      {menuList.map((item) => (
-        <div key={item.url} className={styles.item} onClick={() => onClickMenuItem(item.url)}>
-          {item.title}
-        </div>
-      ))}
+      <div onClick={onClickInterest}>관심 매물 목록</div>
+      <div onClick={logout}>로그아웃</div>
     </div>
   );
 }

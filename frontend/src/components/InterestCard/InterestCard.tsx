@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './InterestCard.module.scss';
-import InterestCardItem, { InterestCardItemType } from '../InterestCardItem/InterestCardItem';
-import axios from 'axios';
+import InterestCardItem from '../InterestCardItem/InterestCardItem';
 
 export type InterestType = {
   name: string;
@@ -13,18 +12,15 @@ export type InterestType = {
 
 type InterestPropsType = {
   interestList: InterestType[];
+  setDeleted: React.Dispatch<React.SetStateAction<number>>;
 };
 
-function InterestCard({ interestList }: InterestPropsType) {
-  const onClickInterest = () => {
-    window.open('http://localhost:5173/detail');
-  };
-
+function InterestCard({ interestList, setDeleted }: InterestPropsType) {
   return (
     <div className={styles.component}>
       {interestList.map((item, index) => (
-        <div key={index} onClick={onClickInterest} style={{ visibility: item ? 'visible' : 'hidden' }}>
-          <InterestCardItem interestcarditem={item} />
+        <div key={index}>
+          <InterestCardItem interestcarditem={item} setDeleted={setDeleted} />
         </div>
       ))}
     </div>
