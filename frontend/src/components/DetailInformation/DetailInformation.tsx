@@ -1,31 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import styles from './DetailInformation.module.scss';
 import FacilityList, { FacilityType } from '../../components/FacilityList/FacilityList';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import DealData from '../../components/DealData/DealData';
 import { requestInterest } from '../../api/interest';
+import { typeMap } from '../../containers/Map/MapContainer';
+import { customAlert } from '../../utils/CustomAlert';
 // import DealData from '../../components/DealData/DealData';
+
+export type DealType = {
+  type: string;
+  maxPrice: number;
+  minPrice: number;
+  deals: {
+    aptId: number;
+    area: string;
+    author: string;
+    contract_day: string;
+    contract_ym: string;
+    dealType: string;
+    floor: number;
+    guarantee: number;
+    id: number;
+    monthly: number;
+    price: number;
+  }[];
+};
 
 /** 프롭스 받은 매물 상세 정보 */
 export type DetailType = {
-  Deal: {
-    type: string;
-    maxPrice: number;
-    minPrice: number;
-    deals: {
-      aptId: number;
-      area: string;
-      author: string;
-      contract_day: string;
-      contract_ym: string;
-      dealType: string;
-      floor: number;
-      guarantee: number;
-      id: number;
-      monthly: number;
-      price: number;
-    }[];
-  }[];
+  Deal: DealType[];
   home: {
     id: number;
     lat: number;
@@ -134,12 +138,15 @@ function DetailInformation(props: DetailPropsType) {
     try {
       const res = await requestInterest(detailid, detailtype);
       console.log(res);
-    } catch (err) {
+      customAlert('관심 매물로 등록되었습니다.');
+    } catch (err: any) {
+      if (err.response && err.response.status === 500) {
+        customAlert('이미 등록된 매물입니다.');
+      }
       console.error(err);
     }
   };
 
-  const facilitylist: StudyType[] = [];
   return (
     <div className={styles.component}>
       <div className={styles.information}>
@@ -209,7 +216,7 @@ function DetailInformation(props: DetailPropsType) {
       </div>
       <div className={styles.title}>
         <div className={styles.full}>
-          <div className={styles.type}>{detailtype}</div>
+          <div className={styles.type}>{typeMap[detailtype]}</div>
           <div className={styles.built_year}>{detaillist.home.built_year}</div>
         </div>
         <div className={styles.name}>{detaillist.home.name}</div>

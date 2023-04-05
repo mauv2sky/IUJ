@@ -55,7 +55,7 @@
   position: sticky;
   top: 120px;
   border-radius: 5px;
-  box-shadow: 1px 1px 1px 1px rgb(70, 70, 70, 0.6);
+  box-shadow: 2px 2px 5px rgba(126, 126, 126, 0.6);
 }
 .costgraph {
   width: 100%;
@@ -80,7 +80,7 @@
   font-size: 23px;
 }
 .built_year {
-  background-color: $sc;
+  background-color: $tc;
   border-radius: 5px;
   width: auto;
   padding-left: 10px;
@@ -97,7 +97,7 @@
   float: left;
 }
 .type {
-  background-color: $sc;
+  background-color: $tc;
   border-radius: 5px;
   width: auto;
   padding-left: 10px;
@@ -135,15 +135,16 @@
   width: 290px;
   height: 50px;
   border: 0px;
-  background-color: $sc;
+  border-radius: 5px;
+  background-color: $tc;
   font-size: larger;
-  font-weight: 800;
+  font-weight: 600;
   color: white;
   letter-spacing: 1.5px;
+
   &:hover {
     cursor: pointer;
-    background-color: $tc;
-    // transform: scale(1.05);
+    background-color: rgb(102, 158, 213);
   }
 }
 .deal {

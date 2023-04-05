@@ -3,7 +3,7 @@ import styles from './DealData.module.scss';
 import DealDataItem from '../DealDataItem/DealDataItem';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { getdetailContainerState } from '../../store/slices/detailContainerSlice';
-import { DetailPropsType, DetailType } from '../DetailInformation/DetailInformation';
+import { DealType, DetailPropsType, DetailType } from '../DetailInformation/DetailInformation';
 import DealChart from '../DealChart/DealChart';
 import axios from 'axios';
 import { BiLeftArrow } from 'react-icons/bi';
@@ -14,8 +14,19 @@ const APIURL = 'http://localhost:5000';
 
 /** 차트데이터 요청 */
 function DealData({ detailRelist, detailid, detailtype }: DetailPropsType) {
-  const dealRelist = detailRelist.Deal;
+  const dealRelist: DealType[] = detailRelist.Deal;
   const [dealChartlist, setDealChartlist] = useState<any>();
+  const [max, setMax] = useState<number>(0);
+  const [min, setMin] = useState<number>(100000);
+
+  for (let i = 0; i < dealRelist.length; i++) {
+    if (dealRelist[i].maxPrice > max) {
+      setMax(dealRelist[i].maxPrice);
+    }
+    if (dealRelist[i].minPrice < min) {
+      setMin(dealRelist[i].minPrice);
+    }
+  }
 
   useEffect(() => {
     axios({
@@ -62,14 +73,14 @@ function DealData({ detailRelist, detailid, detailtype }: DetailPropsType) {
   return (
     <div className={styles.component}>
       <div>
-        <DealChart dealChartlist={dealChartlist} />{' '}
+        <DealChart dealChartlist={dealChartlist} min={min} max={max} />{' '}
       </div>
       <div className={styles.dealtitle}>
         <div className={styles.type}>거래타입</div>
         <div className={styles.time}>거래일</div>
         <div className={styles.space}>전용면적</div>
         <div className={styles.floor}>층</div>
-        <div className={styles.cost}>금액 (만원)</div>
+        <div className={styles.cost}>금액(만원)</div>
       </div>
 
       {currentPage > 1 && (
