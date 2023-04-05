@@ -13,7 +13,7 @@ function LoginContainer() {
   useEffect(() => {
     const commentInterval = window.setInterval(() => {
       setShowComment((prev) => prev + 1);
-    }, 20);
+    }, 10);
 
     return () => {
       clearInterval(commentInterval);
