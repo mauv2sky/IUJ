@@ -10,7 +10,7 @@ import { BiLeftArrow } from 'react-icons/bi';
 import { BiRightArrow } from 'react-icons/bi';
 
 /** APIURL */
-const APIURL = 'http://localhost:5000';
+const APIURL = 'https://j8e103.p.ssafy.io';
 
 /** 차트데이터 요청 */
 function DealData({ detailRelist, detailid, detailtype }: DetailPropsType) {
