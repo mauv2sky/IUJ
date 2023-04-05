@@ -6,24 +6,10 @@ import { useNavigate } from 'react-router';
 
 function LoginContainer() {
   const navigate = useNavigate();
-  const comment = '로그인으로 맞춤 매물을 추천받아 보세요.';
-  const [showComment, setShowComment] = useState<number>(0);
-  const commentList = comment.split('').slice(0, showComment);
-
-  useEffect(() => {
-    const commentInterval = window.setInterval(() => {
-      setShowComment((prev) => prev + 1);
-    }, 10);
-
-    return () => {
-      clearInterval(commentInterval);
-    };
-  }, []);
 
   /** 구글 로그인 */
   const OAuth = async () => {
     try {
-      // const url = 'http://localhost:5000/oauth2/authorization/google';
       const url = 'http://j8e103.p.ssafy.io:5000/oauth2/authorization/google';
       window.location.href = url;
     } catch (err) {
@@ -41,11 +27,7 @@ function LoginContainer() {
           navigate('/');
         }}
       />
-      <p>
-        {commentList.map((char) => (
-          <span>{char}</span>
-        ))}
-      </p>
+      <p>로그인으로 맞춤 매물을 추천받아 보세요.</p>
       <img id={styles.login} src={googleLogin} alt="googleLogin" onClick={OAuth} />
     </div>
   );
