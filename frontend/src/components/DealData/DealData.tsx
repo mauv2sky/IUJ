@@ -12,6 +12,7 @@ import { BiRightArrow } from 'react-icons/bi';
 /** APIURL */
 const APIURL = 'http://localhost:5000';
 
+/** 차트데이터 요청 */
 function DealData({ detailRelist, detailid, detailtype }: DetailPropsType) {
   const dealRelist = detailRelist.Deal;
   const [dealChartlist, setDealChartlist] = useState<any>();
@@ -27,7 +28,7 @@ function DealData({ detailRelist, detailid, detailtype }: DetailPropsType) {
         setDealChartlist(response.data);
       })
       .catch((error) => {
-        // console.error('데이터 전송 실패이구아나');
+        console.error('데이터 전송 실패이구아나');
         console.error(error);
       });
   }, []);
@@ -56,6 +57,7 @@ function DealData({ detailRelist, detailid, detailtype }: DetailPropsType) {
 
   // 현재 페이지의 아이템 목록
   const currentPageItems = dealRelist.flatMap((data) => data.deals).slice(startIndex, endIndex);
+  // console.log('제발', dealChartlist);
 
   return (
     <div className={styles.component}>

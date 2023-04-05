@@ -1,33 +1,3 @@
-// import React, { useState } from 'react';
-// import FacilityListItem, { FacilityListItemType } from '../FacilityListItem/FacilityListItem';
-// import styles from './FacilityList.module.scss';
-
-// export type FacilityType = {
-//   [key: string]: number | string | string | string | string | string;
-// };
-
-// type FacilityPropsType = {
-//   facilitylist: FacilityType[];
-// };
-
-// function FacilityList(facilitylist: any) {
-//   const facility = facilitylist.facilitylist;
-
-//   return (
-//     <div className={styles.component}>
-//       <div>
-//         {facility.map((item: FacilityListItemType, index: number) => (
-//           <div key={index}>
-//             <FacilityListItem facilitylistitem={item} />
-//           </div>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default FacilityList;
-
 import React, { useState, useEffect } from 'react';
 import FacilityListItem, { FacilityListItemType } from '../FacilityListItem/FacilityListItem';
 import styles from './FacilityList.module.scss';
@@ -35,7 +5,7 @@ import { BiLeftArrow } from 'react-icons/bi';
 import { BiRightArrow } from 'react-icons/bi';
 
 export type FacilityType = {
-  [key: string]: number | string | string | string | string | string;
+  [key: string]: number | string | string | string | string | string | number;
 };
 
 type FacilityPropsType = {

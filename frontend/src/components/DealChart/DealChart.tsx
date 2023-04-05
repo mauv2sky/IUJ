@@ -67,8 +67,6 @@ export default function DealChart({ dealChartlist }: any) {
   const [chartData, setChartData] = useState(chartdata);
   const chartDatalist = dealChartlist;
   useEffect(() => {
-    console.log('chartDatalist', chartDatalist);
-
     if (dealChartlist) {
       setChartData({
         labels,
