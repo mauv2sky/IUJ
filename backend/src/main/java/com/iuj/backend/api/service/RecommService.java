@@ -62,7 +62,7 @@ public class RecommService {
 
         // 허용 문자열 목록
         List<String> allowedValues = Arrays.asList(null, "어린이집", "유치원", "초등학교", "중학교", "고등학교", "특수학교", "입시학원", "예체능학원",
-        "지하철", "버스", "편의점", "마트", "병원", "치안", "공원", "영화관", "서점", "미술관");
+        "지하철", "버스", "편의점", "마트", "병원", "치안", "공원", "영화관", "서점", "미술관", "도서관", "관공서");
 
         List<String> recommList = request.getRecomm();
         String[] recommArray = new String[5];
