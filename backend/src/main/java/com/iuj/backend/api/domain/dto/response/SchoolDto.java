@@ -2,9 +2,11 @@ package com.iuj.backend.api.domain.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class SchoolDto {
     private int id;
     private String name;
