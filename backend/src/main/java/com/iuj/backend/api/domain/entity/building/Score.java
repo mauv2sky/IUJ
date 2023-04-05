@@ -25,8 +25,8 @@ public class Score{
     @Column(length=10)
     private String type;
 
-    @Column
-    private int safe;
+    @Column(name = "safe_convi")
+    private int safeConvi;
 
     @Column
     private int subway;
