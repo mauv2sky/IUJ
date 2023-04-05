@@ -1,6 +1,7 @@
 import React from 'react';
 import DetailContainer, { DetailContainerProps } from '../containers/Detail/DetailContainer';
 import { useParams } from 'react-router-dom';
+import Footer from '../components/Footer/Footer';
 
 type DetailPageParams = {
   id: string;

@@ -12,6 +12,7 @@ import axios from 'axios';
 import icon from '../../assets/icon.png';
 import ReactDOMServer from 'react-dom/server';
 import styles from './DetailContainer.module.scss';
+import Footer from '../../components/Footer/Footer';
 
 /** 건물 타입과 건물 id */
 export interface DetailContainerProps {
@@ -20,7 +21,7 @@ export interface DetailContainerProps {
 }
 
 /** APIURL */
-const APIURL = 'http://localhost:5000';
+const APIURL = 'https://j8e103.p.ssafy.io';
 
 function Detailcontainer(props: DetailContainerProps) {
   const mapRef = useRef<HTMLDivElement>(null);

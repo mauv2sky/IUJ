@@ -79,7 +79,7 @@ interface StudyType {
 }
 
 /** APIURL */
-const APIURL = 'http://localhost:5000';
+const APIURL = 'https://j8e103.p.ssafy.io';
 
 function DetailInformation(props: DetailPropsType) {
   const { detailid, detailtype, detailRelist } = props;
@@ -131,7 +131,7 @@ function DetailInformation(props: DetailPropsType) {
   };
 
   /** APIURL */
-  const APIURL = 'http://localhost:5000';
+  const APIURL = 'https://j8e103.p.ssafy.io';
 
   /** 관심 매물 등록 버튼 클릭 시 */
   const onClickInterestBtn = async () => {
