@@ -12,7 +12,7 @@ import axios from 'axios';
 import icon from '../../assets/icon.png';
 
 /** 건물 타입과 건물 id */
-export interface DetailContainerProps {
+interface DetailContainerProps {
   detailid: number;
   detailtype: string;
 }

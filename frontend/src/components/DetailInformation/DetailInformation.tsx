@@ -208,7 +208,10 @@ function DetailInformation(props: DetailPropsType) {
         </div>
       </div>
       <div className={styles.title}>
-        <div className={styles.type}>{detaillist.home.built_year}</div>
+        <div className={styles.full}>
+          <div className={styles.type}>{detailtype}</div>
+          <div className={styles.built_year}>{detaillist.home.built_year}</div>
+        </div>
         <div className={styles.name}>{detaillist.home.name}</div>
         <div className={styles.address}>
           {detaillist.home.sigungu} {detaillist.home.bungi}
