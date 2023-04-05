@@ -690,7 +690,7 @@ public class DetailController {
 
             // 데이터셋 생성 및 추가
             Map<String, Object> dataset = new HashMap<>();
-//            dataset.put("label", type);
+            dataset.put("label", type);
             dataset.put("data", prices);
             datasets.add(dataset);
         }
@@ -748,8 +748,8 @@ public class DetailController {
 
             // 데이터셋 생성 및 추가
             Map<String, Object> dataset = new HashMap<>();
-//            dataset.put("label", type);
-            dataset.put("data", prices);
+            dataset.put("label", type);
+            dataset.put("거래내역", prices);
             datasets.add(dataset);
         }
 
@@ -806,7 +806,7 @@ public class DetailController {
 
             // 데이터셋 생성 및 추가
             Map<String, Object> dataset = new HashMap<>();
-//            dataset.put("label", type);
+            dataset.put("label", type);
             dataset.put("data", prices);
             datasets.add(dataset);
         }
