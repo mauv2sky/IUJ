@@ -3,6 +3,7 @@ import styles from './DetailInformation.module.scss';
 import FacilityList, { FacilityType } from '../../components/FacilityList/FacilityList';
 import axios from 'axios';
 import DealData from '../../components/DealData/DealData';
+import { requestInterest } from '../../api/interest';
 // import DealData from '../../components/DealData/DealData';
 
 /** 프롭스 받은 매물 상세 정보 */
@@ -129,21 +130,13 @@ function DetailInformation(props: DetailPropsType) {
   const APIURL = 'http://localhost:5000';
 
   /** 관심 매물 등록 버튼 클릭 시 */
-  const onClickInterestBtn = () => {
-    console.log('되냐?');
-    axios
-      .post(APIURL + `/api/like/`, {
-        id: detailid,
-        type: detailtype,
-      })
-      .then((response) => {
-        console.log('데이터 전송 성공이다람쥐');
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error('데이터 전송 실패이다람쥐');
-        console.error(error);
-      });
+  const onClickInterestBtn = async () => {
+    try {
+      const res = await requestInterest(detailid, detailtype);
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const facilitylist: StudyType[] = [];
