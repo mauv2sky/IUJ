@@ -24,7 +24,10 @@ public class ScoreUtil {
             // 계산하기
             int cctvScore = score.getCctv();
             int policeScore = score.getPolice();
-            return (cctvScore + policeScore) / 2;
+            int safeConviScore = score.getSafeConvi();
+
+            double totalScore = (cctvScore * 0.4 + policeScore * 0.1 + safeConviScore * 0.5) * 1.3;
+            return totalScore > 100 ? 100 : (int) totalScore;
         } else {
             switch (category){
                 case NURSERY:
@@ -132,7 +135,7 @@ public class ScoreUtil {
 
         double recommScore = (double) sum / denum;
         double basicScore = getBasicScore(scoreData);
-        result = Math.round(((recommScore + basicScore) / 2)*100)/100.0;
+        result = Math.round(((recommScore*0.7 + basicScore*0.3))*100)/100.0;
         return result;
 
     }
