@@ -9,10 +9,8 @@ import com.iuj.backend.api.repository.building.OfficetelRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,5 +60,86 @@ public class OfficetelService {
             DealTypeDtos.add(officetelDealTypeDto);
         }
         return DealTypeDtos;
+    }
+
+    public Map<String, List<Integer>> getPriceDataByDealType() {
+        List<OfficetelDeal> deals = officetelDealRepository.findAll();
+        Map<String, List<Integer>> dataMap = new HashMap<>();
+
+        for (OfficetelDeal deal : deals) {
+            String dealType = deal.getDealType();
+            int price = deal.getPrice();
+
+            if (dataMap.containsKey(dealType)) {
+                List<Integer> dataList = dataMap.get(dealType);
+                dataList.add(price);
+            } else {
+                List<Integer> dataList = new ArrayList<>();
+                dataList.add(price);
+                dataMap.put(dealType, dataList);
+            }
+        }
+        return dataMap;
+    }
+
+
+    public Object[] createOfficetelDealArray(List<OfficetelDeal> officetelDealList) {
+        Object[] array = new Object[12];
+        Arrays.fill(array, null);
+
+        List<OfficetelDealTypeDto> resultList = new ArrayList<>();
+
+        Map<String, List<OfficetelDeal>> officetelDealByMonth = officetelDealList.stream()
+                .collect(Collectors.groupingBy(deal -> deal.getContract_ym()));
+
+        for (int month = 1; month <= 12; month++) {
+            List<OfficetelDeal> dealsInMonth = officetelDealByMonth.get(String.valueOf(month));
+            if (dealsInMonth != null) {
+                int numDeals = dealsInMonth.size();
+
+                Double[] prices = new Double[numDeals];
+                Double[] guarantees = new Double[numDeals];
+                Double[] guaranteeMoneys = new Double[numDeals];
+
+                for (int i = 0; i < numDeals; i++) {
+                    OfficetelDeal deal = dealsInMonth.get(i);
+                    System.out.println(deal);
+                    switch (deal.getDealType()) {
+                        case "매매":
+                            prices[i] = (double) deal.getPrice();
+                            guarantees[i] = null;
+                            guaranteeMoneys[i] = null;
+                            break;
+                        case "전세":
+                            prices[i] = null;
+                            guarantees[i] = (double) deal.getGuarantee();
+                            guaranteeMoneys[i] = null;
+                            break;
+                        case "월세":
+                            prices[i] = null;
+                            guarantees[i] = null;
+                            guaranteeMoneys[i] = (double) deal.getGuarantee();
+                            break;
+                    }
+                }
+
+                Double avgPrice = Arrays.stream(prices)
+                        .filter(price -> price != null)
+                        .mapToDouble(price -> price)
+                        .average().orElse(Double.NaN);
+
+                List<OfficetelDealDto> avgGuaranteeList = Arrays.stream(guarantees)
+                        .filter(guarantee -> guarantee != null)
+                        .map(guarantee -> new OfficetelDealDto(
+                                0, "", "", "", "", guarantee.intValue(), 0, 0, 0, null))
+                        .collect(Collectors.toList());
+
+                OfficetelDealTypeDto dto = new OfficetelDealTypeDto(String.valueOf(avgPrice), avgGuaranteeList);
+                dto.setType(String.valueOf(month));
+                resultList.add(dto);
+            }
+        }
+
+        return array;
     }
 }
