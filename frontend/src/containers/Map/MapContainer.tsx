@@ -30,6 +30,9 @@ export const typeMap: TypeMappingType = {
   APT: '아파트',
   OFFICETEL: '오피스텔',
   VILLA: '연립다세대',
+  아파트: 'APT',
+  오피스텔: 'OFFICETEL',
+  연립다세대: 'VILLA',
 };
 
 function MapContainer() {
