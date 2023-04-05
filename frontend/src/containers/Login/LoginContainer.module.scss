@@ -19,7 +19,7 @@
     margin: 30px auto 0 auto;
     height: 40px;
     font-size: 35px;
-    animation: fade-in 4s ease-in-out;
+    animation: fade-in 2s ease-in-out;
 
     @keyframes fade-in {
       0% {
@@ -31,7 +31,7 @@
     }
 
     & span {
-      animation: twinkle 4s infinite ease-in-out;
+      animation: twinkle 5s infinite ease-in-out;
 
       @keyframes twinkle {
         0% {
