@@ -12,7 +12,7 @@ import axios from 'axios';
 import icon from '../../assets/icon.png';
 
 /** 건물 타입과 건물 id */
-interface DetailContainerProps {
+export interface DetailContainerProps {
   detailid: number;
   detailtype: string;
 }
@@ -79,6 +79,21 @@ function Detailcontainer(props: DetailContainerProps) {
 
           /** 현재 영역 가져옴 */
           const bounds = map.getBounds();
+
+          /** 마커 이미지 */
+          const markerImage = new kakao.maps.MarkerImage(
+            icon, // 이미지 경로
+            new kakao.maps.Size(30, 30), // 이미지 크기
+          );
+
+          /** 마커 표시 */
+          const marker = new kakao.maps.Marker({
+            map,
+            position: new window.kakao.maps.LatLng(lat, lng),
+            image: markerImage,
+          });
+
+          clusterer.addMarker(marker);
 
           /** 현재 영역의 매물들 가져옴 */
         }
