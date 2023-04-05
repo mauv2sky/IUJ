@@ -19,6 +19,8 @@ export const priorityMapForRequest: priorityMappingType = {
   마트: 'SHOPPING',
   특수학교: 'SPECIAL_SCHOOL',
   지하철: 'SUBWAY',
+  관공서: 'PUBLIC_OFFICE',
+  도서관: 'LIBRARY',
 };
 
 /** 우선 순위 리스트를 dispatch용으로 전처리하기 위한 함수 */
