@@ -652,8 +652,14 @@ public class DetailController {
         List<Map<String, Object>> datasets = new ArrayList<>();
 
         // 1월부터 12월까지 라벨 추가
-        for (int i = 1; i <= 12; i++) {
-            labels.add(String.format("%d%02d", 2022, i)); // 예시로 2022년으로 고정
+        for (int i = 0; i < 12; i++) {
+            int year = 2022 + (i / 12);
+            int month = (i % 12) + 3;
+            if (month > 12) {
+                month -= 12;
+                year += 1;
+            }
+            labels.add(String.format("%d%02d", year, month));
         }
 
         // 각 거래 유형(매매, 전세, 월세)에 대해 처리
@@ -684,7 +690,7 @@ public class DetailController {
 
             // 데이터셋 생성 및 추가
             Map<String, Object> dataset = new HashMap<>();
-//            dataset.put("label", type);
+            dataset.put("label", type);
             dataset.put("data", prices);
             datasets.add(dataset);
         }
@@ -696,4 +702,119 @@ public class DetailController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/OFFICETEL/chart/{id}")
+    public ResponseEntity<Map<String, Object>> getOfficetelDealChart(@PathVariable Long id) {
+        List<OfficetelDealTypeDto> officetelDealList = officetelService.getDealByOfficetelId(id);
+        Map<String, Object> result = new HashMap<>();
+        List<String> labels = new ArrayList<>();
+        List<Map<String, Object>> datasets = new ArrayList<>();
+
+//      라벨 추가
+        for (int i = 0; i < 12; i++) {
+            int year = 2022 + (i / 12);
+            int month = (i % 12) + 3;
+            if (month > 12) {
+                month -= 12;
+                year += 1;
+            }
+            labels.add(String.format("%d%02d", year, month));
+        }
+
+        // 각 거래 유형(매매, 전세, 월세)에 대해 처리
+        for (OfficetelDealTypeDto dto : officetelDealList) {
+            String type = dto.getType();
+            List<OfficetelDealDto> deals = dto.getDeals();
+
+            // 거래 내역에서 가격 데이터 추출
+            List<Double> prices = new ArrayList<>();
+            for (int i = 1; i <= 12; i++) {
+                double sum = 0;
+                int count = 0;
+                for (OfficetelDealDto deal : deals) {
+                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022, i))) { // 예시로 2022년으로 고정
+                        if (type.equals("매매")) {
+                            sum += deal.getPrice();
+                        } else if (type.equals("전세")) {
+                            sum += deal.getGuarantee();
+                        } else if (type.equals("월세")) {
+                            sum += deal.getMonthly();
+                        }
+                        count++;
+                    }
+                }
+                double average = count > 0 ? sum / count : Double.NaN;
+                prices.add(average);
+            }
+
+            // 데이터셋 생성 및 추가
+            Map<String, Object> dataset = new HashMap<>();
+            dataset.put("label", type);
+            dataset.put("거래내역", prices);
+            datasets.add(dataset);
+        }
+
+        // 결과 데이터 생성
+        result.put("labels", labels);
+        result.put("datasets", datasets);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/VILLA/chart/{id}")
+    public ResponseEntity<Map<String, Object>> getVillaDealChart(@PathVariable Long id) {
+        List<VillaDealTypeDto> villaDealList = villaService.getDealByVillaId(id);
+        Map<String, Object> result = new HashMap<>();
+        List<String> labels = new ArrayList<>();
+        List<Map<String, Object>> datasets = new ArrayList<>();
+
+        // 1월부터 12월까지 라벨 추가
+        for (int i = 0; i < 12; i++) {
+            int year = 2022 + (i / 12);
+            int month = (i % 12) + 3;
+            if (month > 12) {
+                month -= 12;
+                year += 1;
+            }
+            labels.add(String.format("%d%02d", year, month));
+        }
+
+        // 각 거래 유형(매매, 전세, 월세)에 대해 처리
+        for (VillaDealTypeDto dto : villaDealList) {
+            String type = dto.getType();
+            List<VillaDealDto> deals = dto.getDeals();
+
+            // 거래 내역에서 가격 데이터 추출
+            List<Double> prices = new ArrayList<>();
+            for (int i = 1; i <= 12; i++) {
+                double sum = 0;
+                int count = 0;
+                for (VillaDealDto deal : deals) {
+                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022, i))) { // 예시로 2022년으로 고정
+                        if (type.equals("매매")) {
+                            sum += deal.getPrice();
+                        } else if (type.equals("전세")) {
+                            sum += deal.getGuarantee();
+                        } else if (type.equals("월세")) {
+                            sum += deal.getMonthly();
+                        }
+                        count++;
+                    }
+                }
+                double average = count > 0 ? sum / count : Double.NaN;
+                prices.add(average);
+            }
+
+            // 데이터셋 생성 및 추가
+            Map<String, Object> dataset = new HashMap<>();
+            dataset.put("label", type);
+            dataset.put("data", prices);
+            datasets.add(dataset);
+        }
+
+        // 결과 데이터 생성
+        result.put("labels", labels);
+        result.put("datasets", datasets);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
