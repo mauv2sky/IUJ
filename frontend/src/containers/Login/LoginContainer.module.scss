@@ -16,42 +16,10 @@
   }
 
   & p {
-    margin: 30px auto 0 auto;
+    margin: 30px 0 0 0;
     height: 40px;
     font-size: 35px;
-    animation: fade-in 2s ease-in-out;
-
-    @keyframes fade-in {
-      0% {
-        opacity: 0;
-      }
-      100% {
-        opacity: 1;
-      }
-    }
-
-    & span {
-      animation: twinkle 5s infinite ease-in-out;
-
-      @keyframes twinkle {
-        0% {
-          opacity: 0.65;
-          color: #b18d87;
-        }
-        33% {
-          opacity: 1;
-          color: #769bb8;
-        }
-        66% {
-          opacity: 0.8;
-          color: #b4ae8d;
-        }
-        100% {
-          opacity: 0.65;
-          color: #b18d87;
-        }
-      }
-    }
+    animation: twinkle 5s infinite ease-in-out;
   }
 
   #login {
@@ -61,5 +29,24 @@
     &:hover {
       opacity: 0.7;
     }
+  }
+}
+
+@keyframes twinkle {
+  0% {
+    opacity: 0.5;
+    color: #b18d87;
+  }
+  33% {
+    opacity: 1;
+    color: #769bb8;
+  }
+  66% {
+    opacity: 0.75;
+    color: #b4ae8d;
+  }
+  100% {
+    opacity: 0.5;
+    color: #b18d87;
   }
 }
