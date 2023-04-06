@@ -6,15 +6,20 @@ type searchListPropsType = {
   document: DocumentType[];
   meta: MetaType | null;
   setStateCenter: React.Dispatch<React.SetStateAction<number[]>>;
+  setSearchClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  setDocument: React.Dispatch<React.SetStateAction<DocumentType[]>>;
 };
 
-function SearchList({ document, meta, setStateCenter }: searchListPropsType) {
+function SearchList({ document, meta, setStateCenter, setSearchClicked, setDocument }: searchListPropsType) {
   useEffect(() => {
     console.log(document);
   }, [document]);
 
   const onClickAddress = (lat: string, lng: string) => {
+    setSearchClicked((prev) => !prev);
+    setDocument([]);
     setStateCenter([parseFloat(lat), parseFloat(lng)]);
+    return;
   };
 
   return (
