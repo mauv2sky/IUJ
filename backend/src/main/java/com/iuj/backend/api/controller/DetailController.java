@@ -651,7 +651,7 @@ public class DetailController {
         List<String> labels = new ArrayList<>();
         List<Map<String, Object>> datasets = new ArrayList<>();
 
-        // 1월부터 12월까지 라벨 추가
+        // 2022년 3월부터 2023년 2월까지 라벨 추가
         for (int i = 0; i < 12; i++) {
             int year = 2022 + (i / 12);
             int month = (i % 12) + 3;
@@ -659,6 +659,11 @@ public class DetailController {
                 month -= 12;
                 year += 1;
             }
+            labels.add(String.format("%d%02d", year, month));
+        }
+        for (int i = 0; i < 2; i++) {
+            int year = 2023;
+            int month = i + 1;
             labels.add(String.format("%d%02d", year, month));
         }
 
@@ -669,11 +674,11 @@ public class DetailController {
 
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
-            for (int i = 1; i <= 12; i++) {
+            for (int i = 1; i <= 14; i++) {
                 double sum = 0;
                 int count = 0;
                 for (AptDealDto deal : deals) {
-                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022, i))) { // 예시로 2022년으로 고정
+                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + ((i-1) / 12), ((i-1) % 12) + 3))) {
                         if (type.equals("매매")) {
                             sum += deal.getPrice();
                         } else if (type.equals("전세")) {
@@ -690,8 +695,7 @@ public class DetailController {
 
             // 데이터셋 생성 및 추가
             Map<String, Object> dataset = new HashMap<>();
-            dataset.put("label", type);
-            dataset.put("data", prices);
+            dataset.put(type + ":", prices); // 변경된 부분
             datasets.add(dataset);
         }
 
@@ -702,6 +706,7 @@ public class DetailController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
     @GetMapping("/OFFICETEL/chart/{id}")
     public ResponseEntity<Map<String, Object>> getOfficetelDealChart(@PathVariable Long id) {
         List<OfficetelDealTypeDto> officetelDealList = officetelService.getDealByOfficetelId(id);
@@ -709,7 +714,7 @@ public class DetailController {
         List<String> labels = new ArrayList<>();
         List<Map<String, Object>> datasets = new ArrayList<>();
 
-//      라벨 추가
+        // 2022년 3월부터 2023년 2월까지 라벨 추가
         for (int i = 0; i < 12; i++) {
             int year = 2022 + (i / 12);
             int month = (i % 12) + 3;
@@ -717,6 +722,11 @@ public class DetailController {
                 month -= 12;
                 year += 1;
             }
+            labels.add(String.format("%d%02d", year, month));
+        }
+        for (int i = 0; i < 2; i++) {
+            int year = 2023;
+            int month = i + 1;
             labels.add(String.format("%d%02d", year, month));
         }
 
@@ -727,11 +737,11 @@ public class DetailController {
 
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
-            for (int i = 1; i <= 12; i++) {
+            for (int i = 1; i <= 14; i++) {
                 double sum = 0;
                 int count = 0;
                 for (OfficetelDealDto deal : deals) {
-                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022, i))) { // 예시로 2022년으로 고정
+                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + ((i-1) / 12), ((i-1) % 12) + 3))) {
                         if (type.equals("매매")) {
                             sum += deal.getPrice();
                         } else if (type.equals("전세")) {
@@ -748,8 +758,7 @@ public class DetailController {
 
             // 데이터셋 생성 및 추가
             Map<String, Object> dataset = new HashMap<>();
-            dataset.put("label", type);
-            dataset.put("거래내역", prices);
+            dataset.put(type + ":", prices); // 변경된 부분
             datasets.add(dataset);
         }
 
@@ -767,7 +776,7 @@ public class DetailController {
         List<String> labels = new ArrayList<>();
         List<Map<String, Object>> datasets = new ArrayList<>();
 
-        // 1월부터 12월까지 라벨 추가
+        // 2022년 3월부터 2023년 2월까지 라벨 추가
         for (int i = 0; i < 12; i++) {
             int year = 2022 + (i / 12);
             int month = (i % 12) + 3;
@@ -775,6 +784,11 @@ public class DetailController {
                 month -= 12;
                 year += 1;
             }
+            labels.add(String.format("%d%02d", year, month));
+        }
+        for (int i = 0; i < 2; i++) {
+            int year = 2023;
+            int month = i + 1;
             labels.add(String.format("%d%02d", year, month));
         }
 
@@ -785,11 +799,11 @@ public class DetailController {
 
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
-            for (int i = 1; i <= 12; i++) {
+            for (int i = 1; i <= 14; i++) {
                 double sum = 0;
                 int count = 0;
                 for (VillaDealDto deal : deals) {
-                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022, i))) { // 예시로 2022년으로 고정
+                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + ((i-1) / 12), ((i-1) % 12) + 3))) {
                         if (type.equals("매매")) {
                             sum += deal.getPrice();
                         } else if (type.equals("전세")) {
@@ -806,8 +820,7 @@ public class DetailController {
 
             // 데이터셋 생성 및 추가
             Map<String, Object> dataset = new HashMap<>();
-            dataset.put("label", type);
-            dataset.put("data", prices);
+            dataset.put(type + ":", prices); // 변경된 부분
             datasets.add(dataset);
         }
 
