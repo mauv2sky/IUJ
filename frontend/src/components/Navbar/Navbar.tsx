@@ -1,21 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../../store/hooks';
 import ProfileMenu from '../ProfileMenu/ProfileMenu';
 import logo from '../../assets/logo.png';
 import styles from './Navbar.module.scss';
-import { useAppSelector } from '../../store/hooks';
 
 function Navbar() {
-  const userName = useAppSelector((state) => state.userSlice.userName);
+  const { isLogin, userName } = useAppSelector((state) => state.userSlice);
   const navigate = useNavigate();
   /** 네브바 보여줄지 여부 */
   const [showNavbar, setShowNavbar] = useState(true);
   /** 프로필 메뉴 보여줄지 여부 */
   const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
-
-  useEffect(() => {
-    console.log(userName);
-  }, [userName]);
 
   /** 네브바 보여줄지 여부 결정 */
   useEffect(() => {
@@ -60,12 +56,12 @@ function Navbar() {
           <a className={styles.hover} onClick={onClickGoMap}>
             내 집 찾아보기
           </a>
-          {!userName && (
+          {!isLogin && (
             <p className={styles.hover} onClick={onClickLogin}>
               로그인
             </p>
           )}
-          {userName && (
+          {isLogin && (
             <div id={styles.profile}>
               어서오세요,{' '}
               <span

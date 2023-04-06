@@ -8,9 +8,10 @@ import styles from './MapSidebar.module.scss';
 export type RealEstateListPropsType = {
   realEstateList: RealEstateType[];
   level: number;
+  dragEnded: boolean;
 };
 
-function MapSidebar({ realEstateList, level }: RealEstateListPropsType) {
+function MapSidebar({ realEstateList, level, dragEnded }: RealEstateListPropsType) {
   const [tabIndex, setTabIndex] = useState(0);
 
   const onClickTab = (index: number) => {
@@ -32,7 +33,7 @@ function MapSidebar({ realEstateList, level }: RealEstateListPropsType) {
       </div>
       {tabIndex === 0 && <SetPriority />}
       {tabIndex === 1 && <PriorityList />}
-      {tabIndex === 2 && <RealEstateList realEstateList={realEstateList} level={level} />}
+      {tabIndex === 2 && <RealEstateList realEstateList={realEstateList} level={level} dragEnded={dragEnded} />}
     </div>
   );
 }

@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import CountUp from 'react-countup';
 import { RiQuestionnaireFill } from 'react-icons/ri';
+import { AiOutlineClose } from 'react-icons/ai';
 import { pretreatAmount } from '../../utils/PretreatAmount';
 import { RealEstateType } from '../../types/MapType';
 import { TypeMappingType } from '../../types/MapType';
 import { typeMap } from '../../containers/Map/MapContainer';
 import test from '../../assets/test.jpg';
 import styles from './RealEstateItem.module.scss';
-import { AiOutlineClose } from 'react-icons/ai';
 
 const dealTypeMap: TypeMappingType = {
   BUY: '매매',

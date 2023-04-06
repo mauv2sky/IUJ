@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './DealData.module.scss';
 import DealDataItem from '../DealDataItem/DealDataItem';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { getdetailContainerState } from '../../store/slices/detailContainerSlice';
 import { DealType, DetailPropsType, DetailType } from '../DetailInformation/DetailInformation';
 import DealChart from '../DealChart/DealChart';
 import axios from 'axios';
