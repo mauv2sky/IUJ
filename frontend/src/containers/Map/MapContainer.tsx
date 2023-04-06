@@ -76,8 +76,14 @@ function MapContainer() {
   const [document, setDocument] = useState<DocumentType[]>([]);
   /** 검색 결과 meta */
   const [meta, setMeta] = useState<MetaType | null>(null);
+  /** 검색 내용, 초기화 용도 */
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  /** 검색 지역 클릭 시 검색 내용 초기화 용도 */
+  const [searchClicked, setSearchClicked] = useState<boolean>(false);
   /** 중심 좌표 state */
   const [stateCenter, setStateCenter] = useState<number[]>([]);
+  /** 드래그 시 실거래 목록 스크롤 초기화 용도 */
+  const [dragEnded, setDragEnded] = useState<boolean>(false);
 
   /** ================================================= useEffect ================================================= */
   /** 맵 옵션 불러오기 */
@@ -162,6 +168,11 @@ function MapContainer() {
 
     requestRealEstateForMap(stateMap, stateClusterer, type, dealType, price, guarantee1, guarantee2, monthly, extent2, floor, priority, stateCenter);
   }, [stateCenter]);
+
+  /** 검색 내용 클릭 시, 검색 키워드 초기화 */
+  useEffect(() => {
+    setSearchKeyword('');
+  }, [searchClicked]);
 
   /** ================================================= 함수 ================================================= */
   /** 현재 위치를 기반으로 지도 옵션 설정하기 */
@@ -324,6 +335,8 @@ function MapContainer() {
 
         clusterer.addMarker(marker);
       }
+
+      setDragEnded((prev) => !prev);
     } catch (err) {
       console.error('매물 요청 에러: ', err);
     }
@@ -412,6 +425,8 @@ function MapContainer() {
 
   /** 검색어 입력 시 */
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(e.target.value);
+
     if (e.target.value) {
       requestSearchForMap(e.target.value);
     } else {
@@ -426,7 +441,7 @@ function MapContainer() {
 
   return (
     <div className={styles.container}>
-      <MapSidebar realEstateList={realEstateList} level={stateLevel} />
+      <MapSidebar realEstateList={realEstateList} level={stateLevel} dragEnded={dragEnded} />
       <div className={styles.option}>
         <div className={styles['option-item']}>
           <button id="0" className={showOption === 0 ? `${styles['type-btn']} ${styles['selected-btn']}` : styles['type-btn']} onClick={onClickOption}>
@@ -594,11 +609,11 @@ function MapContainer() {
       </div>
       <div className={styles.search}>
         <AiOutlineSearch />
-        <input type="text" onChange={onChangeSearch} />
+        <input type="text" value={searchKeyword} onChange={onChangeSearch} />
       </div>
       {document.length > 0 && (
         <div className={styles['search-result']}>
-          <SearchList document={document} meta={meta} setStateCenter={setStateCenter} />
+          <SearchList document={document} meta={meta} setStateCenter={setStateCenter} setSearchClicked={setSearchClicked} setDocument={setDocument} />
         </div>
       )}
       {priority && (

@@ -12,7 +12,7 @@ const initialState: UserStateInterface = {
 };
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: 'userSlice',
   initialState,
   reducers: {
     setUserLoginState: (state, action: PayloadAction<UserStateInterface>) => {

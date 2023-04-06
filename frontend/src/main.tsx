@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import store from './store/store';
 import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import store from './store/store';
 import NormalRoot from './roots/NormalRoot';
-import { MainPage, MapPage, InterestPage, DetailPage, LoginPage } from './pages/index';
-import './styles/reset.scss';
 import NoFooterRoot from './roots/NoFooterRoot';
 import LoginRoot from './roots/LoginRoot';
+import { MainPage, MapPage, InterestPage, DetailPage, LoginPage } from './pages/index';
+import './styles/reset.scss';
 
 const router = createBrowserRouter([
   /** Navbar, Footer 전부 있는 페이지 */
