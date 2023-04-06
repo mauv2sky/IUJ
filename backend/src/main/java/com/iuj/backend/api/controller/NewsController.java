@@ -29,6 +29,7 @@ public class NewsController {
                 return new ResponseEntity<>(newsService.getNewsListForUser(principal.getName()), HttpStatus.OK);
             }
         } catch (Exception e){
+            e.printStackTrace();
             throw new CustomException(ErrorCode.NOTFOUND_NEWS);
         }
     }
@@ -39,9 +40,6 @@ public class NewsController {
         try{
             if(principal != null){
                 newsService.saveViewNews(id, principal.getName());
-            }
-            else{
-                newsService.saveViewNews(id, "test");
             }
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
