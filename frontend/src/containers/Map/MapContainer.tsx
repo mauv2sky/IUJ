@@ -357,6 +357,18 @@ function MapContainer() {
     }
   };
 
+  const onClickRefresh = () => {
+    setType('APT');
+    setDealType('BUY');
+    setPrice([0, 2000000]);
+    setGuarantee1([0, 2000000]);
+    setGuarantee2([0, 2000000]);
+    setMonthly([0, 5000]);
+    setExtent([0, 662]);
+    setExtent2([0, 200]);
+    setFloor([0, 100]);
+  };
+
   /** ================================================= event handler ================================================= */
   /** 지도의 필터 버튼 클릭 시 */
   const onClickOption = (e: React.MouseEvent<HTMLButtonElement> | React.MouseEvent<SVGElement>) => {
@@ -603,11 +615,15 @@ function MapContainer() {
             )}
           </div>
         )}
+        <div className={styles['option-item']} onClick={onClickRefresh}>
+          <button style={{ padding: '0 10px' }}>필터 초기화</button>
+        </div>
       </div>
       <div className={styles.search}>
         <AiOutlineSearch />
         <input type="text" value={searchKeyword} onChange={onChangeSearch} />
       </div>
+
       {document.length > 0 && (
         <div className={styles['search-result']}>
           <SearchList document={document} setStateCenter={setStateCenter} setSearchClicked={setSearchClicked} setDocument={setDocument} />
