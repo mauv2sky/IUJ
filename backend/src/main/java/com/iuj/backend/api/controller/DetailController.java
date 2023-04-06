@@ -201,7 +201,7 @@ public class DetailController {
 //        문화시설
         List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(apartDTO.getLat(), apartDTO.getLng());
 
-        resultMap.put("library", libraryDto);
+        resultMap.put("lib", libraryDto);
         return resultMap;
     }
 
@@ -386,7 +386,7 @@ public class DetailController {
 //        문화시설
         List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(officetelDto.getLat(), officetelDto.getLng());
 
-        resultMap.put("library", libraryDto);
+        resultMap.put("lib", libraryDto);
         return resultMap;
     }
 
@@ -571,7 +571,7 @@ public class DetailController {
 //        문화시설
         List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(villaDto.getLat(), villaDto.getLng());
 
-        resultMap.put("library", libraryDto);
+        resultMap.put("lib", libraryDto);
         return resultMap;
     }
 
