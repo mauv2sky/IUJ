@@ -75,9 +75,9 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(FKCGrcUJWJAMm3/h7juS7Ey776fM1lQYYDMv492mOWHHl0UdmbA4/w23wBWdpbbGQK6f2O1B3KpUlxkDS/XRgnafvNz9A1kZsw8EzfcSq7g=)
-    username: ENC(FOJN4VQxPyLScNkl7oVfMg==) # 확인 필요
-    password: ENC(w19rEVBpxJIfmAtJBU0r4w==) # 확인 필요
+    url: ENC(bJJOi/qwuXLmDeq3SWFl9lEL13P9u/iPqxBtKGtwVpMaqQRyLTUykEuTV89YSjymnpfrHahDwnz7WGQ5QH4/xDv5xWlQEXjdkGpD5riSYkQ=)
+    username: ENC(FOJN4VQxPyLScNkl7oVfMg==)
+    password: ENC(w19rEVBpxJIfmAtJBU0r4w==)
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
