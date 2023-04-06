@@ -19,8 +19,8 @@ export default function DealChart({ dealChartlist, min, max }: any) {
     },
     scales: {
       y: {
-        max: max + 500, // 최대
-        min: 0, // 최소
+        max: max + 500,
+        min: 0,
       },
     },
     elements: {
@@ -37,6 +37,8 @@ export default function DealChart({ dealChartlist, min, max }: any) {
         datasets: chartDatalist.datasets.map((data: any) => ({
           data: data.data,
           label: data.label,
+          borderColor: data.label !== '매매' ? 'rgb(0, 94, 255)' : 'rgb(218, 40, 52)',
+          backgroundColor: data.label !== '매매' ? 'rgb(102, 150, 233)' : 'rgb(225, 105, 113)',
         })),
       });
     }
