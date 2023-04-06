@@ -197,6 +197,26 @@
     right: 1%;
   }
 
+  .refresh {
+    z-index: 100;
+    // position: absolute;
+    height: 35px;
+    right: 1%;
+    top: 15%;
+    padding: 0 10px;
+    font-size: 18px;
+    width: 160px;
+    border: 2px solid $ffc;
+    border-radius: 5px;
+    background-color: $tc;
+    color: white;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $sc;
+    }
+  }
+
   .applied-priority {
     position: absolute;
     z-index: 10;
