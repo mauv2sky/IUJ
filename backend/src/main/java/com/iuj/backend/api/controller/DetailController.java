@@ -574,7 +574,7 @@ public class DetailController {
         resultMap.put("lib", libraryDto);
         return resultMap;
     }
-
+ 
     @GetMapping("/VILLA/{id}/gallery")
     @ApiOperation(value = "빌라 미술관 정보", notes = "빌라 미술관 정보")
     public Map<String, Object> getVillaGallery(@PathVariable Long id) {
