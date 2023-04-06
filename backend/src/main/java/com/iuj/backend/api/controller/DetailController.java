@@ -664,7 +664,7 @@ public class DetailController {
 
         // 거래 유형(매매, 전세, 월세)별로 처리
         List<List<Double>> dealPrices = new ArrayList<>();
-        List<String> dealTypes = Arrays.asList("매매", "전세", "월세");
+        List<String> dealTypes = Arrays.asList("매매", "전세");
         for (String type : dealTypes) {
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
@@ -680,8 +680,6 @@ public class DetailController {
                                     sum += deal.getPrice();
                                 } else if (type.equals("전세")) {
                                     sum += deal.getGuarantee();
-                                } else if (type.equals("월세")) {
-                                    sum += deal.getMonthly();
                                 }
                                 count++;
                             }
@@ -726,7 +724,7 @@ public class DetailController {
 
         // 거래 유형(매매, 전세, 월세)별로 처리
         List<List<Double>> dealPrices = new ArrayList<>();
-        List<String> dealTypes = Arrays.asList("매매", "전세", "월세");
+        List<String> dealTypes = Arrays.asList("매매", "전세");
         for (String type : dealTypes) {
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
@@ -742,8 +740,6 @@ public class DetailController {
                                     sum += deal.getPrice();
                                 } else if (type.equals("전세")) {
                                     sum += deal.getGuarantee();
-                                } else if (type.equals("월세")) {
-                                    sum += deal.getMonthly();
                                 }
                                 count++;
                             }
@@ -788,7 +784,7 @@ public class DetailController {
 
         // 거래 유형(매매, 전세, 월세)별로 처리
         List<List<Double>> dealPrices = new ArrayList<>();
-        List<String> dealTypes = Arrays.asList("매매", "전세", "월세");
+        List<String> dealTypes = Arrays.asList("매매", "전세");
         for (String type : dealTypes) {
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
@@ -804,8 +800,6 @@ public class DetailController {
                                     sum += deal.getPrice();
                                 } else if (type.equals("전세")) {
                                     sum += deal.getGuarantee();
-                                } else if (type.equals("월세")) {
-                                    sum += deal.getMonthly();
                                 }
                                 count++;
                             }
