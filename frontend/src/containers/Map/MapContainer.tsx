@@ -74,8 +74,6 @@ function MapContainer() {
   const [mapEvent, setMapEvent] = useState<number>(0);
   /** 검색 결과 document */
   const [document, setDocument] = useState<DocumentType[]>([]);
-  /** 검색 결과 meta */
-  const [meta, setMeta] = useState<MetaType | null>(null);
   /** 검색 내용, 초기화 용도 */
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   /** 검색 지역 클릭 시 검색 내용 초기화 용도 */
@@ -352,9 +350,8 @@ function MapContainer() {
       const resDocument = res.data.documents.map((data: any) => {
         return { address: data.address_name, lng: data.x, lat: data.y };
       });
-      setDocument(resDocument);
 
-      setMeta({ isEnd: res.data.meta.is_end, totalCount: res.data.meta.total_count });
+      setDocument(resDocument);
     } catch (err) {
       console.error(err);
     }
@@ -613,7 +610,7 @@ function MapContainer() {
       </div>
       {document.length > 0 && (
         <div className={styles['search-result']}>
-          <SearchList document={document} meta={meta} setStateCenter={setStateCenter} setSearchClicked={setSearchClicked} setDocument={setDocument} />
+          <SearchList document={document} setStateCenter={setStateCenter} setSearchClicked={setSearchClicked} setDocument={setDocument} />
         </div>
       )}
       {priority && (
