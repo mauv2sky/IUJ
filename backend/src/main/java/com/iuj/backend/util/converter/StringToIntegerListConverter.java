@@ -16,6 +16,7 @@ public class StringToIntegerListConverter implements AttributeConverter<List<Int
     @Override
     public List<Integer> convertToEntityAttribute(String dbData){
         dbData = dbData.substring(1, dbData.length()-1);
+        dbData = dbData.replaceAll(" ", "");
         List<Integer> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(dbData, ",");
         while(st.hasMoreTokens()){
