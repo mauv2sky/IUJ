@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import CountUp from 'react-countup';
 import { RiQuestionnaireFill } from 'react-icons/ri';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -22,8 +22,6 @@ type RealEstatePropsType = {
 function RealEstateItem({ realEstate }: RealEstatePropsType) {
   /** =================================== 변수, useState, useRef =================================== */
   const [showGraph, setShowGraph] = useState<boolean>(false);
-  const graphRef = useRef<HTMLDivElement>(null);
-  const graphInnerRef = useRef<HTMLDivElement>(null);
 
   /** =================================== function, event handler =================================== */
   /** 주소 전처리 */
@@ -45,8 +43,7 @@ function RealEstateItem({ realEstate }: RealEstatePropsType) {
           onClickRealEstate(realEstate.type, realEstate.id);
         }}
       >
-        
-        {realEstate.id}. {realEstate.name}
+        {realEstate.name}
       </p>
       <div className={styles['component-inner']}>
         <div
@@ -101,7 +98,7 @@ function RealEstateItem({ realEstate }: RealEstatePropsType) {
         </div>
       </div>
       <div className={showGraph ? styles['graph-show'] : styles['graph-no-show']}>
-        <div ref={graphInnerRef} className={styles['graph-inner']}>
+        <div className={styles['graph-inner']}>
           <AiOutlineClose onClick={() => setShowGraph(false)} />
           {realEstate.score &&
             Object.entries(realEstate.score).map((data) => (
