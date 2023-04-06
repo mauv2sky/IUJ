@@ -1,5 +1,9 @@
-export type NoticeType = {
+export type NewsType = {
+  id: number;
   title: string;
-  content: string;
-  url: string;
+  description: string;
+  link: string;
+  local: string;
+  pubDate: string;
+  school: string;
 };
