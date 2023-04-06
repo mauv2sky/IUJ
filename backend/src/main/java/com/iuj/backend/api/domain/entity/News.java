@@ -1,13 +1,16 @@
 package com.iuj.backend.api.domain.entity;
 
+import com.iuj.backend.util.converter.StringToIntegerListConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.List;
 
 @Entity
 @Setter
@@ -36,4 +39,8 @@ public class News {
 
     @Column(length = 45)
     private String link;
+
+    @Column(name = "similar_list", length = 45)
+    @Convert(converter = StringToIntegerListConverter.class)
+    private List<Integer> similarList;
 }
