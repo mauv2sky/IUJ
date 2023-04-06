@@ -73,7 +73,7 @@ public class BuildingService {
         }
 
         // 건물 DTO에 사진 추가
-        List<BuildingPhoto> photoList = photoRepository.getScoreByTypeAndIdIsIn(buildingType.getName().toUpperCase(), idList);
+        List<BuildingPhoto> photoList = photoRepository.getBuildingPhotoByTypeAndIdIsIn(buildingType.getName().toUpperCase(), idList);
         for(BuildingDto building : buildingList){
             BuildingPhoto photo = photoList.stream().filter(o -> Objects.equals(o.getId(), building.getId())).findFirst().orElse(null);
             if(photo != null){
@@ -83,14 +83,11 @@ public class BuildingService {
 
         // 점수 추가
         if(!buildingList.isEmpty() && request.getLevel() <= 4){
-
             // building list 아이디로 점수 가져오기
             List<Score> scoreList = scoreRepository.getScoreByTypeAndIdIsIn(buildingType.getName().toUpperCase(), idList);
-            System.out.println(scoreList);
-
 
             // 가져온 점수랑 건물 매칭
-            if (request.getRecomm() == null){
+            if (request.getRecomm() == null || request.getRecomm().isEmpty()){
                 for(BuildingDto building : buildingList){
                     Score score = scoreList.stream().filter(o -> Objects.equals(o.getId(), building.getId())).findFirst().orElse(new Score());
                     building.setTotalScore(ScoreUtil.getBasicScore(score));
