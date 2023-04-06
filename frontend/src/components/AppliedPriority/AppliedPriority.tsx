@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppSelector } from '../../store/hooks';
 import { ResponsedPriorityItemType } from '../../types/MapType';
 import { categoryStyle } from '../PriorityCard/PriorityCard';
@@ -6,10 +6,6 @@ import styles from './AppliedPriority.module.scss';
 
 function AppliedPriority() {
   const appliedPriority: ResponsedPriorityItemType[] = useAppSelector((state) => state.prioritySlice.appliedPriority);
-
-  useEffect(() => {
-    console.log(appliedPriority);
-  }, [appliedPriority]);
 
   return (
     <div className={styles.component}>

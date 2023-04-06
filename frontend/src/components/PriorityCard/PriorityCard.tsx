@@ -4,9 +4,9 @@ import { setPriority } from '../../store/slices/prioritySlice';
 import { CategoryStyleType, ResponsedPriorityItemType } from '../../types/MapType';
 import { amenities, cultures, schools, securities, transports } from '../SetPriority/SetPriority';
 import { pretreatPriority } from '../../utils/PretreatPriority';
-import styles from './PriorityCard.module.scss';
 import { requestDeletePriority } from '../../api/map';
 import { customAlert } from '../../utils/CustomAlert';
+import styles from './PriorityCard.module.scss';
 
 /** 카테고리 명에 따라 아이콘과 색을 매핑하기위한 object */
 export const categoryStyle: CategoryStyleType = {
