@@ -30,8 +30,8 @@ public class PlaceController {
             List<BuildingDto> placeList = buildingService.getBuildingList(request);
             if(principal == null){
                 return new ResponseEntity<>(placeList, HttpStatus.OK);
-            } else if(principal != null){
-                if(!placeList.isEmpty()) {
+            } else{
+                if(!placeList.isEmpty() && request.getLevel() < 5) {
                     recordService.setRecentSearchRegion(principal.getName(), placeList.get(0).getAddress()[0]);
                 }
             }
