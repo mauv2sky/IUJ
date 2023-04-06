@@ -31,7 +31,7 @@ public class News {
     @Column(length = 45)
     private String local;
 
-    @Column(length = 45)
+    @Column(length = 45, name="pub_date")
     private String pubDate;
 
     @Column(length = 45)
