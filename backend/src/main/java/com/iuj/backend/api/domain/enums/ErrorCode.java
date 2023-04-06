@@ -13,7 +13,8 @@ public enum ErrorCode {
     EXPIRED_REFRESH_TOKEN(401, "U004", "다시 로그인해주세요."),
 
     NOTFOUND_BUILDING(404, "R001", "해당 건물이 존재하지 않습니다."),
-    NOTFOUND_RECOMM(404, "R002", "해당 필터가 존재하지 않습니다.")
+    NOTFOUND_RECOMM(404, "R002", "해당 필터가 존재하지 않습니다."),
+    NOTFOUND_NEWS(404, "R002", "뉴스 정보를 가져올 수 없습니다")
     ;
 
     private final int status;
