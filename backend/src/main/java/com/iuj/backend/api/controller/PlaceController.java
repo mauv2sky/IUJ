@@ -28,8 +28,12 @@ public class PlaceController {
             Principal principal){
         try{
             List<BuildingDto> placeList = buildingService.getBuildingList(request);
-            if(principal != null && !placeList.isEmpty()) {
-                recordService.setRecentSearchRegion(principal.getName(), placeList.get(0).getAddress()[0]);
+            if(principal == null){
+
+            } else if(principal != null){
+                if(!placeList.isEmpty()) {
+                    recordService.setRecentSearchRegion(principal.getName(), placeList.get(0).getAddress()[0]);
+                }
             }
             return new ResponseEntity<>(placeList, HttpStatus.OK);
         } catch (Exception e){
