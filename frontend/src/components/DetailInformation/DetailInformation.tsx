@@ -3,6 +3,7 @@ import styles from './DetailInformation.module.scss';
 import FacilityList, { FacilityType } from '../../components/FacilityList/FacilityList';
 import axios from 'axios';
 import DealData from '../../components/DealData/DealData';
+import { requestInterest } from '../../api/interest';
 // import DealData from '../../components/DealData/DealData';
 
 /** 프롭스 받은 매물 상세 정보 */
@@ -38,7 +39,8 @@ export type DetailType = {
 };
 /** 프롭스 받은 매물 상세 정보 */
 export type DetailPropsType = {
-  // home: any;
+  detailid: number;
+  detailtype: string;
   detailRelist: DetailType;
 };
 
@@ -75,9 +77,10 @@ interface StudyType {
 /** APIURL */
 const APIURL = 'http://localhost:5000';
 
-function DetailInformation(detailRelist: DetailPropsType) {
+function DetailInformation(props: DetailPropsType) {
+  const { detailid, detailtype, detailRelist } = props;
   // console.log('detailRelist', detailRelist);
-  const detaillist = detailRelist.detailRelist;
+  const detaillist = detailRelist;
   const [schoolRelist, setSchoolRelist] = useState<StudyType>({
     school: [
       {
@@ -98,7 +101,7 @@ function DetailInformation(detailRelist: DetailPropsType) {
     axios({
       method: 'get',
       // url: APIURL + `/api/place/${props.type}/${props.id}`,
-      url: APIURL + `/api/place/APT/9/school`,
+      url: APIURL + `/api/place/${detailtype}/${detailid}/school`,
     })
       .then((response) => {
         // console.log('데이터 전송 성공이냐옹');
@@ -127,21 +130,13 @@ function DetailInformation(detailRelist: DetailPropsType) {
   const APIURL = 'http://localhost:5000';
 
   /** 관심 매물 등록 버튼 클릭 시 */
-  const onClickInterestBtn = () => {
-    console.log('되냐?');
-    axios
-      .post(APIURL + `/api/like/`, {
-        id: 1,
-        // type: APT,
-      })
-      .then((response) => {
-        console.log('데이터 전송 성공이다람쥐');
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error('데이터 전송 실패이다람쥐');
-        console.error(error);
-      });
+  const onClickInterestBtn = async () => {
+    try {
+      const res = await requestInterest(detailid, detailtype);
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const facilitylist: StudyType[] = [];
@@ -150,7 +145,7 @@ function DetailInformation(detailRelist: DetailPropsType) {
       <div className={styles.information}>
         <div className={styles.deal}>최근 1년간 실거래</div>
         <div className={styles.costdata}>
-          <DealData detailRelist={detaillist} />
+          <DealData detailRelist={detaillist} detailid={detailid} detailtype={detailtype} />
         </div>
 
         <div className={styles.school}>인근 학교 정보</div>
@@ -213,7 +208,10 @@ function DetailInformation(detailRelist: DetailPropsType) {
         </div>
       </div>
       <div className={styles.title}>
-        <div className={styles.type}>{detaillist.home.built_year}</div>
+        <div className={styles.full}>
+          <div className={styles.type}>{detailtype}</div>
+          <div className={styles.built_year}>{detaillist.home.built_year}</div>
+        </div>
         <div className={styles.name}>{detaillist.home.name}</div>
         <div className={styles.address}>
           {detaillist.home.sigungu} {detaillist.home.bungi}

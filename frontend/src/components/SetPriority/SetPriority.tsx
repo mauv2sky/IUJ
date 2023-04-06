@@ -3,11 +3,12 @@ import { GrRefresh } from 'react-icons/gr';
 import { FaSchool, FaBus, FaHospitalUser } from 'react-icons/fa';
 import { MdSecurity, MdMovie } from 'react-icons/md';
 import { AiFillSave } from 'react-icons/ai';
-import { pretreatPriority } from '../../utils/PretreatPriority';
+import { pretreatPriority, pretreatPriority2 } from '../../utils/PretreatPriority';
 import { customAlert } from '../../utils/CustomAlert';
 import { useDispatch } from 'react-redux';
 import { setPriority } from '../../store/slices/prioritySlice';
 import { priorityType, ResponsedPriorityItemType } from '../../types/MapType';
+import { requestSavePriority } from '../../api/map';
 import styles from './SetPriority.module.scss';
 
 export const schools = {
@@ -106,13 +107,19 @@ function SetPriority() {
   };
 
   /** 선호 순위 저장하기 버튼 클릭 시 */
-  const onClickSave = () => {
+  const onClickSave = async () => {
     if (priority.length === 0) {
       customAlert('선호 순위를 설정해주세요.');
       return;
     }
 
-    console.log(pretreatPriority(priority), '로 선호 순위 저장 요청');
+    try {
+      const res = await requestSavePriority(pretreatPriority2(priority));
+      console.log(res);
+      customAlert('선호 순위가 저장되었습니다.');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   /** 선호 순위 적용 버튼 클릭 시 */
@@ -131,7 +138,7 @@ function SetPriority() {
 
   return (
     <div className={styles.component}>
-      <h1 className={styles.title} style={{ margin: '2rem 0 0.5rem 0' }}>
+      <h1 className={styles.title} style={{ margin: '1.2rem 0 0.5rem 0' }}>
         부동산 맞춤 추천을 위한
       </h1>
       <h1 className={styles.title}>주변 인프라의 선호 순위를 설정해주세요.</h1>

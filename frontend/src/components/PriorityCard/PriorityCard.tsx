@@ -5,6 +5,7 @@ import { CategoryStyleType, ResponsedPriorityItemType } from '../../types/MapTyp
 import { amenities, cultures, schools, securities, transports } from '../SetPriority/SetPriority';
 import { pretreatPriority } from '../../utils/PretreatPriority';
 import styles from './PriorityCard.module.scss';
+import { requestDeletePriority } from '../../api/map';
 
 /** 카테고리 명에 따라 아이콘과 색을 매핑하기위한 object */
 export const categoryStyle: CategoryStyleType = {
@@ -34,7 +35,18 @@ function PriorityCard({ priorityId, priority }: ResponsedPriorityItemPropsType) 
 
   /** 삭제 버튼 클릭 시 */
   const onClickDeleteBtn = () => {
-    console.log(priorityId, '번 선호 순위 삭제 요청');
+    requestDeletePriorityForComponent();
+  };
+
+  /** ========================= Axios ========================= */
+  /** 삭제 요청 함수 */
+  const requestDeletePriorityForComponent = async () => {
+    try {
+      const res = await requestDeletePriority(priorityId);
+      console.log(res);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

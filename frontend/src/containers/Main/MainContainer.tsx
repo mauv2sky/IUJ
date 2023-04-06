@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import Notice from '../../components/Notice/Notice';
 import { NoticeType } from '../../types/MainType';
 import styles from './MainContainer.module.scss';
+import { useAppDispatch } from '../../store/hooks';
+import { setUserLoginState } from '../../store/slices/userSlice';
 
 const noticeList: NoticeType[] = [
   {
@@ -41,7 +43,7 @@ const noticeList: NoticeType[] = [
 function MainContainer() {
   /** ==================================== 변수, useState ==================================== */
   const navigate = useNavigate();
-  const params = useParams();
+  const [searchParams] = useSearchParams(window.location.search);
   /** 스크롤 */
   const [scrollY, setScrollY] = useState<number>(0);
   let bannerTitleInteval: number | undefined, bannerDes1Interval: number | undefined, bannerDes2Interval: number | undefined;
@@ -61,11 +63,16 @@ function MainContainer() {
   const [showFindBtn, setShowFindBtn] = useState<boolean>(false);
   /** Notice 보여줄지 여부 */
   const [showNotice, setShowNotice] = useState<boolean>(false);
+  /** dispatch */
+  const dispatch = useAppDispatch();
 
   /** ==================================== useEffect ==================================== */
   /** 로그인 정보 가져오기 */
   useEffect(() => {
-    console.log(params);
+    localStorage.setItem('accessToken', searchParams.get('access_token') as string);
+    localStorage.setItem('refreshToken', searchParams.get('refresh_token') as string);
+    localStorage.setItem('userName', searchParams.get('user_name') as string);
+    dispatch(setUserLoginState({ isLogin: true, userName: searchParams.get('user_name') as string }));
   }, []);
 
   /** 스크롤 이벤트 추가 */
