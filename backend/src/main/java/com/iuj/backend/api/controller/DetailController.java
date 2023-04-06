@@ -201,7 +201,7 @@ public class DetailController {
 //        문화시설
         List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(apartDTO.getLat(), apartDTO.getLng());
 
-        resultMap.put("library", libraryDto);
+        resultMap.put("lib", libraryDto);
         return resultMap;
     }
 
@@ -386,7 +386,7 @@ public class DetailController {
 //        문화시설
         List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(officetelDto.getLat(), officetelDto.getLng());
 
-        resultMap.put("library", libraryDto);
+        resultMap.put("lib", libraryDto);
         return resultMap;
     }
 
@@ -571,10 +571,10 @@ public class DetailController {
 //        문화시설
         List<LibraryDto> libraryDto = cultureService.findNearbyLibrarys(villaDto.getLat(), villaDto.getLng());
 
-        resultMap.put("library", libraryDto);
+        resultMap.put("lib", libraryDto);
         return resultMap;
     }
-
+ 
     @GetMapping("/VILLA/{id}/gallery")
     @ApiOperation(value = "빌라 미술관 정보", notes = "빌라 미술관 정보")
     public Map<String, Object> getVillaGallery(@PathVariable Long id) {
@@ -661,41 +661,45 @@ public class DetailController {
             }
             labels.add(String.format("%d%02d", year, month));
         }
-        for (int i = 0; i < 2; i++) {
-            int year = 2023;
-            int month = i + 1;
-            labels.add(String.format("%d%02d", year, month));
-        }
 
-        // 각 거래 유형(매매, 전세, 월세)에 대해 처리
-        for (AptDealTypeDto dto : aptDealList) {
-            String type = dto.getType();
-            List<AptDealDto> deals = dto.getDeals();
-
+        // 거래 유형(매매, 전세, 월세)별로 처리
+        List<List<Double>> dealPrices = new ArrayList<>();
+        List<String> dealTypes = Arrays.asList("매매", "전세", "월세");
+        for (String type : dealTypes) {
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
-            for (int i = 1; i <= 14; i++) {
+            for (int i = 0; i < 15; i++) {
                 double sum = 0;
                 int count = 0;
-                for (AptDealDto deal : deals) {
-                    if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + ((i-1) / 12), ((i-1) % 12) + 3))) {
-                        if (type.equals("매매")) {
-                            sum += deal.getPrice();
-                        } else if (type.equals("전세")) {
-                            sum += deal.getGuarantee();
-                        } else if (type.equals("월세")) {
-                            sum += deal.getMonthly();
+                for (AptDealTypeDto dto : aptDealList) {
+                    List<AptDealDto> deals = dto.getDeals();
+                    for (AptDealDto deal : deals) {
+                        if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + (i / 12), (i % 12)))) {
+                            System.out.println(deal+"-------------"+String.format("%d%02d", 2022 + (i / 12), (i % 12)));
+                            if (dto.getType().equals(type)) {
+                                if (type.equals("매매")) {
+                                    sum += deal.getPrice();
+                                } else if (type.equals("전세")) {
+                                    sum += deal.getGuarantee();
+                                } else if (type.equals("월세")) {
+                                    sum += deal.getMonthly();
+                                }
+                                count++;
+                            }
                         }
-                        count++;
                     }
                 }
                 double average = count > 0 ? sum / count : Double.NaN;
                 prices.add(average);
             }
 
-            // 데이터셋 생성 및 추가
+            dealPrices.add(prices);
+        }
+
+        // 데이터셋 생성 및 추가
+        for (int i = 0; i < dealTypes.size(); i++) {
             Map<String, Object> dataset = new HashMap<>();
-            dataset.put(type + ":", prices); // 변경된 부분
+            dataset.put(dealTypes.get(i), aptDealList.size() > 0 ? dealPrices.get(i) : new ArrayList<Double>());
             datasets.add(dataset);
         }
 

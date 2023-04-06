@@ -54,9 +54,10 @@ public class SafeService {
             PoliceDto policeDto = new PoliceDto(
                     police.getId(),
                     police.getName(),
+                    police.getType(),
                     police.getLat(),
-                    police.getLng(),
-                    police.getType()
+                    police.getLng()
+
             );
             policeDtos.add(policeDto);
         }
