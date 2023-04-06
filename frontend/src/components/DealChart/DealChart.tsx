@@ -2,52 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Colors } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import styles from './DealChart.module.scss';
+import { ChartDataType } from '../../types/Chart';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Colors, Title, Tooltip, Legend);
 
-/** X축 라벨 */
-const labels = ['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2'];
-
-export type DealType = {
-  datasets: {
-    label: string;
-    data: number[];
-  };
-  labels: number[];
-}[];
-
-export type DealPropsType = {
-  dealChartlist: DealType;
-  maxPrice: number;
-  minPrice: number;
-};
-
-export const chartdata = {
-  labels,
-  datasets: [
-    {
-      label: '매매',
-      data: [10000, 20000, 15000, 25000, 30000, 20000, 22000, 23000, 25000, 27000, 28000, 29000],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: '전세',
-      data: [8000, 15000, 10000, 20000, 25000, 20000, 18000, 20000, 22000, 24000, 25000, 27000],
-      borderColor: 'rgb(54, 162, 235)',
-      backgroundColor: 'rgba(54, 162, 235, 0.5)',
-    },
-    {
-      label: '월세',
-      data: [5000, 7000, 6000, 10000, 12000, 8000, 9000, 10000, 12000, 13000, 14000, 15000],
-      borderColor: 'rgb(75, 192, 192)',
-      backgroundColor: 'rgba(75, 192, 192, 0.5)',
-    },
-  ],
-};
-
 export default function DealChart({ dealChartlist, min, max }: any) {
-  const [chartData, setChartData] = useState(chartdata);
+  const [chartData, setChartData] = useState<ChartDataType>({ labels: [], datasets: [] });
   const chartDatalist = dealChartlist;
 
   const options = {
@@ -60,7 +20,12 @@ export default function DealChart({ dealChartlist, min, max }: any) {
     scales: {
       y: {
         max: max + 500, // 최대
-        min: min - 500 >= 0 ? min - 500 : 0, // 최소
+        min: 0, // 최소
+      },
+    },
+    elements: {
+      line: {
+        spanGaps: true,
       },
     },
   };
@@ -68,7 +33,7 @@ export default function DealChart({ dealChartlist, min, max }: any) {
   useEffect(() => {
     if (dealChartlist) {
       setChartData({
-        labels,
+        labels: ['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '1', '2'],
         datasets: chartDatalist.datasets.map((data: any) => ({
           data: data.data,
           label: data.label,
@@ -76,6 +41,7 @@ export default function DealChart({ dealChartlist, min, max }: any) {
       });
     }
   }, [dealChartlist]);
+
   return (
     <div className={styles.component}>
       <div className={styles.chart}>

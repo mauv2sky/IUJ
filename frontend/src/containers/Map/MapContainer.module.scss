@@ -12,12 +12,12 @@
     position: absolute;
     display: flex;
     z-index: 10;
-    top: 10.5%;
-    left: 27%;
+    top: 10%;
+    left: 26.9%;
 
     .option-item {
       position: relative;
-      margin: 0 20px 0 0;
+      margin: 0 10px 0 0;
 
       & > button {
         height: 35px;
@@ -166,7 +166,7 @@
     display: flex;
     align-items: center;
     z-index: 10;
-    top: 10.5%;
+    top: 10%;
     right: 1%;
     height: 37px;
     padding: 0 10px;
@@ -177,6 +177,7 @@
     & input {
       margin: 0 0 0 15px;
       height: 35px;
+      width: 155px;
       border: none;
       border-radius: 5px;
       background-color: inherit;
@@ -211,7 +212,7 @@
     bottom: 2%;
     right: 1%;
     border-radius: 10px;
-    box-shadow: 0 0 30px rgb(95, 142, 200);
+    box-shadow: 0 0 40px rgb(64, 127, 205);
     animation: fade-in-out 2s ease-in-out infinite;
 
     @keyframes fade-in-out {
