@@ -185,7 +185,7 @@ function Detailcontainer(props: DetailContainerProps) {
                 let markers = item.academys.map((data: any) => ({
                   // Computed property name syntax
 
-                  latlng: new window.kakao.maps.LatLng(data.lng, data.type),
+                  latlng: new window.kakao.maps.LatLng(data.lat, data.lng),
                 }));
                 /** 마커 표시 */
                 for (let i = 0; i < markers.length; i++) {
