@@ -668,13 +668,13 @@ public class DetailController {
         for (String type : dealTypes) {
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i < 12; i++) {
                 double sum = 0;
                 int count = 0;
                 for (AptDealTypeDto dto : aptDealList) {
                     List<AptDealDto> deals = dto.getDeals();
                     for (AptDealDto deal : deals) {
-                        if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + (i / 12), (i % 12)))) {
+                        if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + ((i+3) / 12), ((i+3) % 12)))) {
                             if (dto.getType().equals(type)) {
                                 if (type.equals("매매")) {
                                     sum += deal.getPrice();
@@ -706,8 +706,6 @@ public class DetailController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-
-
     @GetMapping("/OFFICETEL/chart/{id}")
     public ResponseEntity<Map<String, Object>> getOfficetelDealChart(@PathVariable Long id) {
         List<OfficetelDealTypeDto> officetelDealList = officetelService.getDealByOfficetelId(id);
@@ -732,13 +730,13 @@ public class DetailController {
         for (String type : dealTypes) {
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i < 12; i++) {
                 double sum = 0;
                 int count = 0;
                 for (OfficetelDealTypeDto dto : officetelDealList) {
                     List<OfficetelDealDto> deals = dto.getDeals();
                     for (OfficetelDealDto deal : deals) {
-                        if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + (i / 12), (i % 12)))) {
+                        if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + ((i+3) / 12), ((i+3) % 12)))) {
                             if (dto.getType().equals(type)) {
                                 if (type.equals("매매")) {
                                     sum += deal.getPrice();
@@ -794,13 +792,13 @@ public class DetailController {
         for (String type : dealTypes) {
             // 거래 내역에서 가격 데이터 추출
             List<Double> prices = new ArrayList<>();
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i < 12; i++) {
                 double sum = 0;
                 int count = 0;
                 for (VillaDealTypeDto dto : villaDealList) {
                     List<VillaDealDto> deals = dto.getDeals();
                     for (VillaDealDto deal : deals) {
-                        if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + (i / 12), (i % 12)))) {
+                        if (deal.getContract_ym().equals(String.format("%d%02d", 2022 + ((i+3) / 12), ((i+3) % 12)))) {
                             if (dto.getType().equals(type)) {
                                 if (type.equals("매매")) {
                                     sum += deal.getPrice();
