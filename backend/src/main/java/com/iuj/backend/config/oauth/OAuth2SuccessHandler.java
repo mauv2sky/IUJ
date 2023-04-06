@@ -54,13 +54,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             newUser.setNickname(userDto.getNickname());
             newUser.setRefreshToken(tokenDto.getRefreshToken());
             userRepository.save(newUser);
-            tokenDto.setUserName(user.get().getNickname());
         } else { // refresh token 수정 -> 마지막 로그인 시간 체크
             User realUser = user.get();
             realUser.setRefreshToken(tokenDto.getRefreshToken());
             userRepository.save(realUser);
-            tokenDto.setUserName(realUser.getNickname());
         }
+
+        Optional<User> realUser = userRepository.findByEmail(userDto.getEmail());
+        tokenDto.setUserName(realUser.get().getNickname());
 
         resultRedirectStrategy(request, response, tokenDto);
     }
@@ -81,7 +82,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
             redirectStrategy.sendRedirect(request, response, targetUrl);
         } else { // 소셜로그인 요청일 경우
-            String targetUrl = UriComponentsBuilder.fromUriString("https://j8e103.p.ssafy.io")
+            String targetUrl = UriComponentsBuilder.fromUriString("http://localhost:5173")
                     .queryParam("access_token", tokenDto.getAccessToken())
                     .queryParam("refresh_token", tokenDto.getRefreshToken())
                     .queryParam("expiration_date", tokenDto.getAccessTokenExpiresIn())
