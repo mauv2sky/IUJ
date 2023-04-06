@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
 
-  .notice {
+  .news {
     padding: 20px 15px 0 15px;
     width: 380px;
     height: 300px;
@@ -24,7 +24,7 @@
     flex-direction: column;
     align-items: center;
 
-    .notice-inner {
+    .news-inner {
       width: 90%;
     }
 
@@ -49,12 +49,12 @@
       }
     }
 
-    .notice-title {
+    .news-title {
       font-size: 1.5rem;
       margin-bottom: 1.5rem;
     }
 
-    .notice-content {
+    .news-description {
       font-size: 1rem;
       line-height: 2rem;
     }
