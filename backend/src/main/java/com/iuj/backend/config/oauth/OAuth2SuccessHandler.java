@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -40,24 +41,28 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         UserDto userDto = userRequestMapper.toDto(oAuth2User);
 
-        // DB에서 유저정보 가져오기
-        User user = userRepository.findByEmail(userDto.getEmail());
-
         // access token 과 refresh token 발급
         TokenDto tokenDto = tokenProvider.generateAllToken(userDto.getEmail(), "USER");
-        tokenDto.setUserName(user.getNickname());
         log.info("{}", tokenDto);
 
-        if(user == null) { // user DB 저장
+        // DB에서 유저정보 가져오기
+        Optional<User> user = userRepository.findByEmail(userDto.getEmail());
+
+        if(user.isEmpty()) { // user DB 저장
             User newUser = new User();
             newUser.setEmail(userDto.getEmail());
             newUser.setNickname(userDto.getNickname());
             newUser.setRefreshToken(tokenDto.getRefreshToken());
             userRepository.save(newUser);
         } else { // refresh token 수정 -> 마지막 로그인 시간 체크
-            user.setRefreshToken(tokenDto.getRefreshToken());
-            userRepository.save(user);
+            User realUser = user.get();
+            realUser.setRefreshToken(tokenDto.getRefreshToken());
+            userRepository.save(realUser);
         }
+
+        Optional<User> realUser = userRepository.findByEmail(userDto.getEmail());
+        tokenDto.setUserName(realUser.get().getNickname());
+
         resultRedirectStrategy(request, response, tokenDto);
     }
 

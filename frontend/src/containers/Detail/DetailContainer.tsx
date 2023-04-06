@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Map } from 'react-kakao-maps-sdk';
 import { useNavigate } from 'react-router-dom';
 import DetailInformation, { DetailType } from '../../components/DetailInformation/DetailInformation';
-import styles from './DetailContainer.module.scss';
+import { BsFillHouseFill } from 'react-icons/bs';
 import InfraIconamenities from '../../components/InfraIcon/InfraIconamenities';
 import InfraIconcultures from '../../components/InfraIcon/InfraIconcultures';
 import InfraIconschools from '../../components/InfraIcon/InfraIconschools';
@@ -10,6 +10,9 @@ import InfraIconsecurities from '../../components/InfraIcon/InfraIconsecurities'
 import InfraIcontransports from '../../components/InfraIcon/InfraIcontransports';
 import axios from 'axios';
 import icon from '../../assets/icon.png';
+import ReactDOMServer from 'react-dom/server';
+import styles from './DetailContainer.module.scss';
+import Footer from '../../components/Footer/Footer';
 
 /** 건물 타입과 건물 id */
 export interface DetailContainerProps {
@@ -18,7 +21,7 @@ export interface DetailContainerProps {
 }
 
 /** APIURL */
-const APIURL = 'http://localhost:5000';
+const APIURL = 'https://j8e103.p.ssafy.io';
 
 function Detailcontainer(props: DetailContainerProps) {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -77,23 +80,24 @@ function Detailcontainer(props: DetailContainerProps) {
           /** 바깥에서 clusterer 쓸 수 있게 */
           setClusterer(clusterer);
 
-          /** 현재 영역 가져옴 */
-          const bounds = map.getBounds();
+          if (detailRelist) {
+            const house = (
+              <div className={styles['marker-div']}>
+                <BsFillHouseFill />
+                <p>{detailRelist.home.name}</p>
+              </div>
+            );
 
-          /** 마커 이미지 */
-          const markerImage = new kakao.maps.MarkerImage(
-            icon, // 이미지 경로
-            new kakao.maps.Size(30, 30), // 이미지 크기
-          );
+            const customOverlay = new kakao.maps.CustomOverlay({
+              position: new kakao.maps.LatLng(detailRelist.home.lat, detailRelist.home.lng),
+              content: ReactDOMServer.renderToString(house),
+              yAnchor: 0.5,
+              zIndex: 100,
+              clickable: true,
+            });
 
-          /** 마커 표시 */
-          const marker = new kakao.maps.Marker({
-            map,
-            position: new window.kakao.maps.LatLng(lat, lng),
-            image: markerImage,
-          });
-
-          clusterer.addMarker(marker);
+            customOverlay.setMap(map);
+          }
 
           /** 현재 영역의 매물들 가져옴 */
         }
@@ -114,6 +118,7 @@ function Detailcontainer(props: DetailContainerProps) {
   const handleBtnClick = (btnName: string) => {
     /** 기존 맵, 클러스터러 초기화 */
     clusterer.clear();
+
     if (
       btnName === '어린이집' ||
       btnName === '유치원' ||
@@ -139,16 +144,19 @@ function Detailcontainer(props: DetailContainerProps) {
               if (item.type === btnName) {
                 setDataList(item.schools);
                 console.log(item.schools);
+
                 /** 마커 이미지 */
                 const markerImage = new kakao.maps.MarkerImage(
                   icon, // 이미지 경로
                   new kakao.maps.Size(30, 30), // 이미지 크기
                 );
+
                 /** api 요청으로 가져온 마커 리스트 */
                 let markers = item.schools.map((data: any) => ({
                   // Computed property name syntax
                   latlng: new window.kakao.maps.LatLng(data.lat, data.lng),
                 }));
+
                 /** 마커 표시 */
                 for (let i = 0; i < markers.length; i++) {
                   const marker = new kakao.maps.Marker({
@@ -177,7 +185,7 @@ function Detailcontainer(props: DetailContainerProps) {
                 let markers = item.academys.map((data: any) => ({
                   // Computed property name syntax
 
-                  latlng: new window.kakao.maps.LatLng(data.lng, data.type),
+                  latlng: new window.kakao.maps.LatLng(data.lat, data.lng),
                 }));
                 /** 마커 표시 */
                 for (let i = 0; i < markers.length; i++) {

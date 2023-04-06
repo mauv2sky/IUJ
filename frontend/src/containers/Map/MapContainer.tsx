@@ -282,7 +282,7 @@ function MapContainer() {
               color={getMarkerColor(Math.round(realEstate.total_score))}
               style={{ left: Math.round(realEstate.total_score) >= 10 ? '40%' : '27.5%' }}
             />
-            <p>{Math.round(realEstate.total_score)}</p>
+            {realEstate.total_score !== null && <p>{Math.round(realEstate.total_score)}</p>}
           </div>
         );
 

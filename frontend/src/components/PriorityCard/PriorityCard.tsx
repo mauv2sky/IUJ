@@ -6,6 +6,7 @@ import { amenities, cultures, schools, securities, transports } from '../SetPrio
 import { pretreatPriority } from '../../utils/PretreatPriority';
 import styles from './PriorityCard.module.scss';
 import { requestDeletePriority } from '../../api/map';
+import { customAlert } from '../../utils/CustomAlert';
 
 /** 카테고리 명에 따라 아이콘과 색을 매핑하기위한 object */
 export const categoryStyle: CategoryStyleType = {
@@ -19,9 +20,10 @@ export const categoryStyle: CategoryStyleType = {
 type ResponsedPriorityItemPropsType = {
   priorityId: number;
   priority: ResponsedPriorityItemType[];
+  SetPriorityDeleted: React.Dispatch<React.SetStateAction<number>>;
 };
 
-function PriorityCard({ priorityId, priority }: ResponsedPriorityItemPropsType) {
+function PriorityCard({ priorityId, priority, SetPriorityDeleted }: ResponsedPriorityItemPropsType) {
   /** ========================= 변수 및 useState ========================= */
   const dispatch = useAppDispatch();
   /** 적용할 때 필요한 리스트, 인프라(ex 유치원, 병원 ...)만 가져와서 영어로 바꾼 뒤에 리스트에 담음 */
@@ -43,6 +45,8 @@ function PriorityCard({ priorityId, priority }: ResponsedPriorityItemPropsType) 
   const requestDeletePriorityForComponent = async () => {
     try {
       const res = await requestDeletePriority(priorityId);
+      customAlert('선호 순위가 삭제되었습니다.');
+      SetPriorityDeleted((prev) => prev + 1);
       console.log(res);
     } catch (err) {
       console.error(err);

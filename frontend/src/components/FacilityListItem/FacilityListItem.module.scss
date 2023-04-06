@@ -2,38 +2,34 @@
 @import '../../styles/variable.scss';
 
 .container {
+  position: relative;
   width: 240px;
   height: 148px;
   border: 1px solid $lfc;
   float: left;
   margin: 12px;
-  box-shadow: 1px 1px 1px 1px rgb(70, 70, 70, 0.6);
+  box-shadow: 1px 1px 3px rgb(70, 70, 70, 0.6);
   border-radius: 2px;
   text-align: center;
   justify-content: center;
-  position: relative;
-}
-.itemname {
-  font-size: 22px;
-  font-weight: 700;
-  margin-top: 20px;
-  margin-bottom: 15px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-.itemaddress {
-  font-size: 15px;
-  font-weight: 300;
-  margin-left: 20px;
-  margin-right: 20px;
-  line-height: 20px;
-}
-.distance {
-  font-size: 22px;
-  font-weight: 700;
-  color: rgb(255, 99, 132);
-  position: absolute;
-  bottom: 0px;
-  margin-left: 54px;
-  margin-bottom: 10px;
+
+  .itemname {
+    margin: 20px 0 0 0;
+    padding: 0 10px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .itemaddress {
+    margin: 10px auto 0 auto;
+    font-size: 16px;
+  }
+
+  .distance {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    font-size: 20px;
+    color: rgb(255, 99, 132);
+  }
 }
