@@ -45,8 +45,7 @@ function RealEstateItem({ realEstate }: RealEstatePropsType) {
           onClickRealEstate(realEstate.type, realEstate.id);
         }}
       >
-        
-        {realEstate.id}. {realEstate.name}
+        {realEstate.name}
       </p>
       <div className={styles['component-inner']}>
         <div
