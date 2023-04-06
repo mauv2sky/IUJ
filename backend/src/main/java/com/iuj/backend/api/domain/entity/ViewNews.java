@@ -1,21 +1,23 @@
 package com.iuj.backend.api.domain.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.iuj.backend.api.domain.dto.common.BaseTime;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
-public class ViewNews {
+@AllArgsConstructor
+@Builder
+public class ViewNews extends BaseTime {
     @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column
     private String email;
 

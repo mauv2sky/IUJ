@@ -3,15 +3,18 @@ package com.iuj.backend.api.service;
 import com.iuj.backend.api.domain.entity.FavFilter;
 import com.iuj.backend.api.domain.entity.News;
 import com.iuj.backend.api.domain.entity.SearchRegion;
+import com.iuj.backend.api.domain.entity.ViewNews;
 import com.iuj.backend.api.domain.enums.NewsCategory;
 import com.iuj.backend.api.domain.enums.Sido;
 import com.iuj.backend.api.repository.NewsRepository;
 import com.iuj.backend.api.repository.SearchRegionRepository;
+import com.iuj.backend.api.repository.ViewNewsRepository;
 import com.iuj.backend.api.repository.recomm.RecommRepository;
 import com.iuj.backend.util.NewsUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -21,6 +24,24 @@ public class NewsService {
     private final RecommRepository recommRepository;
     private final NewsRepository newsRepository;
     private final SearchRegionRepository searchRegionRepository;
+    private final ViewNewsRepository viewNewsRepository;
+
+    /**
+     * 뉴스 클릭한 내역 저장
+     * */
+    public void saveViewNews(int newsId, String email){
+        System.out.println(viewNewsRepository.getViewNewsByEmail(email));
+        ViewNews viewNews = viewNewsRepository.getOneTodayViewByEmailAndNewsId(email, newsId);
+        if(viewNews != null){
+            viewNews.setUpdatedAt(LocalDateTime.now());
+            viewNewsRepository.save(viewNews);
+        } else{
+            viewNewsRepository.save(ViewNews.builder()
+                    .email(email)
+                    .newsId(newsId)
+                    .build());
+        }
+    }
 
     /**
      * 로그인하지 않은 유저 - 메인에서 보여줄 뉴스 리스트
@@ -40,7 +61,7 @@ public class NewsService {
         List<FavFilter> favFilters = recommRepository.findByEmail(email);
         NewsCategory category = NewsUtil.getCategory(favFilters);
 
-        // 최근 검색 지역, 없을경우 전국으로 자동 설정
+        // 최근 검색 지역, 없을 경우 전국으로 자동 설정
         SearchRegion region = searchRegionRepository.findById(email).orElse(null);
         Sido sido = Sido.findByName(region != null ? region.getSido() : null);
         result = newsRepository.getTop6BySchoolAndLocalEquals(category.getName(), sido.getName());
