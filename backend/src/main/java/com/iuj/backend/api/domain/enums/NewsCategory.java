@@ -19,7 +19,9 @@ public enum NewsCategory {
     private final String name;
 
     public static NewsCategory getRandom() {
-        return values()[(int)(Math.random()*values().length)];
+        //  학원은 데이터가 없어서 임시로 뺐음, 학원을 넣고싶다면 밑에 values().length)-1 에서 values().length)로 변경
+        //  NewsUtil에서 29번째 줄 if문의 주석 제거
+        return values()[(int)(Math.random()*(values().length-1))];
     }
 
     public static NewsCategory findByName(String name){

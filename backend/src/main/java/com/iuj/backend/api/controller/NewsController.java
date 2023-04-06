@@ -4,7 +4,6 @@ import com.iuj.backend.api.domain.enums.ErrorCode;
 import com.iuj.backend.api.exception.CustomException;
 import com.iuj.backend.api.service.NewsService;
 import io.swagger.annotations.ApiOperation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,17 +29,21 @@ public class NewsController {
                 return new ResponseEntity<>(newsService.getNewsListForUser(principal.getName()), HttpStatus.OK);
             }
         } catch (Exception e){
+            e.printStackTrace();
             throw new CustomException(ErrorCode.NOTFOUND_NEWS);
         }
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "최근 본 뉴스 저장을 위한 api")
-    public ResponseEntity<Object> setRecentViewNews(@PathVariable Long id){
+    public ResponseEntity<Object> setRecentViewNews(@PathVariable int id, Principal principal){
         try{
-            System.out.println(id);
+            if(principal != null){
+                newsService.saveViewNews(id, principal.getName());
+            }
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
+            e.printStackTrace();
             throw new CustomException(ErrorCode.UNAUTHORIZED);
         }
     }
