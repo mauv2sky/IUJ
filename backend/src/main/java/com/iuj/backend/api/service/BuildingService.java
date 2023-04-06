@@ -32,7 +32,6 @@ public class BuildingService {
     // 건물 모든 정보를 가져올 때 사용
     private final JDBCBuildingRepository jdbcBuildingRepository;
 
-
     public List<BuildingDto> getBuildingList(PlaceMainRequest request){
         BuildingType buildingType = request.getType();
         BoundDto bound = request.getBound();
