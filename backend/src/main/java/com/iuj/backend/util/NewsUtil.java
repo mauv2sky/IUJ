@@ -25,7 +25,7 @@ public class NewsUtil {
                 Recomm r = Recomm.findBySub(s);
                 if(r.getMain().equals("학군")){
                     if(r == Recomm.EDU_ACADEMY || r == Recomm.ENTERTAINMENT_ACADEMY) {
-                        return category;
+//                        return category;
 //                        recommList.put(NewsCategory.ACADEMY, recommList.containsKey(NewsCategory.ACADEMY) ? recommList.get(NewsCategory.ACADEMY)+1 : 1);
                     } else{
                     recommList.put(NewsCategory.findByName(r.getSub()), recommList.containsKey(NewsCategory.findByName(r.getSub()))? recommList.get(NewsCategory.findByName(r.getSub())) + 1  : 1);
