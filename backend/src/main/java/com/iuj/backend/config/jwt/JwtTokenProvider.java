@@ -140,7 +140,7 @@ public class JwtTokenProvider {
         if(!validateToken(jwtToken)) return false;
 
         // DB에 저장한 토큰과 비교
-        String refreshToken = userRepository.findByEmail(getUserEmail(jwtToken)).getRefreshToken();
+        String refreshToken = userRepository.findByEmail(getUserEmail(jwtToken)).get().getRefreshToken();
         return refreshToken != null && jwtToken.equals(refreshToken);
     }
 
