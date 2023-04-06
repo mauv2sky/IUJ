@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../store/hooks';
 import { setUserLogoutState } from '../../store/slices/userSlice';
 import styles from './ProfileMenu.module.scss';
 
@@ -9,9 +9,9 @@ type ProfileMenuPropsType = {
 };
 
 function ProfileMenu({ setShowProfileMenu }: ProfileMenuPropsType) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const menuRef = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -36,8 +36,8 @@ function ProfileMenu({ setShowProfileMenu }: ProfileMenuPropsType) {
   const logout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
-    localStorage.removeItem('userName');
     dispatch(setUserLogoutState());
+    navigate('/');
   };
 
   return (

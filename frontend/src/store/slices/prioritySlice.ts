@@ -13,7 +13,7 @@ const initialState: PriorityInterface = {
 };
 
 export const prioritySlice = createSlice({
-  name: 'priority',
+  name: 'prioritySlice',
   initialState,
   reducers: {
     setPriority: (state, action: PayloadAction<PriorityInterface>) => {

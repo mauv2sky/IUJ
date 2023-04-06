@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useAppDispatch } from '../../store/hooks';
 import { setPriority } from '../../store/slices/prioritySlice';
 import { CategoryStyleType, ResponsedPriorityItemType } from '../../types/MapType';

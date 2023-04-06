@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DocumentType, MetaType } from '../../types/SearchType';
 import styles from './SearchList.module.scss';
 
@@ -11,10 +11,6 @@ type searchListPropsType = {
 };
 
 function SearchList({ document, meta, setStateCenter, setSearchClicked, setDocument }: searchListPropsType) {
-  useEffect(() => {
-    console.log(document);
-  }, [document]);
-
   const onClickAddress = (lat: string, lng: string) => {
     setSearchClicked((prev) => !prev);
     setDocument([]);
