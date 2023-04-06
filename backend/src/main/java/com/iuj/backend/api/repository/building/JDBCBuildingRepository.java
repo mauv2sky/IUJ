@@ -27,7 +27,7 @@ public class JDBCBuildingRepository {
 
     /**
      * 건물 리스트 쿼리의 맨 바깥의 select문 만들어줌
-     * @return
+     * @return 기본 쿼리
      * */
     private StringBuilder initQuery(DealType dealType){
         StringBuilder query = new StringBuilder(START_QUERY);
@@ -99,16 +99,16 @@ public class JDBCBuildingRepository {
                         .collect(Collectors.toList()));
             } else if(dealType.equals(DealType.LONG_TERM_RENT)){
                 query.append(" and guarantee >= ? and guarantee <= ? ");
-                queryArgs.addAll(Arrays.stream(filter.getPrice())
+                queryArgs.addAll(Arrays.stream(filter.getGuarantee())
                         .mapToObj(Integer::valueOf)
                         .collect(Collectors.toList()));
             } else {
                 query.append(" and guarantee >= ? and guarantee <= ? ")
                         .append(" and monthly >= ? and monthly <= ? ");
-                queryArgs.addAll(Arrays.stream(filter.getPrice())
+                queryArgs.addAll(Arrays.stream(filter.getGuarantee())
                         .mapToObj(Integer::valueOf)
                         .collect(Collectors.toList()));
-                queryArgs.addAll(Arrays.stream(filter.getPrice())
+                queryArgs.addAll(Arrays.stream(filter.getMonthly())
                         .mapToObj(Integer::valueOf)
                         .collect(Collectors.toList()));
             }
