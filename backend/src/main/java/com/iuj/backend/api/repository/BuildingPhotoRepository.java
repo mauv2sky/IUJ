@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 @Transactional
 public interface BuildingPhotoRepository extends JpaRepository<BuildingPhoto, BuildingId> {
-    List<BuildingPhoto> getScoreByTypeAndIdIsIn(String type, java.util.List<Long> id);
+    List<BuildingPhoto> getBuildingPhotoByTypeAndIdIsIn(String type, java.util.List<Long> id);
 }
 
